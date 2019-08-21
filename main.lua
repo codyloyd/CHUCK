@@ -1,5 +1,5 @@
 function love.load()
-  love.graphics.setBackgroundColor(129,188,257)
+  love.graphics.setBackgroundColor(0.5,.73,1)
   myWorld = love.physics.newWorld(0,2500,false)
   myWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
   anim8 = require('lib/anim8')
