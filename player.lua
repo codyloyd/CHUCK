@@ -14,20 +14,25 @@ function playerLoad()
   player.body:setFixedRotation(true)
   player.dx = 0
   player.maxSpeed = 150
+
+  player.jumpCount = 0
+
+  player.powerups = {}
+  player.powerups.doubleJump = true
 end
 
 function playerUpdate(dt)
   player.animation:update(dt)
   if love.keyboard.isDown("left") then
-    player.dx = player.dx + 4 * player.maxSpeed * dt
+    player.dx = player.dx + 16 * player.maxSpeed * dt
     player.direction = -1
   end
   if love.keyboard.isDown("right") then
-    player.dx = player.dx - 4 * player.maxSpeed * dt
+    player.dx = player.dx - 16 * player.maxSpeed * dt
     player.direction = 1
   end
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
-    player.dx = player.dx * .5
+    player.dx = player.dx * .3
   end
   if player.dx >= player.maxSpeed then
     player.dx = player.maxSpeed
@@ -43,6 +48,11 @@ function playerUpdate(dt)
   if not player.grounded then
     player.animation = player.jumping
   end
+
+  if player.grounded then 
+    player.jumpCount = 0
+  end
+
   player.body:setX(player.body:getX() - player.dx * dt)
 end
 
@@ -51,8 +61,15 @@ function playerDraw()
 end
 
 function playerKeypressed(key)
-  if key == "up" and player.grounded then
-    player.body:applyLinearImpulse(0,-95)
+  if key == "up" and (player.grounded or (player.jumpCount < 2 and player.powerups.doubleJump)) then
+    player.body:setLinearVelocity(0,-385)
     player.grounded = false
+    player.jumpCount = player.jumpCount + 1
+  end
+end
+
+function getPowerup(type) 
+  if type == "doubleJump" then
+    player.powerups.doubleJump = true
   end
 end

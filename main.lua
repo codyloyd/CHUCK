@@ -3,6 +3,7 @@ function love.load()
   love.graphics.setDefaultFilter( "nearest" )
   myWorld = love.physics.newWorld(0,2500,false)
   myWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
+  myWorld:setGravity(0, 1300)
   anim8 = require('lib/anim8')
 
   require('player')
