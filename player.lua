@@ -1,19 +1,19 @@
 function playerLoad()
   player = {}
-  player.spriteSheet = love.graphics.newImage('dude.png')
+  player.spriteSheet = love.graphics.newImage('KNIGHT_WHITE.png')
   player.body = love.physics.newBody(myWorld, 201,100,"dynamic")
-  player.shape = love.physics.newRectangleShape(32,64)
+  player.shape = love.physics.newRectangleShape(8,16)
   player.fixture = love.physics.newFixture(player.body,player.shape)
-  player.grid = anim8.newGrid(64,64,512,128)
-  player.walking = anim8.newAnimation(player.grid('1-7',1), 0.1)
-  player.standing = anim8.newAnimation(player.grid('8-8',1),1)
-  player.jumping = anim8.newAnimation(player.grid('1-1',2),1)
+  player.grid = anim8.newGrid(16,16,64,64)
+  player.walking = anim8.newAnimation(player.grid('1-4',2), 0.1)
+  player.standing = anim8.newAnimation(player.grid('1-4',1), 0.3)
+  player.jumping = anim8.newAnimation(player.grid('1-1',3), 1)
   player.animation = player.standing
   player.grounded = false
   player.direction = 1
   player.body:setFixedRotation(true)
   player.dx = 0
-  player.maxSpeed = 450
+  player.maxSpeed = 150
 end
 
 function playerUpdate(dt)
@@ -27,7 +27,7 @@ function playerUpdate(dt)
     player.direction = 1
   end
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
-    player.dx = player.dx * .9
+    player.dx = player.dx * .5
   end
   if player.dx >= player.maxSpeed then
     player.dx = player.maxSpeed
@@ -35,7 +35,7 @@ function playerUpdate(dt)
   if player.dx <= -player.maxSpeed then
     player.dx = -player.maxSpeed
   end
-  if math.abs(player.dx) > 100 then
+  if math.abs(player.dx) > 50 then
     player.animation = player.walking
   else 
     player.animation = player.standing
@@ -47,12 +47,12 @@ function playerUpdate(dt)
 end
 
 function playerDraw()
-  player.animation:draw(player.spriteSheet,math.floor(player.body:getX()),math.ceil(player.body:getY()),nil,player.direction,1,32,32)
+  player.animation:draw(player.spriteSheet,math.floor(player.body:getX()),math.ceil(player.body:getY()),nil,player.direction,1,8,8)
 end
 
 function playerKeypressed(key)
   if key == "up" and player.grounded then
-    player.body:applyLinearImpulse(0,-2525)
+    player.body:applyLinearImpulse(0,-95)
     player.grounded = false
   end
 end

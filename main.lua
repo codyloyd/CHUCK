@@ -1,19 +1,20 @@
 function love.load()
   love.graphics.setBackgroundColor(0.5,.73,1)
+  love.graphics.setDefaultFilter( "nearest" )
   myWorld = love.physics.newWorld(0,2500,false)
   myWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
   anim8 = require('lib/anim8')
 
   require('player')
-  require('enemies')
+  -- require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
   
   sti = require('lib/sti')
-  gameMap = sti("map/dirtngrasslevel.lua", {"box2d"})
+  gameMap = sti("map/caves.lua", {"box2d"})
 
   playerLoad()
-  enemiesLoad()
+  -- enemiesLoad()
 
   platforms = {}
 
@@ -26,21 +27,22 @@ function love.update(dt)
   gameMap:update(dt)
   myWorld:update(dt)
   playerUpdate(dt)
-  enemiesUpdate(dt)
-  local camX = player.body:getX()
-  local camY = player.body:getY()
-  if camX < 300 then camX = 300 end
-  if camY < 200 then camY = 200 end
+  -- enemiesUpdate(dt)
+  local camX = player.body:getX() + love.graphics.getWidth()/3;
+  local camY = player.body:getY() + love.graphics.getHeight()/3;
+  if camX < 400 then camX = 400 end
+  if camY < 300 then camY = 300 end
   if camY > 2048 - 200 then camY = 2048- 200 end 
   if camX > 6400 - 300 then camX = 6400 - 300 end
-  cam:lockWindow(math.ceil(camX),math.ceil(camY),300,love.graphics.getWidth()-300,200,love.graphics.getHeight()-200, camFunc.smooth.damped(15))
+  cam:lockPosition(camX, camY, camFunc.smooth.damped(15))
 end
 
 function love.draw()
+  love.graphics.scale(3)
   cam:attach()
   gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
   playerDraw()
-  enemiesDraw()
+  -- enemiesDraw()
   cam:detach()
   -- print(cam:position())
 end
@@ -66,15 +68,15 @@ function beginContact(a,b,coll)
       player.grounded = true
     end
   end 
-  for i, e in ipairs(enemies) do
-    if a == player.fixture 
-      and b == e.fixture then
-      print("OUCH")
-    end 
-    if a ==  e.fixture or b == e.fixture then
-      e.dx = -e.dx
-    end
-  end
+  -- for i, e in ipairs(enemies) do
+  --   if a == player.fixture 
+  --     and b == e.fixture then
+  --     print("OUCH")
+  --   end 
+  --   if a ==  e.fixture or b == e.fixture then
+  --     e.dx = -e.dx
+  --   end
+  -- end
 end
 
 function endContact(a,b,coll)
