@@ -8,7 +8,7 @@ return {
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 30,
+  nextobjectid = 32,
   properties = {},
   tilesets = {
     {
@@ -62,7 +62,21 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 31,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 472,
+          y = 320,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
     },
     {
       type = "objectgroup",

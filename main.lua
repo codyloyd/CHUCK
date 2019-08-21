@@ -28,7 +28,7 @@ function love.update(dt)
   gameMap:update(dt)
   myWorld:update(dt)
   playerUpdate(dt)
-  -- enemiesUpdate(dt)
+  enemiesUpdate(dt)
   local camX = player.body:getX() + love.graphics.getWidth()/3;
   local camY = player.body:getY() + love.graphics.getHeight()/3;
   if camX < 400 then camX = 400 end
@@ -43,7 +43,7 @@ function love.draw()
   cam:attach()
   gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
   playerDraw()
-  -- enemiesDraw()
+  enemiesDraw()
   cam:detach()
   -- print(cam:position())
 end
@@ -69,15 +69,15 @@ function beginContact(a,b,coll)
       player.grounded = true
     end
   end 
-  -- for i, e in ipairs(enemies) do
-  --   if a == player.fixture 
-  --     and b == e.fixture then
-  --     print("OUCH")
-  --   end 
-  --   if a ==  e.fixture or b == e.fixture then
-  --     e.dx = -e.dx
-  --   end
-  -- end
+  for i, e in ipairs(enemies) do
+    if a == player.fixture 
+      and b == e.fixture then
+      print("OUCH")
+    end 
+    if a ==  e.fixture or b == e.fixture then
+      e.dx = -e.dx
+    end
+  end
 end
 
 function endContact(a,b,coll)
