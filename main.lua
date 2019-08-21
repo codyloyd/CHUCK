@@ -10,7 +10,7 @@ function love.load()
   cam = camFunc()
   
   sti = require('lib/sti')
-  gameMap = sti("map/dirtngrasslevel.lua")
+  gameMap = sti("map/dirtngrasslevel.lua", {"box2d"})
 
   playerLoad()
   enemiesLoad()

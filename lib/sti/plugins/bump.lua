@@ -1,7 +1,7 @@
 --- Bump.lua plugin for STI
 -- @module bump.lua
 -- @author David Serrano (BobbyJones|FrenchFryLord)
--- @copyright 2016
+-- @copyright 2019
 -- @license MIT/X11
 
 local lg = require((...):gsub('plugins.bump', 'graphics'))
@@ -9,7 +9,7 @@ local lg = require((...):gsub('plugins.bump', 'graphics'))
 return {
 	bump_LICENSE        = "MIT/X11",
 	bump_URL            = "https://github.com/karai17/Simple-Tiled-Implementation",
-	bump_VERSION        = "3.1.6.1",
+	bump_VERSION        = "3.1.7.0",
 	bump_DESCRIPTION    = "Bump hooks for STI.",
 
 	--- Adds each collidable tile to the Bump world.
@@ -29,6 +29,8 @@ return {
 							for _, object in ipairs(tile.objectGroup.objects) do
 								if object.properties.collidable == true then
 									local t = {
+										name       = object.name,
+										type       = object.type,
 										x          = instance.x + map.offsetx + object.x,
 										y          = instance.y + map.offsety + object.y,
 										width      = object.width,
@@ -74,6 +76,8 @@ return {
 								for _, object in ipairs(tile.objectGroup.objects) do
 									if object.properties.collidable == true then
 										local t = {
+											name       = object.name,
+											type       = object.type,
 											x          = ((x-1) * map.tilewidth  + tile.offset.x + map.offsetx) + object.x,
 											y          = ((y-1) * map.tileheight + tile.offset.y + map.offsety) + object.y,
 											width      = object.width,
@@ -115,6 +119,8 @@ return {
 					if layer.properties.collidable == true or obj.properties.collidable == true then
 						if obj.shape == "rectangle" then
 							local t = {
+								name       = obj.name,
+								type       = obj.type,
 								x          = obj.x + map.offsetx,
 								y          = obj.y + map.offsety,
 								width      = obj.width,
