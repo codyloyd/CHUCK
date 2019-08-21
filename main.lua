@@ -6,7 +6,7 @@ function love.load()
   anim8 = require('lib/anim8')
 
   require('player')
-  -- require('enemies')
+  require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
   
@@ -14,7 +14,7 @@ function love.load()
   gameMap = sti("map/caves.lua", {"box2d"})
 
   playerLoad()
-  -- enemiesLoad()
+  enemiesLoad()
 
   platforms = {}
 

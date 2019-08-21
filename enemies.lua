@@ -20,7 +20,7 @@ end
 
 function spawnEnemy(x,y,direction)
   local e = {}
-  e.spriteSheet = love.graphics.newImage('monster.png')
+  e.spriteSheet = love.graphics.newImage('SLIME.png')
   e.body = love.physics.newBody(myWorld,x,y,"dynamic")
   e.shape = love.physics.newRectangleShape(64,64)
   e.fixture = love.physics.newFixture(e.body,e.shape)
