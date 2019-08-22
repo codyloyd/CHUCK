@@ -22,6 +22,9 @@ function love.load()
   for i, obj in pairs(gameMap.layers["platforms"].objects) do
     spawnPlatform(obj.x,obj.y,obj.width,obj.height)
   end
+
+  sceneDirector = require("sceneDirector")
+  -- sceneDirector.init()
 end
 
 function love.update(dt)
@@ -36,6 +39,8 @@ function love.update(dt)
   if camY > 2048 - 200 then camY = 2048- 200 end 
   if camX > 6400 - 300 then camX = 6400 - 300 end
   cam:lockPosition(camX, camY, camFunc.smooth.damped(15))
+
+  sceneDirector.update(dt)
 end
 
 function love.draw()
@@ -46,9 +51,12 @@ function love.draw()
   enemiesDraw()
   cam:detach()
   -- print(cam:position())
+
+  sceneDirector.draw()
 end
 
 function love.keypressed(key)
+  sceneDirector.keypressed(key)
   playerKeypressed(key)
 end
 
