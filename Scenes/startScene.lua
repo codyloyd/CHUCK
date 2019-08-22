@@ -8,7 +8,6 @@ function scene.new(changeScene)
   end
 
   function self:draw()
-    print "draw"
     love.graphics.print( "Press 'enter' to go", 22, 88 )
   end
 
