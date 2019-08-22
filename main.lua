@@ -24,6 +24,9 @@ function love.load()
     local jumpThrough = obj.properties["jump-through"]
     spawnPlatform(obj.x,obj.y,obj.width,obj.height, jumpThrough)
   end
+
+  sceneDirector = require("sceneDirector")
+  -- sceneDirector.init()
 end
 
 function love.update(dt)
@@ -40,13 +43,14 @@ function love.update(dt)
   if camY < 300 then camY = 300 end
   if camY > 2048 - 200 then camY = 2048- 200 end 
   if camX > 6400 - 300 then camX = 6400 - 300 end
-
   cameraWindowSize = 7
   local xmin = love.graphics.getWidth()/2 - cameraWindowSize 
   local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
   local ymin = love.graphics.getHeight()/2 - cameraWindowSize
   local ymax = love.graphics.getHeight()/2 + cameraWindowSize
   cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, camFunc.smooth.damped(15))
+
+  sceneDirector.update(dt)
 end
 
 function love.draw()
@@ -73,6 +77,8 @@ function love.draw()
     love.graphics.setColor(1,1,1)
   cam:detach()
 
+  sceneDirector.draw()
+
   -- draw gravity etc.
   if DEBUG_MODE then
     love.graphics.scale(.5,.5)
@@ -85,9 +91,11 @@ function love.keypressed(key)
   if key == "escape" then
     DEBUG_MODE = not DEBUG_MODE
   end
+  sceneDirector.keypressed(key)
 
   playerKeypressed(key)
 end
+
 function love.keyreleased(key)
   playerKeyreleased(key)
 end
