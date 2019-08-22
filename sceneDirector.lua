@@ -28,5 +28,9 @@ function sceneDirector.keypressed(key)
   scenes[currentScene]:keypressed(key)
 end
 
+function sceneDirector.keyreleased(key)
+  scenes[currentScene]:keyreleased(key)
+end
+
 
 return sceneDirector

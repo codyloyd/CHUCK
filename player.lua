@@ -13,7 +13,7 @@ function playerLoad()
   player.dx = 0
   player.dy = 0
   player.maxSpeed = 150
-  player.gravity = 600
+  player.gravity = 790
   player.jumpStrength = 260
   player.maxFallSpeed = 2000
   player.rect = HC.rectangle(0,0,8,16)
