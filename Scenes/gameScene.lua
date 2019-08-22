@@ -2,6 +2,10 @@ local scene = {}
 
 function scene.new(changeScene)
   local self = {}
+  -- uiStack "array"
+  local uiStack = {}
+  -- Instantiate a new ui Element (root)
+  table.insert( uiStack, require("Scenes/gameSceneUi").new(uiStack) );
 
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
@@ -24,11 +28,15 @@ function scene.new(changeScene)
   end
 
   function self:update(dt)
-    gameMap:update(dt)
+    -- Get top of the ui stack and decide to pause or not
+    local ui = uiStack[#uiStack]
+    ui:update()
+    if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
+      gameMap:update(dt)
+      playerUpdate(dt)
+      -- enemiesUpdate(dt)
+    end
 
-    playerUpdate(dt)
-
-    -- enemiesUpdate(dt)
 
     -- moves the camera
     local camX = player.x + love.graphics.getWidth()/3;
@@ -75,14 +83,28 @@ function scene.new(changeScene)
       love.graphics.print("jumpStrength: "..player.jumpStrength,0,32)
     end
 
+    -- Draw the UI stack
+    for k, v in ipairs(uiStack) do
+      v:draw()
+    end
+
     -- love.graphics.print( "Gameplay, press 'p' to die", 22, 88 )
   end
 
   function self:keypressed(key)
-    if key == "p" then
-      changeScene("END_SCENE")
+    -- handle keypresses from the uiStack
+    local ui = uiStack[#uiStack]
+
+    -- ALWAYS call the ui's keypressed function
+    ui:keypressed(key)
+
+    if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
+      if key == "p" then
+        changeScene("END_SCENE")
+      end
+
+      playerKeypressed(key)
     end
-    playerKeypressed(key)
   end
 
   function self:keyreleased(key)
