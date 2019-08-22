@@ -1,13 +1,14 @@
+inspect = require('./lib/inspect')
+
 function love.load()
+  DEBUG_MODE = false
   love.graphics.setBackgroundColor(0.5,.73,1)
   love.graphics.setDefaultFilter( "nearest" )
-  myWorld = love.physics.newWorld(0,2500,false)
-  myWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
-  myWorld:setGravity(0, 1300)
   anim8 = require('lib/anim8')
+  HC = require('lib/HC')
 
   require('player')
-  require('enemies')
+  -- require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
   
@@ -15,75 +16,88 @@ function love.load()
   gameMap = sti("map/caves.lua", {"box2d"})
 
   playerLoad()
-  enemiesLoad()
+  -- enemiesLoad()
 
   platforms = {}
 
   for i, obj in pairs(gameMap.layers["platforms"].objects) do
-    spawnPlatform(obj.x,obj.y,obj.width,obj.height)
+    local jumpThrough = obj.properties["jump-through"]
+    spawnPlatform(obj.x,obj.y,obj.width,obj.height, jumpThrough)
   end
 end
 
 function love.update(dt)
   gameMap:update(dt)
-  myWorld:update(dt)
+
   playerUpdate(dt)
-  enemiesUpdate(dt)
-  local camX = player.body:getX() + love.graphics.getWidth()/3;
-  local camY = player.body:getY() + love.graphics.getHeight()/3;
+
+  -- enemiesUpdate(dt)
+
+  -- moves the camera
+  local camX = player.x + love.graphics.getWidth()/3;
+  local camY = player.y + love.graphics.getHeight()/3;
   if camX < 400 then camX = 400 end
   if camY < 300 then camY = 300 end
   if camY > 2048 - 200 then camY = 2048- 200 end 
   if camX > 6400 - 300 then camX = 6400 - 300 end
-  cam:lockPosition(camX, camY, camFunc.smooth.damped(15))
+
+  cameraWindowSize = 7
+  local xmin = love.graphics.getWidth()/2 - cameraWindowSize 
+  local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
+  local ymin = love.graphics.getHeight()/2 - cameraWindowSize
+  local ymax = love.graphics.getHeight()/2 + cameraWindowSize
+  cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, camFunc.smooth.damped(15))
 end
 
 function love.draw()
   love.graphics.scale(3)
   cam:attach()
-  gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
-  playerDraw()
-  enemiesDraw()
+    gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
+    playerDraw()
+    -- enemiesDraw()
+   
+    -- draw collision boxes
+    if DEBUG_MODE then
+      love.graphics.setColor(.5,0,1)
+      player.rect:draw(fill)
+      for i, rect in pairs(platforms) do
+        if rect.jumpThrough then 
+          love.graphics.setColor(1,.5,0)
+        else
+          love.graphics.setColor(1,0,.5)
+        end
+        rect:draw(fill)
+      end
+    end
+
+    love.graphics.setColor(1,1,1)
   cam:detach()
-  -- print(cam:position())
+
+  -- draw gravity etc.
+  if DEBUG_MODE then
+    love.graphics.scale(.5,.5)
+    love.graphics.print("gravity: "..player.gravity,0,0)
+    love.graphics.print("jumpStrength: "..player.jumpStrength,0,32)
+  end
 end
 
 function love.keypressed(key)
+  if key == "escape" then
+    DEBUG_MODE = not DEBUG_MODE
+  end
+
   playerKeypressed(key)
 end
+function love.keyreleased(key)
+  playerKeyreleased(key)
+end
 
-function spawnPlatform(x,y,width,height)
-  local p = {}
-  p.body = love.physics.newBody(myWorld, x, y, "static")
-  p.shape = love.physics.newRectangleShape(width/2, height/2, width, height)
-  p.fixture = love.physics.newFixture(p.body, p.shape)
-  p.width = width
-  p.height = height
+function spawnPlatform(x,y,width,height, jumpThrough)
+  -- height 0 breaks it.. so if height happens to be 0, change it to 1
+  height = height > 0 and height or 1
+  width = width > 0 and width or 1
 
+  local p = HC.rectangle(x,y,width,height) 
+  p.jumpThrough = jumpThrough
   table.insert(platforms,p)
-end
-
-function beginContact(a,b,coll)
-  for i, p in ipairs(platforms) do
-    if a == player.fixture and b == p.fixture then
-      player.grounded = true
-    end
-  end 
-  for i, e in ipairs(enemies) do
-    if a == player.fixture 
-      and b == e.fixture then
-      print("OUCH")
-    end 
-    if a ==  e.fixture or b == e.fixture then
-      e.dx = -e.dx
-    end
-  end
-end
-
-function endContact(a,b,coll)
-  local x1, y1, x2, y2 = a:getBoundingBox()
-  local xx1, yy1, xx2, yy2 = b:getBoundingBox()
-  if (math.ceil(y2) <= math.ceil(yy1)) then
-    player.grounded = false
-  end
 end
