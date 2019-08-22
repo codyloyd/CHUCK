@@ -18,6 +18,9 @@ function scene.new(changeScene)
 
   end
 
+  function self:keyreleased(key)
+  end
+
   return self
 end
 
