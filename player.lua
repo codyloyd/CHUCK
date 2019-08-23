@@ -81,9 +81,13 @@ function player:update(dt)
   for shape, delta in pairs(HC.collisions(self.rect)) do
     ---bottom collisions
     if (delta.y < 0 and self.dy < 0) then 
-      if shape.jumpThrough and delta.y < -1 and self.dy > -100 then
-        return
+      local topOfShape = 99999999;
+      local playerBottomBefore = starty + 8;
+      for _, vertex in ipairs(shape._polygon.vertices) do
+        topOfShape = math.min(vertex.y, topOfShape);
       end
+      if playerBottomBefore > topOfShape then return end
+
       self.dy = 0
       self.y = starty
       self.rect:moveTo(self.x, self.y)
