@@ -9,11 +9,10 @@ function scene.new(changeScene)
 
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
-  require('player')
+  player = require('player')
   -- require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
-  playerLoad()
   -- enemiesLoad()
  
   platforms = {}
@@ -33,7 +32,7 @@ function scene.new(changeScene)
     ui:update()
     if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
       gameMap:update(dt)
-      playerUpdate(dt)
+      player:update(dt)
       -- enemiesUpdate(dt)
     end
 
@@ -54,10 +53,11 @@ function scene.new(changeScene)
   end
 
   function self:draw()
+    -- everything that should track with the camera goes in here
     love.graphics.scale(3)
     cam:attach()
       gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
-      playerDraw()
+      player:draw()
       -- enemiesDraw()
      
       -- draw collision boxes
@@ -76,19 +76,15 @@ function scene.new(changeScene)
 
       love.graphics.setColor(1,1,1)
     cam:detach()
-    -- draw gravity etc.
+
+    --draw debug info
     if DEBUG_MODE then
-      love.graphics.scale(.5,.5)
-      love.graphics.print("gravity: "..player.gravity,0,0)
-      love.graphics.print("jumpStrength: "..player.jumpStrength,0,32)
     end
 
     -- Draw the UI stack
     for k, v in ipairs(uiStack) do
       v:draw()
     end
-
-    -- love.graphics.print( "Gameplay, press 'p' to die", 22, 88 )
   end
 
   function self:keypressed(key)
@@ -103,12 +99,12 @@ function scene.new(changeScene)
         changeScene("END_SCENE")
       end
 
-      playerKeypressed(key)
+      player:keypressed(key)
     end
   end
 
   function self:keyreleased(key)
-    playerKeyreleased(key)
+    player:keyreleased(key)
   end
 
   return self
