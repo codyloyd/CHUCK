@@ -15,6 +15,7 @@ player.dy = 0
 player.maxSpeed = 150
 player.gravity = 790
 player.jumpStrength = 260
+player.shortJumpStrength = 100
 player.maxFallSpeed = 2000
 player.rect = HC.rectangle(0,0,8,16)
 
@@ -27,6 +28,10 @@ function player:setPosition(x ,y)
   self.x = x
   self.y = y
   self.rect:moveTo(self.x, self.y)
+end
+
+function player:reset()
+  player:setPosition(100, 100)
 end
 
 
@@ -113,6 +118,11 @@ function player:keypressed(key)
 end
 
 function player:keyreleased(key)
+  if key == "up" and not self.grounded then
+    if self.dy > self.shortJumpStrength then 
+      self.dy = self.shortJumpStrength 
+    end
+  end
 end
 
 function player:getPowerup(type) 
