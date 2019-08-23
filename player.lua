@@ -22,7 +22,7 @@ player.rect = HC.rectangle(0,0,8,16)
 player.jumpCount = 0
 
 player.powerups = {}
-player.powerups.doubleJump = false
+player.powerups.doubleJump = true
 
 function player:setPosition(x ,y)
   self.x = x
@@ -40,6 +40,14 @@ function player:update(dt)
 
   -- gravity
   self.dy = math.min(self.dy - self.gravity * dt, self.maxFallSpeed)
+
+  if not (math.abs(self.dy) <= self.gravity * dt) then
+    self.grounded = false
+
+    if self.jumpCount < 1 then
+      self.jumpCount = 1
+    end
+  end
 
   if love.keyboard.isDown("left") then
     self.dx = self.dx + 16 * self.maxSpeed * dt
@@ -120,7 +128,7 @@ function player:draw()
 end
 
 function player:keypressed(key)
-  if key == "up" and (self.grounded or (self.jumpCount < 2 and self.powerups.doubleJump)) then
+  if key == "up" and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
     self.dy = self.jumpStrength
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
