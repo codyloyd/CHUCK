@@ -10,13 +10,11 @@ function scene.new(changeScene)
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
   player = require('player')
-  -- require('enemies')
+  enemies = require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
-  -- enemiesLoad()
  
   platforms = {}
-
   for i, obj in pairs(gameMap.layers["platforms"].objects) do
     local jumpThrough = obj.properties["jump-through"]
     spawnPlatform(obj.x,obj.y,obj.width,obj.height, jumpThrough)
@@ -33,7 +31,7 @@ function scene.new(changeScene)
     if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
       gameMap:update(dt)
       player:update(dt)
-      -- enemiesUpdate(dt)
+      enemies:update(dt)
     end
 
 
@@ -58,12 +56,17 @@ function scene.new(changeScene)
     cam:attach()
       gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
       player:draw()
-      -- enemiesDraw()
+      enemies:draw()
      
       -- draw collision boxes
       if DEBUG_MODE then
         love.graphics.setColor(.5,0,1)
         player.rect:draw(fill)
+
+        love.graphics.setColor(.25,.5,1)
+        for i, enemy in pairs(enemies.table) do
+          enemy.rect:draw(fill)
+        end
         for i, rect in pairs(platforms) do
           if rect.jumpThrough then 
             love.graphics.setColor(1,.5,0)

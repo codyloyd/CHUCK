@@ -1,12 +1,14 @@
 local player = {}
 
 player.spriteSheet = love.graphics.newImage('KNIGHT_WHITE.png')
+-- TODO get this info from Tiled so we can put the player wherever.
 player.x = 100
 player.y = 100
 player.grid = anim8.newGrid(16,16,64,64)
 player.walking = anim8.newAnimation(player.grid('1-4',2), 0.1)
 player.standing = anim8.newAnimation(player.grid('1-4',1), 0.3)
 player.jumping = anim8.newAnimation(player.grid('1-1',3), 1)
+player.attacking = anim8.newAnimation(player.grid('1-4', 4), 0.1)
 player.animation = player.standing
 player.grounded = false
 player.direction = 1
@@ -18,6 +20,7 @@ player.jumpStrength = 260
 player.shortJumpStrength = 100
 player.maxFallSpeed = 2000
 player.rect = HC.rectangle(0,0,8,16)
+player.hitTimer = 0
 
 player.jumpCount = 0
 
@@ -34,9 +37,20 @@ function player:reset()
   player:setPosition(100, 100)
 end
 
+function player:takeDamage(delta)
+  if self.hitTimer == 0 then
+    self.hitTimer = 60
+    self.dy = 20
+    self.dx = delta.x > 0 and -100 or 100
+  end
+end
 
 function player:update(dt)
   self.animation:update(dt)
+  
+  if self.hitTimer > 0 then
+    self.hitTimer = self.hitTimer - 1
+  end
 
   -- gravity
   self.dy = math.min(self.dy - self.gravity * dt, self.maxFallSpeed)
@@ -50,17 +64,23 @@ function player:update(dt)
   end
 
   if love.keyboard.isDown("left") then
-    self.dx = self.dx + 16 * self.maxSpeed * dt
+    if self.hitTimer == 0 then
+      self.dx = self.dx + 16 * self.maxSpeed * dt
+    end
     self.direction = -1
   end
 
   if love.keyboard.isDown("right") then
-    self.dx = self.dx - 16 * self.maxSpeed * dt
+    if self.hitTimer == 0 then
+      self.dx = self.dx - 16 * self.maxSpeed * dt
+    end
     self.direction = 1
   end
 
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
-    self.dx = self.dx * .9
+    if self.hitTimer == 0 then 
+      self.dx = self.dx * .9
+    end
   end
 
   if self.dx >= self.maxSpeed then
@@ -120,11 +140,23 @@ function player:update(dt)
     end
 
     self.rect:moveTo(self.x, self.y)
+
+    for _, e in pairs(enemies.table) do
+      if shape == e.rect then
+        self:takeDamage(delta)
+      end
+    end
+
   end
 end
 
 function player:draw()
+  if self.hitTimer > 30 then
+    love.graphics.setColor(1,0,0)
+    love.graphics.print("HIT!", self.x, self.y)
+  end
   self.animation:draw(self.spriteSheet,math.floor(self.x),math.ceil(self.y),nil,self.direction,1,8,8)
+  love.graphics.setColor(1,1,1)
 end
 
 function player:keypressed(key)
