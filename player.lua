@@ -95,16 +95,16 @@ function player:update(dt)
     end
     --top collisions
     if (delta.y > 0 and not shape.jumpThrough) then
-      self.dy = 0
+      self.dy = -5
       self.y = starty
-      self.rect:moveTo(self.x, self.y)
     end
     --side collision
     if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
       self.dx = 0
       self.x = startx
-      self.rect:moveTo(self.x, self.y)
     end
+
+    self.rect:moveTo(self.x, self.y)
   end
 end
 
