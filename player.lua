@@ -90,13 +90,12 @@ function player:update(dt)
 
       self.dy = 0
       self.y = starty
-      self.rect:moveTo(self.x, self.y)
       self.grounded = true
     end
     --top collisions
     if (delta.y > 0 and not shape.jumpThrough) then
       self.dy = -5
-      self.y = starty
+      self.y = starty + 1
     end
     --side collision
     if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
