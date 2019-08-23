@@ -80,7 +80,10 @@ function player:update(dt)
 
   for shape, delta in pairs(HC.collisions(self.rect)) do
     ---bottom collisions
-    if (delta.y < 0 and delta.y > -4 and self.dy < 0) then 
+    if (delta.y < 0 and self.dy < 0) then 
+      if shape.jumpThrough and delta.y < -1 and self.dy > -100 then
+        return
+      end
       self.dy = 0
       self.y = starty
       self.rect:moveTo(self.x, self.y)
