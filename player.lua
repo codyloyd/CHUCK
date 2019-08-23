@@ -41,28 +41,42 @@ function player:update(dt)
   -- gravity
   self.dy = math.min(self.dy - self.gravity * dt, self.maxFallSpeed)
 
+  if not (math.abs(self.dy) <= self.gravity * dt) then
+    self.grounded = false
+
+    if self.jumpCount < 1 then
+      self.jumpCount = 1
+    end
+  end
+
   if love.keyboard.isDown("left") then
     self.dx = self.dx + 16 * self.maxSpeed * dt
     self.direction = -1
   end
+
   if love.keyboard.isDown("right") then
     self.dx = self.dx - 16 * self.maxSpeed * dt
     self.direction = 1
   end
+
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
     self.dx = self.dx * .3
   end
+
   if self.dx >= self.maxSpeed then
     self.dx = self.maxSpeed
   end
+
   if self.dx <= -self.maxSpeed then
     self.dx = -self.maxSpeed
   end
+
   if math.abs(player.dx) > 50 then
     self.animation = self.walking
   else 
     self.animation = self.standing
   end
+  
   if not self.grounded then
     self.animation = self.jumping
   end
@@ -92,11 +106,13 @@ function player:update(dt)
       self.y = starty
       self.grounded = true
     end
+
     --top collisions
     if (delta.y > 0 and not shape.jumpThrough) then
       self.dy = -5
       self.y = starty + 1
     end
+
     --side collision
     if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
       self.dx = 0
@@ -112,7 +128,7 @@ function player:draw()
 end
 
 function player:keypressed(key)
-  if key == "up" and (self.grounded or (self.jumpCount < 2 and self.powerups.doubleJump)) then
+  if key == "up" and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
     self.dy = self.jumpStrength
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
