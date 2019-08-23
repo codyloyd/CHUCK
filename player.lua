@@ -60,7 +60,7 @@ function player:update(dt)
   end
 
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
-    self.dx = self.dx * .3
+    self.dx = self.dx * .9
   end
 
   if self.dx >= self.maxSpeed then
@@ -110,13 +110,13 @@ function player:update(dt)
     --top collisions
     if (delta.y > 0 and not shape.jumpThrough) then
       self.dy = -5
-      self.y = starty + 1
+      self.y = starty + delta.y
     end
 
     --side collision
     if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
       self.dx = 0
-      self.x = startx
+      self.x = startx + delta.x
     end
 
     self.rect:moveTo(self.x, self.y)
