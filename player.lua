@@ -22,7 +22,7 @@ player.rect = HC.rectangle(0,0,8,16)
 player.jumpCount = 0
 
 player.powerups = {}
-player.powerups.doubleJump = true
+player.powerups.doubleJump = false
 
 function player:setPosition(x ,y)
   self.x = x
@@ -45,24 +45,30 @@ function player:update(dt)
     self.dx = self.dx + 16 * self.maxSpeed * dt
     self.direction = -1
   end
+
   if love.keyboard.isDown("right") then
     self.dx = self.dx - 16 * self.maxSpeed * dt
     self.direction = 1
   end
+
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
     self.dx = self.dx * .3
   end
+
   if self.dx >= self.maxSpeed then
     self.dx = self.maxSpeed
   end
+
   if self.dx <= -self.maxSpeed then
     self.dx = -self.maxSpeed
   end
+
   if math.abs(player.dx) > 50 then
     self.animation = self.walking
   else 
     self.animation = self.standing
   end
+  
   if not self.grounded then
     self.animation = self.jumping
   end
