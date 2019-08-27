@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="75">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="78">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <layer name="Tile Layer 1" width="120" height="120">
   <data encoding="base64">
@@ -9,6 +9,7 @@
  <objectgroup name="enemies">
   <object id="31" x="472" y="320"/>
   <object id="73" x="144" y="176"/>
+  <object id="76" x="648" y="576"/>
  </objectgroup>
  <objectgroup name="platforms">
   <object id="1" x="0" y="336" width="688" height="200"/>

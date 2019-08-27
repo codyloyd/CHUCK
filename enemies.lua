@@ -26,7 +26,7 @@ end
 
 function enemies:draw()
   for i, e in ipairs(self.table) do
-    e.animation:draw(e.spritesheet,math.ceil(e.x + e.w/2),math.ceil(e.y),nil,nil,nil,8,8)
+    e.animation:draw(e.spritesheet,math.ceil(e.x + e.w/2),math.ceil(e.y),nil,e.direction,1,8,8)
   end
 end
 

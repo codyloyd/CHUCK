@@ -4,12 +4,14 @@ local Slime = class('Slime', Entity)
 
 function Slime:initialize(opts)
   Entity.initialize(self, opts)
-  self.vx = 30
+  self.vx = 24
   self.w = 8
   self.h = 8
   self.spritesheet = love.graphics.newImage('assets/SLIME.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
-  self.animation = anim8.newAnimation(self.animationGrid('1-4',1),.2)
+  self.walking = anim8.newAnimation(self.animationGrid('1-4',1),.2)
+  self.falling = anim8.newAnimation(self.animationGrid('2-2',3),.2)
+  self.animation = self.walking
 end
 
 function Slime:update(dt)
@@ -29,6 +31,18 @@ function Slime:update(dt)
     if col.other == player then
       player:takeDamage(col.normal)
     end
+  end
+
+  if self.vx > 0 then
+    self.direction = -1
+  else
+    self.direction = 1
+  end
+
+  if self.vy < -1 then
+    self.animation = self.falling
+  else
+    self.animation = self.walking
   end
 end
 
