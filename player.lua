@@ -34,8 +34,8 @@ local player = Player:new({
 world:add(player,player.x,player.y,player.w,player.h)
 
 function player:takeDamage(normal)
-  if self.hitTimer == 0 then
-    self.hitTimer = 60
+  if self.hitTimer <= 0 then
+    self.hitTimer = 0.2
     self.vy = 80
     self.vx = normal.x > 0 and 100 or -100
   end
@@ -46,8 +46,9 @@ function player:update(dt)
   self:updateGravity(dt)
   
   if self.hitTimer > 0 then
-    self.hitTimer = self.hitTimer - 1
+    self.hitTimer = self.hitTimer - dt
   end
+  print(self.hitTimer)
 
   if not (math.abs(self.vy) <= self.gravity * dt) then
     self.grounded = false
@@ -58,21 +59,21 @@ function player:update(dt)
   end
 
   if love.keyboard.isDown("left") then
-    if self.hitTimer == 0 then
+    if self.hitTimer <= 0 then
       self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
     end
     self.direction = -1
   end
 
   if love.keyboard.isDown("right") then
-    if self.hitTimer == 0 then
+    if self.hitTimer <= 0 then
       self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
     end
     self.direction = 1
   end
 
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
-    if self.hitTimer == 0 then 
+    if self.hitTimer <= 0 then 
       self.vx = self.vx * .9
     end
   end
@@ -122,7 +123,7 @@ function player:update(dt)
 end
 
 function player:draw()
-  if self.hitTimer > 30 then
+  if self.hitTimer > 0.1 then
     love.graphics.setColor(1,0.3,0.3)
   end
   self.animation:draw(self.spritesheet,math.floor(self.x+self.w/2),math.ceil(self.y+self.h/2),nil,self.direction,1,8,8)
