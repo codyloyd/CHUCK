@@ -136,7 +136,6 @@ function player:update(dt)
 
   for i=1,len do
     local col = cols[i]
-    print(inspect(col))
     changeVelocityByCollisionNormal(col.normal.x, col.normal.y)
     checkIfOnGround(col.normal.y)
   end

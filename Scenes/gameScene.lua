@@ -11,7 +11,7 @@ function scene.new(changeScene)
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
   player = require('player')
-  -- enemies = require('enemies')
+  enemies = require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
  
@@ -32,7 +32,7 @@ function scene.new(changeScene)
     if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
       gameMap:update(dt)
       player:update(dt)
-      -- enemies:update(dt)
+      enemies:update(dt)
     end
 
 
@@ -57,7 +57,7 @@ function scene.new(changeScene)
     cam:attach()
       gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
       player:draw()
-      -- enemies:draw()
+      enemies:draw()
      
       -- draw collision boxes
       if DEBUG_MODE then
@@ -65,9 +65,6 @@ function scene.new(changeScene)
         -- player.rect:draw(fill)
 
         love.graphics.setColor(.25,.5,1)
-        -- for i, enemy in pairs(enemies.table) do
-        --   enemy.rect:draw(fill)
-        -- end
         local items, len = world:getItems()
         for i, rect in pairs(items) do
           if rect.jumpThrough then 
@@ -77,6 +74,9 @@ function scene.new(changeScene)
           end
           if rect.x and rect.y and rect.width and rect.height then
             love.graphics.rectangle("line", rect.x, rect.y, rect.width, rect.height)
+          end
+          if rect.x and rect.y and rect.w and rect.h then
+            love.graphics.rectangle("line", rect.x, rect.y, rect.w, rect.h)
           end
         end
       end

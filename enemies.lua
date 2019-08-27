@@ -1,25 +1,46 @@
 local enemies = {}
-
 enemies.table = {}
 
+local class = require('lib/middleclass')
+local Entity = class('Entity')
+
+-- options is a table
+function Entity:initialize(opts)
+  self.x = opts and opts.x or 0
+  self.y = opts and opts.y or 0
+  self.w = opts and opts.w or 16
+  self.h = opts and opts.h or 16 
+  self.vx = opts and opts.vx or 0
+  self.vy = opts and opts.vy or 0
+  self.maxVx = opts and opts.maxVx or 100
+  self.maxVy = opts and opts.maxVy or 2000 
+  self.spritesheet = opts and opts.spritesheet or null
+  self.animationGrid = opts and opts.animationGrid or null
+  self.animation = opts and opts.animation or null
+  self.direction = opts and opts.direction or 1
+  self.gravity = opts and opts.gravity or 790 
+end
+
+local Slime = class('Slime', Entity)
+
+function Slime:initialize(opts)
+  Entity.initialize(self, opts)
+  self.vx = 30
+  self.w = 8
+  self.h = 8
+  self.spritesheet = love.graphics.newImage('SLIME.png')
+  self.animationGrid = anim8.newGrid(16,16,64,64)
+  self.animation = anim8.newAnimation(self.animationGrid('1-4',1),.2)
+end
+
+
 function spawnEnemy(x,y,direction)
-  -- TODO move this into a proper module with a factory so we can
-  -- pass in multiple sprites
-  local e = {}
-  e.spriteSheet = love.graphics.newImage('SLIME.png')
-  e.x = x
-  e.y = y
-  e.rect = HC.rectangle(0,0,8,8)
-  e.xOffset = 0
-  e.yOffset = 4
-  e.grid = anim8.newGrid(16,16,64,64)
-  e.animation = anim8.newAnimation(e.grid('1-4',1),.2)
-  e.direction = 1
-  e.dx = -30
-  e.dy = 0
-  e.gravity = 790
-  e.maxFallSpeed = 2000
-  return e
+  local slime = Slime:new({
+      x = x,
+      y = y,
+    })
+  world:add(slime, slime.x, slime.y, slime.w, slime.h)
+  return slime
 end 
 
 -- loads enemies from tilemap into table
@@ -28,51 +49,31 @@ for i, e in pairs(gameMap.layers["enemies"].objects) do
 end
 
 function enemies:update(dt)
-  -- TODO give the enemy factory it's own update loop so that we can 
-  -- give different enemies different behaviors
   for i, e in ipairs(self.table) do
     e.animation:update(dt)
-    e.dy = math.min(e.dy - e.gravity * dt, e.maxFallSpeed)
+    e.vy = math.min(e.vy - e.gravity * dt, e.maxVy)
 
-    local startx = e.x
-    local starty = e.y
+    local goalX = e.x - e.vx * dt
+    local goalY = e.y - e.vy * dt
+    local actualX, actualY, cols, len = world:move(e, goalX, goalY)
+    e.x = actualX
+    e.y = actualY
 
-    e.x = e.x - e.dx * dt
-    e.y = e.y - e.dy * dt
-    e.rect:moveTo(e.x, e.y)
-
-    -- TODO abstract this out so we don't have to copy/paste it all over the place
-    for shape, delta in pairs(HC.collisions(e.rect)) do
-      if shape == player.rect then
-        newDelta = {x=-delta.x, delta.y}
-        player:takeDamage(newDelta)
+    for i=1, len do
+      local col = cols[i]
+      if math.abs(col.normal.x) == 1 then
+        e.vx = -e.vx
       end
-      ---bottom collisions
-      if (delta.y < 0 and e.dy < 0) then 
-        e.dy = 0
-        e.y = starty
+      if col.normal.y == -1 then
+        e.vy = 0
       end
-
-      --top collisions
-      if (delta.y > 0 and not shape.jumpThrough) then
-        e.dy = -5
-        e.y = starty + delta.y
-      end
-
-      --side collision
-      if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
-        e.dx = -e.dx
-        e.x = startx + delta.x
-      end
-
-      e.rect:moveTo(e.x, e.y)
     end
   end
 end
 
 function enemies:draw()
   for i, e in ipairs(self.table) do
-    e.animation:draw(e.spriteSheet,math.ceil(e.x)-e.xOffset,math.ceil(e.y)-e.yOffset,nil,nil,nil,8,8)
+    e.animation:draw(e.spritesheet,math.ceil(e.x + e.w/2),math.ceil(e.y),nil,nil,nil,8,8)
   end
 end
 
