@@ -22,7 +22,6 @@ function scene.new(changeScene)
   end
 
   function self:init()
-    player:reset()
   end
 
   function self:update(dt)

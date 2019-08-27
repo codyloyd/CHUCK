@@ -1,64 +1,55 @@
-local player = {}
+local class = require("lib/middleclass")
+local Entity = require("entities/Entity")
+local Player = class("Player", Entity)
 
-player.spriteSheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
--- TODO get this info from Tiled so we can put the player wherever.
-player.x = 100
-player.y = 100
-player.width = 8
-player.height = 16
-player.grid = anim8.newGrid(16,16,64,64)
-player.walking = anim8.newAnimation(player.grid('1-4',2), 0.1)
-player.standing = anim8.newAnimation(player.grid('1-4',1), 0.3)
-player.jumping = anim8.newAnimation(player.grid('1-1',3), 1)
-player.attacking = anim8.newAnimation(player.grid('1-4', 4), 0.1)
-player.animation = player.standing
-player.grounded = false
-player.direction = 1
-player.dx = 0
-player.dy = 0
-player.maxSpeed = 150
-player.gravity = 790
-player.jumpStrength = 260
-player.shortJumpStrength = 100
-player.maxFallSpeed = 2000
--- player.rect = HC.rectangle(0,0,8,16)
-player.hitTimer = 0
-
-player.jumpCount = 0
-
-player.powerups = {}
-player.powerups.doubleJump = true
-
-world:add(player,player.x,player.y,player.width,player.height)
-
-function player:setPosition(x ,y)
-  self.x = x
-  self.y = y
+function Player:initialize(opts)
+  Entity.initialize(self, opts)
+  self.hitTimer = 0
+  self.jumpStrength = 260
+  self.shortJumpStrength = 100
+  self.jumpCount = 0
+  self.powerups = {
+    doubleJump = true
+  }
+  self.spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
+  self.animationGrid = anim8.newGrid(16,16,64,64)
+  self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.1)
+  self.standing = anim8.newAnimation(self.animationGrid('1-4',1), 0.3)
+  self.jumping = anim8.newAnimation(self.animationGrid('1-1',3), 1)
+  self.falling = anim8.newAnimation(self.animationGrid('2-2', 3), 1)
+  self.attacking = anim8.newAnimation(self.animationGrid('1-4', 4), 0.1)
+  self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
+  self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
+  self.animation = self.standing
 end
 
-function player:reset()
-  player:setPosition(100, 100)
-end
+local player = Player:new({
+    x = 100,
+    y = 100,
+    w = 8, 
+    h = 16,
+    maxVx = 150,
+    maxVy = 2000,
+  })
+world:add(player,player.x,player.y,player.w,player.h)
 
 function player:takeDamage(normal)
   if self.hitTimer == 0 then
     self.hitTimer = 60
-    self.dy = 80
-    self.dx = normal.x > 0 and 100 or -100
+    self.vy = 80
+    self.vx = normal.x > 0 and 100 or -100
   end
 end
 
 function player:update(dt)
-  self.animation:update(dt)
+  self:updateAnimation(dt)
+  self:updateGravity(dt)
   
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - 1
   end
 
-  -- gravity
-  self.dy = math.min(self.dy - self.gravity * dt, self.maxFallSpeed)
-
-  if not (math.abs(self.dy) <= self.gravity * dt) then
+  if not (math.abs(self.vy) <= self.gravity * dt) then
     self.grounded = false
 
     if self.jumpCount < 1 then
@@ -68,97 +59,79 @@ function player:update(dt)
 
   if love.keyboard.isDown("left") then
     if self.hitTimer == 0 then
-      self.dx = self.dx + 16 * self.maxSpeed * dt
+      self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
     end
     self.direction = -1
   end
 
   if love.keyboard.isDown("right") then
     if self.hitTimer == 0 then
-      self.dx = self.dx - 16 * self.maxSpeed * dt
+      self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
     end
     self.direction = 1
   end
 
   if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
     if self.hitTimer == 0 then 
-      self.dx = self.dx * .9
+      self.vx = self.vx * .9
     end
   end
 
-  if self.dx >= self.maxSpeed then
-    self.dx = self.maxSpeed
-  end
-
-  if self.dx <= -self.maxSpeed then
-    self.dx = -self.maxSpeed
-  end
-
-  if math.abs(player.dx) > 50 then
+  if math.abs(player.vx) > 50 then
     self.animation = self.walking
   else 
     self.animation = self.standing
   end
   
-  if not self.grounded then
+  if self.vy > 0 and not self.grounded then
     self.animation = self.jumping
+  end
+
+  if self.vy < 0 and not self.grounded then
+    self.animation = self.falling
+  end
+  
+  if self.hitTimer > 0 then
+    self.animation = self.hurt
   end
 
   if self.grounded then 
     self.jumpCount = 0
   end
 
-  local startx = self.x
-  local starty = self.y
+  local cols, len = self:moveWithCollisions(dt)
 
-  goalX = self.x - self.dx * dt
-  goalY = self.y - self.dy * dt
-  local actualX, actualY, cols, len = world:move(player, goalX, goalY)
-
-  function changeVelocityByCollisionNormal(nx, ny)
-    local dx, dy = self.dx, self.dy
-
-    if (nx < 0 and dx < 0) or (nx > 0 and dx > 0) then
-      dx = 0
+  for _, col in pairs(cols) do
+    if math.abs(col.normal.x) == 1 then
+      self.vx = 0
     end
 
-    if (ny < 0 and dy < 0) or (ny > 0 and dy > 0) then
-      dy = 0
+    if col.normal.y == 1 then
+      self.vy = 0
     end
 
-    self.dx, self.dy = dx, dy
-  end
+    if col.normal.y == -1 then
+      self.grounded = true
+      self.vy = 0
+    end
 
-  function checkIfOnGround(ny)
-    if ny < 0 then self.grounded = true end
-  end
-
-  for i=1,len do
-    local col = cols[i]
-    changeVelocityByCollisionNormal(col.normal.x, col.normal.y)
-    checkIfOnGround(col.normal.y)
-
-    -- TODO this can DEFINITELY be improved.. but works for now 
-    if col.other.class and col.other.class.name == 'Slime' then
+    if col.other.causesDamage then
       self:takeDamage(col.normal)
     end
   end
-
-  self:setPosition(actualX, actualY)
 end
 
 function player:draw()
   if self.hitTimer > 30 then
-    love.graphics.setColor(1,0,0)
-    love.graphics.print("HIT!", self.x, self.y)
+    love.graphics.setColor(1,0.3,0.3)
   end
-  self.animation:draw(self.spriteSheet,math.floor(self.x+4),math.ceil(self.y+8),nil,self.direction,1,8,8)
+  self.animation:draw(self.spritesheet,math.floor(self.x+self.w/2),math.ceil(self.y+self.h/2),nil,self.direction,1,8,8)
   love.graphics.setColor(1,1,1)
 end
 
 function player:keypressed(key)
   if key == "up" and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
-    self.dy = self.jumpStrength
+    self.vy = self.jumpStrength
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
   end
@@ -170,8 +143,8 @@ end
 
 function player:keyreleased(key)
   if key == "up" and not self.grounded then
-    if self.dy > self.shortJumpStrength then 
-      self.dy = self.shortJumpStrength 
+    if self.vy > self.shortJumpStrength then 
+      self.vy = self.shortJumpStrength 
     end
   end
 end
