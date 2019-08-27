@@ -48,7 +48,6 @@ function player:update(dt)
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - dt
   end
-  print(self.hitTimer)
 
   if not (math.abs(self.vy) <= self.gravity * dt) then
     self.grounded = false
