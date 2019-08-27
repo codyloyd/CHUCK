@@ -1,6 +1,6 @@
 local player = {}
 
-player.spriteSheet = love.graphics.newImage('KNIGHT_WHITE.png')
+player.spriteSheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
 -- TODO get this info from Tiled so we can put the player wherever.
 player.x = 100
 player.y = 100
@@ -40,11 +40,11 @@ function player:reset()
   player:setPosition(100, 100)
 end
 
-function player:takeDamage(delta)
+function player:takeDamage(normal)
   if self.hitTimer == 0 then
     self.hitTimer = 60
-    self.dy = 20
-    self.dx = delta.x > 0 and -100 or 100
+    self.dy = 80
+    self.dx = normal.x > 0 and 100 or -100
   end
 end
 
@@ -115,16 +115,15 @@ function player:update(dt)
   goalY = self.y - self.dy * dt
   local actualX, actualY, cols, len = world:move(player, goalX, goalY)
 
-  function changeVelocityByCollisionNormal(nx, ny, bounciness)
-    bounciness = bounciness or 0
+  function changeVelocityByCollisionNormal(nx, ny)
     local dx, dy = self.dx, self.dy
 
     if (nx < 0 and dx < 0) or (nx > 0 and dx > 0) then
-      dx = -dx * bounciness
+      dx = 0
     end
 
     if (ny < 0 and dy < 0) or (ny > 0 and dy > 0) then
-      dy = -dy * bounciness
+      dy = 0
     end
 
     self.dx, self.dy = dx, dy
@@ -138,46 +137,14 @@ function player:update(dt)
     local col = cols[i]
     changeVelocityByCollisionNormal(col.normal.x, col.normal.y)
     checkIfOnGround(col.normal.y)
+
+    -- TODO this can DEFINITELY be improved.. but works for now 
+    if col.other.class and col.other.class.name == 'Slime' then
+      self:takeDamage(col.normal)
+    end
   end
 
   self:setPosition(actualX, actualY)
-
-  --for shape, delta in pairs(HC.collisions(self.rect)) do
-  --  ---bottom collisions
-  --  if (delta.y < 0 and self.dy < 0) then 
-  --    local topOfShape = 99999999;
-  --    local playerBottomBefore = starty + 8;
-  --    for _, vertex in ipairs(shape._polygon.vertices) do
-  --      topOfShape = math.min(vertex.y, topOfShape);
-  --    end
-  --    if playerBottomBefore > topOfShape then return end
-
-  --    self.dy = 0
-  --    self.y = starty
-  --    self.grounded = true
-  --  end
-
-  --  --top collisions
-  --  if (delta.y > 0 and not shape.jumpThrough) then
-  --    self.dy = -5
-  --    self.y = starty + delta.y
-  --  end
-
-  --  --side collision
-  --  if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
-  --    self.dx = 0
-  --    self.x = startx + delta.x
-  --  end
-
-    -- self.rect:moveTo(self.x, self.y)
-
-    -- for _, e in pairs(enemies.table) do
-    --   if shape == e.rect then
-    --     self:takeDamage(delta)
-    --   end
-    -- end
-
-  -- end
 end
 
 function player:draw()

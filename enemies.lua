@@ -7,6 +7,8 @@ function spawnEnemy(x,y,direction)
       x = x,
       y = y,
     })
+
+  -- maybe this should/could be in the initialize funciton?
   world:add(slime, slime.x, slime.y, slime.w, slime.h)
   return slime
 end 

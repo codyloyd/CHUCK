@@ -28,9 +28,6 @@ function Entity:updateGravity(dt)
 end
 
 function Entity:changeVelocityByCollision(nx, ny)
-  if math.abs(nx) == 1 then
-    self.vx = -self.vx
-  end
   if ny == -1 then
     self.vy = 0
   end
@@ -53,6 +50,7 @@ function Entity:moveWithCollisions(dt)
       -- 0 means no collision
       self:changeVelocityByCollision(col.normal.x, col.normal.y)
     end
+    return cols, len
 end
 
 function Entity:update(dt)
