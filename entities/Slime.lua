@@ -33,6 +33,7 @@ function Slime:update(dt)
     end
   end
 
+  -- direction only matters for animation/drawing
   if self.vx > 0 then
     self.direction = -1
   else
