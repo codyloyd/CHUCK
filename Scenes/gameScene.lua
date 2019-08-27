@@ -7,10 +7,11 @@ function scene.new(changeScene)
   -- Instantiate a new ui Element (root)
   table.insert( uiStack, require("Scenes/gameSceneUi").new(uiStack) );
 
+  world = bump.newWorld()
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
   player = require('player')
-  enemies = require('enemies')
+  -- enemies = require('enemies')
   camFunc = require('lib/camera')
   cam = camFunc()
  
@@ -31,7 +32,7 @@ function scene.new(changeScene)
     if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
       gameMap:update(dt)
       player:update(dt)
-      enemies:update(dt)
+      -- enemies:update(dt)
     end
 
 
@@ -56,24 +57,27 @@ function scene.new(changeScene)
     cam:attach()
       gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
       player:draw()
-      enemies:draw()
+      -- enemies:draw()
      
       -- draw collision boxes
       if DEBUG_MODE then
         love.graphics.setColor(.5,0,1)
-        player.rect:draw(fill)
+        -- player.rect:draw(fill)
 
         love.graphics.setColor(.25,.5,1)
-        for i, enemy in pairs(enemies.table) do
-          enemy.rect:draw(fill)
-        end
-        for i, rect in pairs(platforms) do
+        -- for i, enemy in pairs(enemies.table) do
+        --   enemy.rect:draw(fill)
+        -- end
+        local items, len = world:getItems()
+        for i, rect in pairs(items) do
           if rect.jumpThrough then 
             love.graphics.setColor(1,.5,0)
           else
             love.graphics.setColor(1,0,.5)
           end
-          rect:draw(fill)
+          if rect.x and rect.y and rect.width and rect.height then
+            love.graphics.rectangle("line", rect.x, rect.y, rect.width, rect.height)
+          end
         end
       end
 
@@ -118,8 +122,16 @@ function spawnPlatform(x,y,width,height, jumpThrough)
   height = height > 0 and height or 1
   width = width > 0 and width or 1
 
-  local p = HC.rectangle(x,y,width,height) 
-  p.jumpThrough = jumpThrough
+  local p = {
+    name=platform,
+    jumpThrough=jumpThrough,
+    x=x,
+    y=y,
+    width=width,
+    height=height
+  }
+  world:add(p,x,y,width,height)
+
   table.insert(platforms,p)
 end
 

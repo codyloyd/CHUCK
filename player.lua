@@ -4,6 +4,8 @@ player.spriteSheet = love.graphics.newImage('KNIGHT_WHITE.png')
 -- TODO get this info from Tiled so we can put the player wherever.
 player.x = 100
 player.y = 100
+player.width = 8
+player.height = 16
 player.grid = anim8.newGrid(16,16,64,64)
 player.walking = anim8.newAnimation(player.grid('1-4',2), 0.1)
 player.standing = anim8.newAnimation(player.grid('1-4',1), 0.3)
@@ -19,7 +21,7 @@ player.gravity = 790
 player.jumpStrength = 260
 player.shortJumpStrength = 100
 player.maxFallSpeed = 2000
-player.rect = HC.rectangle(0,0,8,16)
+-- player.rect = HC.rectangle(0,0,8,16)
 player.hitTimer = 0
 
 player.jumpCount = 0
@@ -27,10 +29,11 @@ player.jumpCount = 0
 player.powerups = {}
 player.powerups.doubleJump = true
 
+world:add(player,player.x,player.y,player.width,player.height)
+
 function player:setPosition(x ,y)
   self.x = x
   self.y = y
-  self.rect:moveTo(self.x, self.y)
 end
 
 function player:reset()
@@ -108,46 +111,74 @@ function player:update(dt)
   local startx = self.x
   local starty = self.y
 
-  newx = self.x - self.dx * dt
-  newy = self.y - self.dy * dt
-  self:setPosition(newx, newy)
+  goalX = self.x - self.dx * dt
+  goalY = self.y - self.dy * dt
+  local actualX, actualY, cols, len = world:move(player, goalX, goalY)
 
-  for shape, delta in pairs(HC.collisions(self.rect)) do
-    ---bottom collisions
-    if (delta.y < 0 and self.dy < 0) then 
-      local topOfShape = 99999999;
-      local playerBottomBefore = starty + 8;
-      for _, vertex in ipairs(shape._polygon.vertices) do
-        topOfShape = math.min(vertex.y, topOfShape);
-      end
-      if playerBottomBefore > topOfShape then return end
+  function changeVelocityByCollisionNormal(nx, ny, bounciness)
+    bounciness = bounciness or 0
+    local dx, dy = self.dx, self.dy
 
-      self.dy = 0
-      self.y = starty
-      self.grounded = true
+    if (nx < 0 and dx < 0) or (nx > 0 and dx > 0) then
+      dx = -dx * bounciness
     end
 
-    --top collisions
-    if (delta.y > 0 and not shape.jumpThrough) then
-      self.dy = -5
-      self.y = starty + delta.y
+    if (ny < 0 and dy < 0) or (ny > 0 and dy > 0) then
+      dy = -dy * bounciness
     end
 
-    --side collision
-    if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
-      self.dx = 0
-      self.x = startx + delta.x
-    end
-
-    self.rect:moveTo(self.x, self.y)
-
-    for _, e in pairs(enemies.table) do
-      if shape == e.rect then
-        self:takeDamage(delta)
-      end
-    end
-
+    self.dx, self.dy = dx, dy
   end
+
+  function checkIfOnGround(ny)
+    if ny < 0 then self.grounded = true end
+  end
+
+  for i=1,len do
+    local col = cols[i]
+    print(inspect(col))
+    changeVelocityByCollisionNormal(col.normal.x, col.normal.y)
+    checkIfOnGround(col.normal.y)
+  end
+
+  self:setPosition(actualX, actualY)
+
+  --for shape, delta in pairs(HC.collisions(self.rect)) do
+  --  ---bottom collisions
+  --  if (delta.y < 0 and self.dy < 0) then 
+  --    local topOfShape = 99999999;
+  --    local playerBottomBefore = starty + 8;
+  --    for _, vertex in ipairs(shape._polygon.vertices) do
+  --      topOfShape = math.min(vertex.y, topOfShape);
+  --    end
+  --    if playerBottomBefore > topOfShape then return end
+
+  --    self.dy = 0
+  --    self.y = starty
+  --    self.grounded = true
+  --  end
+
+  --  --top collisions
+  --  if (delta.y > 0 and not shape.jumpThrough) then
+  --    self.dy = -5
+  --    self.y = starty + delta.y
+  --  end
+
+  --  --side collision
+  --  if ((delta.x > 0 or delta.x < 0) and not shape.jumpThrough) then
+  --    self.dx = 0
+  --    self.x = startx + delta.x
+  --  end
+
+    -- self.rect:moveTo(self.x, self.y)
+
+    -- for _, e in pairs(enemies.table) do
+    --   if shape == e.rect then
+    --     self:takeDamage(delta)
+    --   end
+    -- end
+
+  -- end
 end
 
 function player:draw()
@@ -155,7 +186,7 @@ function player:draw()
     love.graphics.setColor(1,0,0)
     love.graphics.print("HIT!", self.x, self.y)
   end
-  self.animation:draw(self.spriteSheet,math.floor(self.x),math.ceil(self.y),nil,self.direction,1,8,8)
+  self.animation:draw(self.spriteSheet,math.floor(self.x+4),math.ceil(self.y+8),nil,self.direction,1,8,8)
   love.graphics.setColor(1,1,1)
 end
 
