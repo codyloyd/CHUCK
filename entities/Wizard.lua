@@ -1,12 +1,15 @@
 local class = require('lib/middleclass')
 local Entity = require('entities/Entity')
+local mixins = require('entities/mixins')
 local Wizard = class('Wizard', Entity)
+Wizard:include(mixins.Destructible)
 
 function Wizard:initialize(opts)
   Entity.initialize(self, opts)
   self.vx = 14
   self.w = 8
   self.h = 8
+  self.hp = 3
   self.spritesheet = love.graphics.newImage('assets/WIZARD_WHITE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.2)

@@ -60,14 +60,15 @@ function scene.new(changeScene)
      
       -- draw collision boxes
       if DEBUG_MODE then
-        love.graphics.setColor(.5,0,1)
-        -- player.rect:draw(fill)
-
         love.graphics.setColor(.25,.5,1)
         local items, len = world:getItems()
         for i, rect in pairs(items) do
           if rect.jumpThrough then 
             love.graphics.setColor(1,.5,0)
+          elseif rect == player.attackBox then
+            love.graphics.setColor(.5, 1, 0)
+          elseif rect == player then
+            love.graphics.setColor( .5, .5,  1)
           else
             love.graphics.setColor(1,0,.5)
           end

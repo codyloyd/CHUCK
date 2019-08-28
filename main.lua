@@ -9,6 +9,15 @@ function love.load()
   HC = require('lib/HC')
   bump = require("lib/bump")
   sceneDirector = require("sceneDirector")
+  -- keybinds
+  -- can probably load these from a file 
+  -- or make them editable if we want
+  UP = "up"
+  DOWN = "down"
+  LEFT = "left"
+  RIGHT = "right"
+  JUMP = "c"
+  ATTACK = "x"
 end
 
 function love.update(dt)

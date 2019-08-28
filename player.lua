@@ -5,6 +5,7 @@ local Player = class("Player", Entity)
 function Player:initialize(opts)
   Entity.initialize(self, opts)
   self.hitTimer = 0
+  self.attackTimer = 0
   self.jumpStrength = 260
   self.shortJumpStrength = 100
   self.jumpCount = 0
@@ -21,6 +22,8 @@ function Player:initialize(opts)
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
+  self.attackBox = {x=0, y=0, w=6, h=self.h, noClip=true}
+  world:add(self.attackBox, 0, 0, 6, 16)
 end
 
 local player = Player:new({
@@ -45,6 +48,8 @@ function player.collisionFilter(item, other)
   -- If the platform is jumpthrough-able, and if the players feet are above the top of the platform
   if other.jumpThrough and item.y + item.h > other.y then
     return nil
+  elseif other == player.attackBox then
+    return nil
   else
     return 'slide'
   end
@@ -53,9 +58,13 @@ end
 function player:update(dt)
   self:updateAnimation(dt)
   self:updateGravity(dt)
-  
+
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - dt
+  end
+
+  if self.attackTimer > 0 then
+    self.attackTimer = self.attackTimer - dt
   end
 
   if not (math.abs(self.vy) <= self.gravity * dt) then
@@ -66,21 +75,21 @@ function player:update(dt)
     end
   end
 
-  if love.keyboard.isDown("left") then
+  if love.keyboard.isDown(LEFT) then
     if self.hitTimer <= 0 then
       self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
     end
     self.direction = -1
   end
 
-  if love.keyboard.isDown("right") then
+  if love.keyboard.isDown(RIGHT) then
     if self.hitTimer <= 0 then
       self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
     end
     self.direction = 1
   end
 
-  if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
+  if not love.keyboard.isDown(LEFT) and not love.keyboard.isDown(RIGHT) then
     if self.hitTimer <= 0 then 
       self.vx = self.vx * .9
     end
@@ -100,12 +109,33 @@ function player:update(dt)
     self.animation = self.falling
   end
   
+  if self.attackTimer > 0 then
+    self.animation = self.attacking
+  end
+
   if self.hitTimer > 0 then
     self.animation = self.hurt
   end
 
   if self.grounded then 
     self.jumpCount = 0
+  end
+
+  -- check attackBox
+  if self.attackTimer > 0 then
+    local goalX = self.direction == -1 and self.x - self.attackBox.w or self.x + self.w
+    local goalY = self.y
+    local actualX, actualY, cols, len = world:move(self.attackBox, goalX, goalY, function() return "cross" end)
+    self.attackBox.x = actualX
+    self.attackBox.y = actualY
+    for _, col in pairs(cols) do
+      if (col.other.hp) then
+        col.other:takeDamage()
+      end
+    end
+  else
+    self.attackBox.x, self.attackBox.y = 0, 0
+    world:update(self.attackBox, 0, 0)
   end
 
   local cols, len = self:moveWithCollisions(dt)
@@ -139,10 +169,15 @@ function player:draw()
 end
 
 function player:keypressed(key)
-  if key == "up" and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
+  if key == JUMP and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
     self.vy = self.jumpStrength
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
+  end
+
+  if key == ATTACK then
+    self.attackTimer = .3
+    self.attacking:gotoFrame(1)
   end
 
   if DEBUG_MODE then
@@ -151,7 +186,7 @@ function player:keypressed(key)
 end
 
 function player:keyreleased(key)
-  if key == "up" and not self.grounded then
+  if key == JUMP and not self.grounded then
     if self.vy > self.shortJumpStrength then 
       self.vy = self.shortJumpStrength 
     end

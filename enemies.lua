@@ -26,6 +26,10 @@ table.insert(enemies.table, wiz)
 function enemies:update(dt)
   for i, e in ipairs(self.table) do
     e:update(dt)
+    if e.dead == true then
+      table.remove(enemies.table, i)
+      world:remove(e)
+    end
   end
 end
 

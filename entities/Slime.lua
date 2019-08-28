@@ -1,6 +1,8 @@
 local class = require('lib/middleclass')
 local Entity = require('entities/Entity')
+local mixins = require('entities/mixins')
 local Slime = class('Slime', Entity)
+Slime:include(mixins.Destructible)
 
 function Slime:initialize(opts)
   Entity.initialize(self, opts)
@@ -25,7 +27,7 @@ function Slime:update(dt)
 
   --basic AI: turn around when X collision
   for _, col in pairs(cols) do
-    if math.abs(col.normal.x) == 1 then
+    if not col.other.noCollision and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
     end
     if col.other == player then
