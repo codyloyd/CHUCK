@@ -35,12 +35,16 @@ function Entity:changeVelocityByCollision(nx, ny)
   end
 end
 
+function Entity.collisionFilter(item, other)
+  -- Override this function to change the behavior of collisions on a per-entity basis
+  -- https://github.com/kikito/bump.lua#moving-an-item-in-the-world-with-collision-resolution
+  return 'slide'
+end
+
 function Entity:moveWithCollisions(dt)
     local goalX = self.x - self.vx * dt
     local goalY = self.y - self.vy * dt
-    local actualX, actualY, cols, len = world:move(self, goalX, goalY)
-    self.x = actualX
-    self.y = actualY
+    local actualX, actualY, cols, len = world:move(self, goalX, goalY, self.collisionFilter)
 
     for i=1, len do
       local col = cols[i]
@@ -52,6 +56,10 @@ function Entity:moveWithCollisions(dt)
       -- 0 means no collision
       self:changeVelocityByCollision(col.normal.x, col.normal.y)
     end
+
+    self.x = actualX
+    self.y = actualY
+
     return cols, len
 end
 

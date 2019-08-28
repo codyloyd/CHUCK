@@ -41,6 +41,15 @@ function player:takeDamage(normal)
   end
 end
 
+function player.collisionFilter(item, other)
+  -- If the platform is jumpthrough-able, and if the players feet are above the top of the platform
+  if other.jumpThrough and item.y + item.h > other.y then
+    return nil
+  else
+    return 'slide'
+  end
+end
+
 function player:update(dt)
   self:updateAnimation(dt)
   self:updateGravity(dt)
