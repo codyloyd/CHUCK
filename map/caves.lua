@@ -1,14 +1,15 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.6",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 120,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 78,
+  nextlayerid = 5,
+  nextobjectid = 82,
   properties = {},
   tilesets = {
     {
@@ -19,6 +20,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -40,6 +42,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "Tile Layer 1",
       x = 0,
       y = 0,
@@ -55,6 +58,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 2,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -106,6 +110,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 3,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -449,6 +454,45 @@ return {
           y = 400,
           width = 8,
           height = 40,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 4,
+      name = "powerups",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 80,
+          name = "double-jump",
+          type = "",
+          shape = "rectangle",
+          x = 121.333,
+          y = 318,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 81,
+          name = "wall-jump",
+          type = "",
+          shape = "rectangle",
+          x = 828.042,
+          y = 420.333,
+          width = 0,
+          height = 0,
           rotation = 0,
           visible = true,
           properties = {}
