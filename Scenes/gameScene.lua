@@ -122,7 +122,6 @@ function spawnPlatform(x,y,w,h, jumpThrough)
   w = w > 0 and w or 1
 
   local p = {
-    name=platform,
     jumpThrough=jumpThrough,
     x=x,
     y=y,
