@@ -9,7 +9,7 @@ function Wizard:initialize(opts)
   self.vx = 14
   self.w = 8
   self.h = 8
-  self.hp = 3
+  self.hp = 5
   self.spritesheet = love.graphics.newImage('assets/WIZARD_WHITE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.2)
@@ -50,7 +50,7 @@ function Wizard:update(dt)
       self.vx = -self.vx
     end
     if col.other == player then
-      player:takeDamage(col.normal)
+      player:takeDamage(-col.normal.x)
     end
   end
 

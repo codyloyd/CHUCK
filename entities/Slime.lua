@@ -9,6 +9,7 @@ function Slime:initialize(opts)
   self.vx = 24
   self.w = 8
   self.h = 8
+  self.hp = 2
   self.spritesheet = love.graphics.newImage('assets/SLIME.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',1),.2)
@@ -31,7 +32,12 @@ function Slime:update(dt)
     if not col.other.noClip and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
     end
+
+    if col.other == player then
+      player:takeDamage(-col.normal.x)
+    end
   end
+
 
   -- direction only matters for animation/drawing
   if self.vx > 0 then

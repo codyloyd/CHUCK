@@ -42,16 +42,15 @@ local player = Player:new({
   })
 world:add(player,player.x,player.y,player.w,player.h)
 
-function player:takeDamage(direction)
+function player:takeDamage(normalX)
   if self.invulnerableTimer <= 0 then
     self.hitTimer = 0.2
     self.invulnerableTimer = .6
     self.vy = 80
 
-    -- TODO: Calcualte direction to knockback based on player direction and enemy direction(?)
-
-    -- if direction - self.direction == 
-    -- self.vx = direction > 0 and 300 or -300
+    if math.abs(normalX) > 0 then
+      self.vx = 500 * -normalX
+    end
   end
 end
 
@@ -156,13 +155,16 @@ function player:update(dt)
 
   for _, col in pairs(cols) do
     if col.other.causesDamage then
-      print(inspect(col.other))
-      print(col.other.direction)
-      self:takeDamage(col.other.direction)
+      self:takeDamage(col.normal.x)
     end
 
     if col.normal.y == -1 then
       self.grounded = true
+      self.vy = 0
+    end
+
+    --hit ceiling
+    if col.normal.y == 1 then
       self.vy = 0
     end
 

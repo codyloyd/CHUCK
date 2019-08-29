@@ -7,11 +7,11 @@ mixins.Destructible = {
 
   takeDamage = function(self)
     if self.hitTimer <= 0 then
-      self.hitTimer = .2
+      self.hitTimer = .3
       self.hp = self.hp - 1
-      self.vy = 30
-      print(self.hp)
+      -- TODO knockback
     end
+
     if self.hp <=0 then
       -- :( 
       self.dead = true
@@ -20,7 +20,6 @@ mixins.Destructible = {
 
   destructibleUpdate = function(self, dt)
     if self.hitTimer > 0 then
-      print(self.hp)
       self.hitTimer = self.hitTimer - dt 
     end
   end
