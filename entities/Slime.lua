@@ -31,9 +31,6 @@ function Slime:update(dt)
     if not col.other.noClip and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
     end
-    if col.other == player then
-      player:takeDamage(col.normal)
-    end
   end
 
   -- direction only matters for animation/drawing

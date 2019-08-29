@@ -42,12 +42,16 @@ local player = Player:new({
   })
 world:add(player,player.x,player.y,player.w,player.h)
 
-function player:takeDamage(normal)
+function player:takeDamage(direction)
   if self.invulnerableTimer <= 0 then
     self.hitTimer = 0.2
     self.invulnerableTimer = .6
-    self.vy = -80
-    self.vx = normal.x > 0 and 10 or -10
+    self.vy = 80
+
+    -- TODO: Calcualte direction to knockback based on player direction and enemy direction(?)
+
+    -- if direction - self.direction == 
+    -- self.vx = direction > 0 and 300 or -300
   end
 end
 
@@ -57,9 +61,7 @@ function player.collisionFilter(item, other)
     return nil
   elseif other == player.attackBox then
     return nil
-  -- i.e. is a monster 
-  -- TODO find better way to detect this
-  elseif other.animation then
+  elseif other.causesDamage then
     return 'cross'
   else
     return 'slide'
@@ -71,6 +73,7 @@ function player:update(dt)
   self:updateGravity(dt)
   self.spritesheet = self.knightspritesheet
 
+  -- Timers
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - dt
   end
@@ -87,34 +90,22 @@ function player:update(dt)
     self.attackCooldown = self.attackCooldown - dt
   end
 
-  if not (math.abs(self.vy) <= self.gravity * dt) then
-    self.grounded = false
-
-    if self.jumpCount < 1 then
-      self.jumpCount = 1
-    end
-  end
-
+  -- input handlers
   if love.keyboard.isDown(LEFT) then
-    if self.hitTimer <= 0 then
-      self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
-    end
+    self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
     self.direction = -1
   end
 
   if love.keyboard.isDown(RIGHT) then
-    if self.hitTimer <= 0 then
-      self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
-    end
+    self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
     self.direction = 1
   end
 
   if not love.keyboard.isDown(LEFT) and not love.keyboard.isDown(RIGHT) then
-    if self.hitTimer <= 0 then 
-      self.vx = self.vx * .9
-    end
+    self.vx = self.vx * .9
   end
 
+  -- Update animations
   if math.abs(player.vx) > 50 then
     self.animation = self.walking
   else 
@@ -138,6 +129,7 @@ function player:update(dt)
     self.animation = self.hurt
   end
 
+  --
   if self.grounded then 
     self.jumpCount = 0
   end
@@ -159,15 +151,14 @@ function player:update(dt)
     world:update(self.attackBox, 0, 0)
   end
 
+  -- Handle collisions
   local cols, len = self:moveWithCollisions(dt)
 
   for _, col in pairs(cols) do
-    if math.abs(col.normal.x) == 1 then
-      self.vx = 0
-    end
-
-    if col.normal.y == 1 then
-      self.vy = 0
+    if col.other.causesDamage then
+      print(inspect(col.other))
+      print(col.other.direction)
+      self:takeDamage(col.other.direction)
     end
 
     if col.normal.y == -1 then
@@ -175,9 +166,6 @@ function player:update(dt)
       self.vy = 0
     end
 
-    if col.other.causesDamage then
-      self:takeDamage(col.normal)
-    end
   end
 end
 
