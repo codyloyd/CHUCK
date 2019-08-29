@@ -10,7 +10,7 @@ function Baddie:initialize(opts)
   self.w = 8
   self.h = 8
   self.hp = 4
-  self.spritesheet = love.graphics.newImage('assets/Baddie.png')
+  self.spritesheet = love.graphics.newImage('assets/BADDIE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.2)
   self.standing = anim8.newAnimation(self.animationGrid('1-4',1), 0.3)
