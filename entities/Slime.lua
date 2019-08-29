@@ -23,11 +23,12 @@ function Slime:update(dt)
   -- override Entity.update for custom behavior
   self:updateGravity(dt)
   self:updateAnimation(dt)
+  self:destructibleUpdate(dt)
   local cols, len = self:moveWithCollisions(dt)
 
   --basic AI: turn around when X collision
   for _, col in pairs(cols) do
-    if not col.other.noCollision and math.abs(col.normal.x) == 1 then
+    if not col.other.noClip and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
     end
     if col.other == player then

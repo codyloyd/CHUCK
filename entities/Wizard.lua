@@ -29,6 +29,7 @@ function Wizard:update(dt)
   -- override Entity.update for custom behavior
   self:updateGravity(dt)
   self:updateAnimation(dt)
+  self:destructibleUpdate(dt)
 
   -- check for platform/falling
   local checkXOffset = math.max(self.w * self.direction, -1)
@@ -45,7 +46,7 @@ function Wizard:update(dt)
 
   --basic AI: turn around when X collision
   for _, col in pairs(cols) do
-    if math.abs(col.normal.x) == 1 then
+    if not col.other.noClip and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
     end
     if col.other == player then

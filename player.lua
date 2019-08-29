@@ -5,25 +5,31 @@ local Player = class("Player", Entity)
 function Player:initialize(opts)
   Entity.initialize(self, opts)
   self.hitTimer = 0
+  self.invulnerableTimer = 0
   self.attackTimer = 0
+  self.attackCooldown = 0
   self.jumpStrength = 260
   self.shortJumpStrength = 100
   self.jumpCount = 0
   self.powerups = {
     doubleJump = true
   }
+  self.knightspritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
+  self.knight2spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE2.png')
   self.spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
+  self.animation2Grid = anim8.newGrid(28,16,112,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.1)
   self.standing = anim8.newAnimation(self.animationGrid('1-4',1), 0.3)
   self.jumping = anim8.newAnimation(self.animationGrid('1-1',3), 1)
   self.falling = anim8.newAnimation(self.animationGrid('2-2', 3), 1)
-  self.attacking = anim8.newAnimation(self.animationGrid('1-4', 4), 0.1)
+  self.attacking = anim8.newAnimation(self.animation2Grid('1-4', 4), {0.08,0.05,0.05,1})
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
-  self.attackBox = {x=0, y=0, w=6, h=self.h, noClip=true}
-  world:add(self.attackBox, 0, 0, 6, 16)
+  self.attackBox = {x=0, y=0, w=11, h=self.h, noClip=true}
+  world:add(self.attackBox, 0, 0, 11, 16)
+  self.noClip = true
 end
 
 local player = Player:new({
@@ -37,10 +43,11 @@ local player = Player:new({
 world:add(player,player.x,player.y,player.w,player.h)
 
 function player:takeDamage(normal)
-  if self.hitTimer <= 0 then
+  if self.invulnerableTimer <= 0 then
     self.hitTimer = 0.2
-    self.vy = 80
-    self.vx = normal.x > 0 and 100 or -100
+    self.invulnerableTimer = .6
+    self.vy = -80
+    self.vx = normal.x > 0 and 10 or -10
   end
 end
 
@@ -50,6 +57,10 @@ function player.collisionFilter(item, other)
     return nil
   elseif other == player.attackBox then
     return nil
+  -- i.e. is a monster 
+  -- TODO find better way to detect this
+  elseif other.animation then
+    return 'cross'
   else
     return 'slide'
   end
@@ -58,13 +69,22 @@ end
 function player:update(dt)
   self:updateAnimation(dt)
   self:updateGravity(dt)
+  self.spritesheet = self.knightspritesheet
 
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - dt
   end
 
+  if self.invulnerableTimer > 0 then
+    self.invulnerableTimer = self.invulnerableTimer - dt
+  end
+
   if self.attackTimer > 0 then
     self.attackTimer = self.attackTimer - dt
+  end
+
+  if self.attackCooldown > 0 then
+    self.attackCooldown = self.attackCooldown - dt
   end
 
   if not (math.abs(self.vy) <= self.gravity * dt) then
@@ -110,6 +130,7 @@ function player:update(dt)
   end
   
   if self.attackTimer > 0 then
+    self.spritesheet = self.knight2spritesheet
     self.animation = self.attacking
   end
 
@@ -176,8 +197,11 @@ function player:keypressed(key)
   end
 
   if key == ATTACK then
-    self.attackTimer = .3
-    self.attacking:gotoFrame(1)
+    if self.attackCooldown <= 0 then 
+      self.attackTimer = .3
+      self.attackCooldown = .4
+      self.attacking:gotoFrame(1)
+    end
   end
 
   if DEBUG_MODE then

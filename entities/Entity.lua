@@ -58,7 +58,9 @@ function Entity:moveWithCollisions(dt)
       -- y == 1 is 'top'
       -- y == -1 is 'bottom'
       -- 0 means no collision
-      self:changeVelocityByCollision(col.normal.x, col.normal.y)
+      if not col.other.noClip then
+        self:changeVelocityByCollision(col.normal.x, col.normal.y)
+      end
     end
 
     self.x = actualX
