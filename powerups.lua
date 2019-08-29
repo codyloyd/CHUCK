@@ -17,6 +17,17 @@ for _, p in pairs(gameMap.layers["powerups"].objects) do
   table.insert(powerups.table, spawnPowerup(p.x,p.y, p.name))
 end
 
+function powerups:update(dt) 
+  for i, p in pairs(self.table) do
+    p:update(dt)
+
+    if p.dead then
+      table.remove(powerups.table, i)
+      world:remove(p)
+    end
+  end
+end
+
 function powerups:draw()
   for _, p in pairs(self.table) do
     p:draw()

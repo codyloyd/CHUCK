@@ -36,6 +36,7 @@ function scene.new(changeScene)
       gameMap:update(dt)
       player:update(dt)
       enemies:update(dt)
+      powerups:update(dt)
     end
 
 

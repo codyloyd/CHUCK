@@ -9,7 +9,7 @@ function Player:initialize(opts)
   self.shortJumpStrength = 100
   self.jumpCount = 0
   self.powerups = {
-    doubleJump = true
+    doubleJump = false
   }
   self.spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
@@ -46,6 +46,8 @@ function player.collisionFilter(item, other)
   -- If the platform is jumpthrough-able, and if the players feet are above the top of the platform
   if other.jumpThrough and item.y + item.h > other.y then
     return nil
+  elseif other.class and other.class.name == "Powerup" then
+    return 'cross'
   else
     return 'slide'
   end
@@ -125,6 +127,11 @@ function player:update(dt)
       self.vy = 0
     end
 
+    if col.other.class and col.other.class.name == "Powerup" then
+      self:getPowerup(col.other.name)
+      col.other:collected()
+    end
+
     if col.other.causesDamage then
       self:takeDamage(col.normal)
     end
@@ -160,7 +167,7 @@ function player:keyreleased(key)
 end
 
 function player:getPowerup(type) 
-  if type == "doubleJump" then
+  if type == "double-jump" then
     self.powerups.doubleJump = true
   end
 end
