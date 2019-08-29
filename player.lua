@@ -2,19 +2,37 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(opts)
+function Player:initialize(gameMap)
   Entity.initialize(self, opts)
+
+  -- TODO: spawn via gameMap
+  -- Constants
+  self.x = 100
+  self.y = 100
+  self.w = 8
+  self.h = 16
+  self.maxVx = 150
+  self.maxVy = 2000
+  self.shortJumpStrength = 100
+  self.noClip = true
+
+  -- Timers
   self.hitTimer = 0
   self.invulnerableTimer = 0
   self.knockbackTimer = 0
   self.attackTimer = 0
   self.attackCooldown = 0
   self.jumpStrength = 260
-  self.shortJumpStrength = 100
+
+  -- Counters
   self.jumpCount = 0
+
+
   self.powerups = {
     doubleJump = false
   }
+
+  -- Sprite and Animations
   self.knightspritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
   self.knight2spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE2.png')
   self.spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
@@ -28,23 +46,16 @@ function Player:initialize(opts)
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
+
+  -- Sword attack
   self.attackBox = {x=0, y=0, w=11, h=self.h, noClip=true}
   world:add(self.attackBox, 0, 0, 11, 16)
-  self.noClip = true
 
+  -- Add player to world
   world:add(self, self.x, self.y, self.w, self.h)
 end
 
-local player = Player:new({
-    x = 100,
-    y = 100,
-    w = 8, 
-    h = 16,
-    maxVx = 150,
-    maxVy = 2000,
-  })
-
-function player:takeDamage(other)
+function Player:takeDamage(other)
   if self.invulnerableTimer <= 0 then
     self.hitTimer = 0.2
     self.invulnerableTimer = .6
@@ -55,11 +66,11 @@ function player:takeDamage(other)
   end
 end
 
-function player.collisionFilter(item, other)
+function Player.collisionFilter(item, other)
   -- If the platform is jumpthrough-able, and if the players feet are above the top of the platform
   if other.jumpThrough and item.y + item.h > other.y then
     return nil
-  elseif other == player.attackBox then
+  elseif other == item.attackBox then
     return nil
   elseif other.causesDamage then
     return 'cross'
@@ -70,7 +81,7 @@ function player.collisionFilter(item, other)
   end
 end
 
-function player:update(dt)
+function Player:update(dt)
   self:updateAnimation(dt)
   self:updateGravity(dt)
   self.spritesheet = self.knightspritesheet
@@ -124,7 +135,7 @@ function player:update(dt)
   end
 
   -- Update animations
-  if math.abs(player.vx) > 50 then
+  if math.abs(self.vx) > 50 then
     self.animation = self.walking
   else 
     self.animation = self.standing
@@ -199,7 +210,7 @@ function player:update(dt)
   end
 end
 
-function player:draw()
+function Player:draw()
   if self.hitTimer > 0.1 then
     love.graphics.setColor(1,0.3,0.3)
   end
@@ -207,7 +218,7 @@ function player:draw()
   love.graphics.setColor(1,1,1)
 end
 
-function player:keypressed(key)
+function Player:keypressed(key)
   if key == JUMP and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
     self.vy = self.jumpStrength
     self.grounded = false
@@ -227,7 +238,7 @@ function player:keypressed(key)
   end
 end
 
-function player:keyreleased(key)
+function Player:keyreleased(key)
   if key == JUMP and not self.grounded then
     if self.vy > self.shortJumpStrength then 
       self.vy = self.shortJumpStrength 
@@ -235,10 +246,10 @@ function player:keyreleased(key)
   end
 end
 
-function player:getPowerup(type) 
+function Player:getPowerup(type) 
   if type == "double-jump" then
     self.powerups.doubleJump = true
   end
 end
 
-return player
+return Player
