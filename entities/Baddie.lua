@@ -1,16 +1,16 @@
 local class = require('lib/middleclass')
 local Entity = require('entities/Entity')
 local mixins = require('entities/mixins')
-local Wizard = class('Wizard', Entity)
-Wizard:include(mixins.Destructible)
+local Baddie = class('Baddie', Entity)
+Baddie:include(mixins.Destructible)
 
-function Wizard:initialize(opts)
+function Baddie:initialize(opts)
   Entity.initialize(self, opts)
   self.vx = 14
   self.w = 8
   self.h = 8
-  self.hp = 5
-  self.spritesheet = love.graphics.newImage('assets/WIZARD_WHITE.png')
+  self.hp = 4
+  self.spritesheet = love.graphics.newImage('assets/Baddie.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.2)
   self.standing = anim8.newAnimation(self.animationGrid('1-4',1), 0.3)
@@ -24,7 +24,7 @@ function Wizard:initialize(opts)
   world:add(self, self.x, self.y, self.w, self.h)
 end
 
-function Wizard:update(dt)
+function Baddie:update(dt)
   -- just call Entity.update for default behavior
   -- Entity.update(self, dt)
 
@@ -70,4 +70,4 @@ function Wizard:update(dt)
   end
 end
 
-return Wizard
+return Baddie

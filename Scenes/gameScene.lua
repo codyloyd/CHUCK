@@ -10,8 +10,12 @@ function scene.new(changeScene)
   world = bump.newWorld()
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
+
+  -- Entities
   player = require('player')
   enemies = require('enemies')
+  powerups = require('powerups')
+
   camFunc = require('lib/camera')
   cam = camFunc()
  
@@ -32,6 +36,7 @@ function scene.new(changeScene)
       gameMap:update(dt)
       player:update(dt)
       enemies:update(dt)
+      powerups:update(dt)
     end
 
 
@@ -55,6 +60,7 @@ function scene.new(changeScene)
     love.graphics.scale(3)
     cam:attach()
       gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
+      powerups:draw()
       player:draw()
       enemies:draw()
      
@@ -117,20 +123,19 @@ function scene.new(changeScene)
   return self
 end
 
-function spawnPlatform(x,y,width,height, jumpThrough)
+function spawnPlatform(x,y,w,h, jumpThrough)
   -- height 0 breaks it.. so if height happens to be 0, change it to 1
-  height = height > 0 and height or 1
-  width = width > 0 and width or 1
+  h = h > 0 and h or 1
+  w = w > 0 and w or 1
 
   local p = {
-    name=platform,
     jumpThrough=jumpThrough,
     x=x,
     y=y,
-    width=width,
-    height=height
+    w=w,
+    h=h
   }
-  world:add(p,x,y,width,height)
+  world:add(p,x,y,w,h)
 
   table.insert(platforms,p)
 end

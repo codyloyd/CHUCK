@@ -12,7 +12,7 @@ function Player:initialize(opts)
   self.shortJumpStrength = 100
   self.jumpCount = 0
   self.powerups = {
-    doubleJump = true
+    doubleJump = false
   }
   self.knightspritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
   self.knight2spritesheet = love.graphics.newImage('assets/KNIGHT_WHITE2.png')
@@ -30,6 +30,8 @@ function Player:initialize(opts)
   self.attackBox = {x=0, y=0, w=11, h=self.h, noClip=true}
   world:add(self.attackBox, 0, 0, 11, 16)
   self.noClip = true
+
+  world:add(self, self.x, self.y, self.w, self.h)
 end
 
 local player = Player:new({
@@ -40,7 +42,6 @@ local player = Player:new({
     maxVx = 150,
     maxVy = 2000,
   })
-world:add(player,player.x,player.y,player.w,player.h)
 
 function player:takeDamage(normalX)
   if self.invulnerableTimer <= 0 then
@@ -61,6 +62,8 @@ function player.collisionFilter(item, other)
   elseif other == player.attackBox then
     return nil
   elseif other.causesDamage then
+    return 'cross'
+  elseif other.class and other.class.name == "Powerup" then
     return 'cross'
   else
     return 'slide'
@@ -168,6 +171,15 @@ function player:update(dt)
       self.vy = 0
     end
 
+    if col.other.class and col.other.class.name == "Powerup" then
+      self:getPowerup(col.other.name)
+      col.other:collected()
+    end
+
+    if col.other.causesDamage then
+      self:takeDamage(col.normal)
+    end
+
   end
 end
 
@@ -208,7 +220,7 @@ function player:keyreleased(key)
 end
 
 function player:getPowerup(type) 
-  if type == "doubleJump" then
+  if type == "double-jump" then
     self.powerups.doubleJump = true
   end
 end

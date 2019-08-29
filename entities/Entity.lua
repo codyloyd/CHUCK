@@ -19,6 +19,7 @@ function Entity:initialize(opts)
   self.gravity = opts and opts.gravity or 790 
   self.grounded = opts and opts.grounded or false
   self.causesDamage = opts and opts.causesDamage or true
+  self.dead = false
 end
 
 function Entity:updateAnimation(dt)

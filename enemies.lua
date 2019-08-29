@@ -2,6 +2,7 @@ local enemies = {}
 enemies.table = {}
 local Slime = require("entities/Slime")
 local Wizard = require("entities/Wizard")
+local Baddie = require("entities/Baddie")
 
 function spawnEnemy(x,y,direction)
   local slime = Slime:new({
@@ -9,8 +10,6 @@ function spawnEnemy(x,y,direction)
       y = y,
     })
 
-  -- maybe this should/could be in the initialize funciton?
-  world:add(slime, slime.x, slime.y, slime.w, slime.h)
   return slime
 end 
 
@@ -20,8 +19,10 @@ for i, e in pairs(gameMap.layers["enemies"].objects) do
 end
 
 local wiz = Wizard:new({x=650, y=100})
-world:add(wiz, wiz.x, wiz.y, wiz.w, wiz.h)
 table.insert(enemies.table, wiz)
+
+local baddie = Baddie:new({x=550, y=100})
+table.insert(enemies.table, baddie)
 
 function enemies:update(dt)
   for i, e in ipairs(self.table) do
