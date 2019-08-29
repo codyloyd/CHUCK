@@ -104,7 +104,7 @@ function player:update(dt)
   end
 
   if not love.keyboard.isDown(LEFT) and not love.keyboard.isDown(RIGHT) then
-    self.vx = self.vx * .9
+    self.vx = self.vx * .6
   end
 
   -- Update animations
