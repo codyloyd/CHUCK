@@ -43,15 +43,14 @@ local player = Player:new({
     maxVy = 2000,
   })
 
-function player:takeDamage(normalX)
+function player:takeDamage(other)
   if self.invulnerableTimer <= 0 then
     self.hitTimer = 0.2
     self.invulnerableTimer = .6
     self.vy = 80
 
-    if math.abs(normalX) > 0 then
-      self.vx = 500 * -normalX
-    end
+    local direction = other.x > self.x and 1 or -1
+    self.vx = 500 * direction
   end
 end
 
@@ -71,6 +70,9 @@ function player.collisionFilter(item, other)
 end
 
 function player:update(dt)
+  if self.vx > 2 then
+    print(self.vx, self.vy)
+  end
   self:updateAnimation(dt)
   self:updateGravity(dt)
   self.spritesheet = self.knightspritesheet
@@ -94,17 +96,29 @@ function player:update(dt)
 
   -- input handlers
   if love.keyboard.isDown(LEFT) then
-    self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
+    if self.hitTimer <= 0 then
+      self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
+    else
+      self.vx = self.vx * .9
+    end
     self.direction = -1
   end
 
   if love.keyboard.isDown(RIGHT) then
-    self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
+    if self.hitTimer <= 0 then
+      self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
+    else
+      self.vx = self.vx * .9
+    end
     self.direction = 1
   end
 
   if not love.keyboard.isDown(LEFT) and not love.keyboard.isDown(RIGHT) then
-    self.vx = self.vx * .6
+    if self.hitTimer <= 0 then
+      self.vx = self.vx * .6
+    else
+      self.vx = self.vx * .9
+    end
   end
 
   -- Update animations
@@ -138,14 +152,14 @@ function player:update(dt)
 
   -- check attackBox
   if self.attackTimer > 0 then
-    local goalX = self.direction == -1 and self.x - self.attackBox.w or self.x + self.w
+    local goalX = self.direction == -1 and self.x - self.attackBox.w + 2 or self.x + self.w - 2
     local goalY = self.y
     local actualX, actualY, cols, len = world:move(self.attackBox, goalX, goalY, function() return "cross" end)
     self.attackBox.x = actualX
     self.attackBox.y = actualY
     for _, col in pairs(cols) do
       if (col.other.hp) then
-        col.other:takeDamage()
+        col.other:takeDamage(self.direction)
       end
     end
   else
@@ -158,7 +172,7 @@ function player:update(dt)
 
   for _, col in pairs(cols) do
     if col.other.causesDamage then
-      self:takeDamage(col.normal.x)
+      self:takeDamage(col.other)
     end
 
     if col.normal.y == -1 then
@@ -175,11 +189,6 @@ function player:update(dt)
       self:getPowerup(col.other.name)
       col.other:collected()
     end
-
-    if col.other.causesDamage then
-      self:takeDamage(col.normal)
-    end
-
   end
 end
 
@@ -200,7 +209,7 @@ function player:keypressed(key)
 
   if key == ATTACK then
     if self.attackCooldown <= 0 then 
-      self.attackTimer = .3
+      self.attackTimer = .25
       self.attackCooldown = .4
       self.attacking:gotoFrame(1)
     end

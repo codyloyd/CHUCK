@@ -8,6 +8,7 @@ function Entity:initialize(opts)
   self.y = opts and opts.y or 0
   self.w = opts and opts.w or 16
   self.h = opts and opts.h or 16 
+  self.walkingSpeed = opts and opts.walkingSpeed or 24
   self.vx = opts and opts.vx or 0
   self.vy = opts and opts.vy or 0
   self.maxVx = opts and opts.maxVx or 100

@@ -9,11 +9,12 @@ function Slime:initialize(opts)
   self.vx = 24
   self.w = 8
   self.h = 8
-  self.hp = 2
+  self.hp = 6
   self.spritesheet = love.graphics.newImage('assets/SLIME.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',1),.2)
   self.falling = anim8.newAnimation(self.animationGrid('2-2',3),.2)
+  self.hurt = anim8.newAnimation(self.animationGrid('3-3',3),.2)
   self.animation = self.walking
 
   world:add(self, self.x, self.y, self.w, self.h)
@@ -26,17 +27,19 @@ function Slime:update(dt)
   -- override Entity.update for custom behavior
   self:updateGravity(dt)
   self:updateAnimation(dt)
-  self:destructibleUpdate(dt)
+
+
+  if math.abs(self.vx) > self.walkingSpeed then
+    local multiplier = self.vx > 0 and 1 or -1
+    self.vx = math.max(self.walkingSpeed, math.abs(self.vx) - (math.abs(self.vx) * 39 * dt)) * multiplier
+  end
+
   local cols, len = self:moveWithCollisions(dt)
 
   --basic AI: turn around when X collision
   for _, col in pairs(cols) do
     if not col.other.noClip and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
-    end
-
-    if col.other == player then
-      player:takeDamage(-col.normal.x)
     end
   end
 
@@ -50,6 +53,13 @@ function Slime:update(dt)
 
   if self.vy < -1 then
     self.animation = self.falling
+  else
+    self.animation = self.walking
+  end
+
+  if self.hitTimer > 0 then
+    self.hitTimer = self.hitTimer - dt
+    self.animation = self.hurt
   else
     self.animation = self.walking
   end

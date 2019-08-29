@@ -31,17 +31,23 @@ function Wizard:update(dt)
   -- override Entity.update for custom behavior
   self:updateGravity(dt)
   self:updateAnimation(dt)
-  self:destructibleUpdate(dt)
+  
+  if math.abs(self.vx) > self.walkingSpeed then
+    local multiplier = self.vx > 0 and 1 or -1
+    self.vx = math.max(self.walkingSpeed, math.abs(self.vx) - (math.abs(self.vx) * 39 * dt)) * multiplier
+  end
 
   -- check for platform/falling
-  local checkXOffset = math.max(self.w * self.direction, -1)
-  local checkX = self.x + checkXOffset
-  local checkY = self.y + self.h + 1
-  local items, len = world:queryPoint(checkX, checkY)
+  if self.hitTimer <= 0 then 
+    local checkXOffset = math.max(self.w * self.direction, -1)
+    local checkX = self.x + checkXOffset
+    local checkY = self.y + self.h + 1
+    local items, len = world:queryPoint(checkX, checkY)
 
-  -- turn around instead of falling off platform
-  if len == 0 then
-    self.vx = -self.vx
+    -- turn around instead of falling off platform
+    if len == 0 then
+      self.vx = -self.vx
+    end
   end
 
   local cols, len = self:moveWithCollisions(dt)
@@ -50,9 +56,6 @@ function Wizard:update(dt)
   for _, col in pairs(cols) do
     if not col.other.noClip and math.abs(col.normal.x) == 1 then
       self.vx = -self.vx
-    end
-    if col.other == player then
-      player:takeDamage(-col.normal.x)
     end
   end
 
@@ -65,6 +68,13 @@ function Wizard:update(dt)
 
   if self.vy < -1 then
     self.animation = self.falling
+  else
+    self.animation = self.walking
+  end
+
+  if self.hitTimer > 0 then
+    self.hitTimer = self.hitTimer - dt
+    self.animation = self.hurt
   else
     self.animation = self.walking
   end
