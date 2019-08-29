@@ -10,8 +10,12 @@ function scene.new(changeScene)
   world = bump.newWorld()
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
+
+  -- Entities
   player = require('player')
   enemies = require('enemies')
+  powerups = require('powerups')
+
   camFunc = require('lib/camera')
   cam = camFunc()
  
@@ -55,6 +59,7 @@ function scene.new(changeScene)
     love.graphics.scale(3)
     cam:attach()
       gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
+      powerups:draw()
       player:draw()
       enemies:draw()
      
