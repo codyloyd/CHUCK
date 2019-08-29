@@ -3,7 +3,7 @@ local class = require('lib/middleclass')
 local Entity = class('Entity')
 
 -- options is a table
-function Entity:initialize(opts)
+function Entity:initialize(opts, world)
   self.x = opts and opts.x or 0
   self.y = opts and opts.y or 0
   self.w = opts and opts.w or 16
@@ -21,6 +21,8 @@ function Entity:initialize(opts)
   self.grounded = opts and opts.grounded or false
   self.causesDamage = opts and opts.causesDamage or true
   self.dead = false
+
+  self.world = world
 end
 
 function Entity:updateAnimation(dt)
@@ -50,7 +52,7 @@ end
 function Entity:moveWithCollisions(dt)
     local goalX = self.x - self.vx * dt
     local goalY = self.y - self.vy * dt
-    local actualX, actualY, cols, len = world:move(self, goalX, goalY, self.collisionFilter)
+    local actualX, actualY, cols, len = self.world:move(self, goalX, goalY, self.collisionFilter)
 
     for i=1, len do
       local col = cols[i]

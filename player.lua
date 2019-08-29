@@ -2,8 +2,8 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(gameMap)
-  Entity.initialize(self, opts)
+function Player:initialize(gameMap, world)
+  Entity.initialize(self, opts, world)
 
   -- TODO: spawn via gameMap
   -- Constants
@@ -47,12 +47,13 @@ function Player:initialize(gameMap)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
 
+  self.world = world
   -- Sword attack
   self.attackBox = {x=0, y=0, w=11, h=self.h, noClip=true}
-  world:add(self.attackBox, 0, 0, 11, 16)
+  self.world:add(self.attackBox, 0, 0, 11, 16)
 
   -- Add player to world
-  world:add(self, self.x, self.y, self.w, self.h)
+  self.world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Player:takeDamage(other)
@@ -167,7 +168,7 @@ function Player:update(dt)
   if self.attackTimer > 0 then
     local goalX = self.direction == -1 and self.x - self.attackBox.w + 2 or self.x + self.w - 2
     local goalY = self.y
-    local actualX, actualY, cols, len = world:move(self.attackBox, goalX, goalY, function() return "cross" end)
+    local actualX, actualY, cols, len = self.world:move(self.attackBox, goalX, goalY, function() return "cross" end)
     self.attackBox.x = actualX
     self.attackBox.y = actualY
     for _, col in pairs(cols) do
@@ -182,7 +183,7 @@ function Player:update(dt)
     end
   else
     self.attackBox.x, self.attackBox.y = 0, 0
-    world:update(self.attackBox, 0, 0)
+    self.world:update(self.attackBox, 0, 0)
   end
 
   -- Handle collisions

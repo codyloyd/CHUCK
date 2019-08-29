@@ -4,8 +4,8 @@ local mixins = require('entities/mixins')
 local Slime = class('Slime', Entity)
 Slime:include(mixins.Destructible)
 
-function Slime:initialize(opts)
-  Entity.initialize(self, opts)
+function Slime:initialize(opts, world)
+  Entity.initialize(self, opts, world)
   self.vx = 24
   self.w = 8
   self.h = 8

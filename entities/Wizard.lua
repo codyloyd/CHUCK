@@ -4,8 +4,8 @@ local mixins = require('entities/mixins')
 local Wizard = class('Wizard', Entity)
 Wizard:include(mixins.Destructible)
 
-function Wizard:initialize(opts)
-  Entity.initialize(self, opts)
+function Wizard:initialize(opts, world)
+  Entity.initialize(self, opts, world)
   self.vx = 14
   self.w = 8
   self.h = 8
@@ -21,7 +21,9 @@ function Wizard:initialize(opts)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
 
-  world:add(self, self.x, self.y, self.w, self.h)
+  self.world = world
+
+  self.world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Wizard:update(dt)
@@ -42,7 +44,7 @@ function Wizard:update(dt)
     local checkXOffset = math.max(self.w * self.direction, -1)
     local checkX = self.x + checkXOffset
     local checkY = self.y + self.h + 1
-    local items, len = world:queryPoint(checkX, checkY)
+    local items, len = self.world:queryPoint(checkX, checkY)
 
     -- turn around instead of falling off platform
     if len == 0 then

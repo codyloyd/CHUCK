@@ -3,18 +3,17 @@ local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
   GAME_SCENE = require("Scenes/gameScene"),
-  END_SCENE = require("Scenes/endScene")
+  -- END_SCENE = require("Scenes/endScene")
 }
 
 function changeScene(sceneName) 
-  currentScene = scenes[sceneName].new(changeScene)
-  currentScene:init()
+  currentScene = scenes[sceneName]:new(changeScene)
 end
 
 changeScene("START_SCENE")
 
 function sceneDirector.draw() 
-  currentScene.draw()
+  currentScene:draw()
 end
 
 function sceneDirector.update(dt) 

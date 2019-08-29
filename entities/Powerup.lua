@@ -3,7 +3,7 @@ local Entity = require("entities/Entity")
 
 local Powerup = class("Powerup", Entity)
 
-function Powerup:initialize(opts)
+function Powerup:initialize(opts, world)
   Entity.initialize(self, opts)
 
   self.w = 5
