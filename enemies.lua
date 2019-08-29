@@ -1,10 +1,12 @@
-local enemies = {}
-enemies.table = {}
+local class = require("lib/middleclass")
+
 local Slime = require("entities/Slime")
 local Wizard = require("entities/Wizard")
 local Baddie = require("entities/Baddie")
 
-function spawnEnemy(x,y,direction)
+local EnemySpawner = class("Enemies")
+
+local function spawnEnemy(x,y,direction)
   local slime = Slime:new({
       x = x,
       y = y,
@@ -13,32 +15,36 @@ function spawnEnemy(x,y,direction)
   return slime
 end 
 
--- loads enemies from tilemap into table
-for i, e in pairs(gameMap.layers["enemies"].objects) do
-  table.insert(enemies.table, spawnEnemy(e.x, e.y))
+function EnemySpawner:initialize(gameMap) 
+  self.enemies = {}
+
+  -- loads enemies from tilemap into table
+  for i, e in pairs(gameMap.layers["enemies"].objects) do
+    table.insert(self.enemies, spawnEnemy(e.x, e.y))
+  end
+
+  local wiz = Wizard:new({x=650, y=100})
+  table.insert(self.enemies, wiz)
+
+  local baddie = Baddie:new({x=550, y=100})
+  table.insert(self.enemies, baddie)
 end
 
-local wiz = Wizard:new({x=650, y=100})
-table.insert(enemies.table, wiz)
-
-local baddie = Baddie:new({x=550, y=100})
-table.insert(enemies.table, baddie)
-
-function enemies:update(dt)
-  for i, e in ipairs(self.table) do
+function EnemySpawner:update(dt)
+  for i, e in ipairs(self.enemies) do
     e:update(dt)
     if e.dead == true then
-      table.remove(enemies.table, i)
+      table.remove(self.enemies, i)
       world:remove(e)
     end
   end
 end
 
-function enemies:draw()
-  for i, e in ipairs(self.table) do
+function EnemySpawner:draw()
+  for i, e in ipairs(self.enemies) do
     e.animation:draw(e.spritesheet,math.ceil(e.x + e.w/2),math.ceil(e.y),nil,e.direction,1,8,8)
   end
 end
 
 
-return enemies
+return EnemySpawner
