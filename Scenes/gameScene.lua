@@ -10,6 +10,10 @@ function scene.new(changeScene)
   world = bump.newWorld()
   sti = require('lib/sti')
   gameMap = sti("map/caves.lua", {"box2d"})
+  local mapW = gameMap.layers.background.width
+  local mapH = gameMap.layers.background.height
+  local mapTileW = 8
+  local mapTileH = 8
 
   -- Entities
   player = require('player')
@@ -41,12 +45,15 @@ function scene.new(changeScene)
 
 
     -- moves the camera
+    -- this all goes to hell if you change the scale in the draw function <3
     local camX = player.x + love.graphics.getWidth()/3;
     local camY = player.y + love.graphics.getHeight()/3;
-    if camX < 400 then camX = 400 end
-    if camY < 300 then camY = 300 end
-    if camY > 2048 - 200 then camY = 2048- 200 end 
-    if camX > 6400 - 300 then camX = 6400 - 300 end
+    local halfW = love.graphics.getWidth()/2
+    local halfH = love.graphics.getHeight()/2
+    if camX < halfW then camX = halfW end
+    if camY < halfH then camY = halfH end
+    if camX > mapW*mapTileW + halfW/3 then camX = mapW*mapTileW + halfW/3 end
+    if camY > mapH*mapTileH + halfH/3 then camY = mapH*mapTileH + halfH/3 end
     cameraWindowSize = 7
     local xmin = love.graphics.getWidth()/2 - cameraWindowSize 
     local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
@@ -59,10 +66,11 @@ function scene.new(changeScene)
     -- everything that should track with the camera goes in here
     love.graphics.scale(3)
     cam:attach()
-      gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
+      gameMap:drawLayer(gameMap.layers["background"])
       powerups:draw()
       player:draw()
       enemies:draw()
+      gameMap:drawLayer(gameMap.layers["foreground"])
      
       -- draw collision boxes
       if DEBUG_MODE then
