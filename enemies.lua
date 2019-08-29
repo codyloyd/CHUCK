@@ -4,7 +4,7 @@ local Slime = require("entities/Slime")
 local Wizard = require("entities/Wizard")
 local Baddie = require("entities/Baddie")
 
-local EnemySpawner = class("Enemies")
+local EnemySpawner = class("EnemieSpawner")
 
 local function spawnEnemy(x,y,direction)
   local slime = Slime:new({

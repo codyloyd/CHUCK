@@ -1,3 +1,6 @@
+local EnemySpawner = require("enemies")
+local PowerupSpawner = require('powerups')
+local Player = require('player')
 local scene = {}
 
 function scene.new(changeScene)
@@ -12,9 +15,9 @@ function scene.new(changeScene)
   gameMap = sti("map/caves.lua", {"box2d"})
 
   -- Entities
-  player = require('player')
-  enemies = require('enemies')
-  powerups = require('powerups')
+  enemies = EnemySpawner:new(gameMap)
+  powerups = PowerupSpawner:new(gameMap)
+  player = Player:new(gameMap)
 
   camFunc = require('lib/camera')
   cam = camFunc()

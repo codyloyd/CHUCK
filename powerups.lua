@@ -1,9 +1,9 @@
-local powerups = {}
-powerups.table = {}
-
+local class = require("lib/middleclass")
 local Powerup = require("entities/Powerup")
 
-function spawnPowerup(x,y, name)
+local PowerupSpawner = class("PowerupSpawner")
+
+local function spawnPowerup(x,y, name)
   local powerup = Powerup:new({
     x=x,
     y=y,
@@ -13,25 +13,29 @@ function spawnPowerup(x,y, name)
   return powerup
 end
 
-for _, p in pairs(gameMap.layers["powerups"].objects) do
-  table.insert(powerups.table, spawnPowerup(p.x,p.y, p.name))
+function PowerupSpawner:initialize(gameMap)
+  self.powerups = {}
+
+  for _, p in pairs(gameMap.layers["powerups"].objects) do
+    table.insert(self.powerups, spawnPowerup(p.x,p.y, p.name))
+  end
 end
 
-function powerups:update(dt) 
-  for i, p in pairs(self.table) do
+function PowerupSpawner:update(dt) 
+  for i, p in pairs(self.powerups) do
     p:update(dt)
 
     if p.dead then
-      table.remove(powerups.table, i)
+      table.remove(self.powerups, i)
       world:remove(p)
     end
   end
 end
 
-function powerups:draw()
-  for _, p in pairs(self.table) do
+function PowerupSpawner:draw()
+  for _, p in pairs(self.powerups) do
     p:draw()
   end
 end
 
-return powerups
+return PowerupSpawner
