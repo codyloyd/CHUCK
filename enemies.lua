@@ -2,6 +2,7 @@ local enemies = {}
 enemies.table = {}
 local Slime = require("entities/Slime")
 local Wizard = require("entities/Wizard")
+local Baddie = require("entities/Baddie")
 
 function spawnEnemy(x,y,direction)
   local slime = Slime:new({
@@ -22,6 +23,10 @@ end
 local wiz = Wizard:new({x=650, y=100})
 world:add(wiz, wiz.x, wiz.y, wiz.w, wiz.h)
 table.insert(enemies.table, wiz)
+
+local baddie = Baddie:new({x=550, y=100})
+world:add(baddie, baddie.x, baddie.y, baddie.w, baddie.h)
+table.insert(enemies.table, baddie)
 
 function enemies:update(dt)
   for i, e in ipairs(self.table) do
