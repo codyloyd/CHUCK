@@ -17,6 +17,8 @@ function Wizard:initialize(opts)
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
+
+  world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Wizard:update(dt)

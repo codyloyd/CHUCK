@@ -12,6 +12,8 @@ function Slime:initialize(opts)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',1),.2)
   self.falling = anim8.newAnimation(self.animationGrid('2-2',3),.2)
   self.animation = self.walking
+
+  world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Slime:update(dt)

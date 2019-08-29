@@ -10,8 +10,6 @@ function spawnEnemy(x,y,direction)
       y = y,
     })
 
-  -- maybe this should/could be in the initialize funciton?
-  world:add(slime, slime.x, slime.y, slime.w, slime.h)
   return slime
 end 
 
@@ -21,7 +19,6 @@ for i, e in pairs(gameMap.layers["enemies"].objects) do
 end
 
 local wiz = Wizard:new({x=650, y=100})
-world:add(wiz, wiz.x, wiz.y, wiz.w, wiz.h)
 table.insert(enemies.table, wiz)
 
 local baddie = Baddie:new({x=550, y=100})
