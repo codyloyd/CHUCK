@@ -6,6 +6,7 @@ function Player:initialize(opts)
   Entity.initialize(self, opts)
   self.hitTimer = 0
   self.invulnerableTimer = 0
+  self.knockbackTimer = 0
   self.attackTimer = 0
   self.attackCooldown = 0
   self.jumpStrength = 260
@@ -70,9 +71,6 @@ function player.collisionFilter(item, other)
 end
 
 function player:update(dt)
-  if self.vx > 2 then
-    print(self.vx, self.vy)
-  end
   self:updateAnimation(dt)
   self:updateGravity(dt)
   self.spritesheet = self.knightspritesheet
@@ -80,6 +78,10 @@ function player:update(dt)
   -- Timers
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - dt
+  end
+
+  if self.knockbackTimer > 0 then 
+    self.knockbackTimer = self.knockbackTimer - dt
   end
 
   if self.invulnerableTimer > 0 then
@@ -96,7 +98,7 @@ function player:update(dt)
 
   -- input handlers
   if love.keyboard.isDown(LEFT) then
-    if self.hitTimer <= 0 then
+    if self.hitTimer <= 0  and self.knockbackTimer <= 0 then
       self.vx = math.min(self.vx + 16 * self.maxVx * dt, self.maxVx)
     else
       self.vx = self.vx * .9
@@ -105,7 +107,7 @@ function player:update(dt)
   end
 
   if love.keyboard.isDown(RIGHT) then
-    if self.hitTimer <= 0 then
+    if self.hitTimer <= 0 and self.knockbackTimer <= 0 then
       self.vx = math.max(self.vx - 16 * self.maxVx * dt, -self.maxVx)
     else
       self.vx = self.vx * .9
@@ -114,7 +116,7 @@ function player:update(dt)
   end
 
   if not love.keyboard.isDown(LEFT) and not love.keyboard.isDown(RIGHT) then
-    if self.hitTimer <= 0 then
+    if self.hitTimer <= 0 and self.knockbackTimer <= 0 then
       self.vx = self.vx * .6
     else
       self.vx = self.vx * .9
@@ -160,6 +162,11 @@ function player:update(dt)
     for _, col in pairs(cols) do
       if (col.other.hp) then
         col.other:takeDamage(self.direction)
+
+        -- knockback self if hit enemy
+        local direction = col.other.x > self.x and 1 or -1
+        self.vx = 100 * direction
+        self.knockbackTimer = .08
       end
     end
   else
