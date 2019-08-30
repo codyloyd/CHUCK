@@ -78,11 +78,11 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup color="#03c700" id="4" name="powerups" visible="0" locked="1">
+ <objectgroup color="#03c700" id="4" name="powerups" locked="1">
   <object id="80" name="double-jump" x="448.453" y="724.812"/>
   <object id="81" name="wall-jump" x="828.042" y="420.333"/>
  </objectgroup>
- <objectgroup color="#0000ff" id="5" name="spawn" locked="1">
-  <object id="82" name="player" x="827.333" y="632.667"/>
+ <objectgroup color="#0000ff" id="5" name="spawn">
+  <object id="82" name="player" x="819.538" y="632.348"/>
  </objectgroup>
 </map>

@@ -14,6 +14,7 @@ function Player:initialize(gameMap, world)
   self.maxVx = 150
   self.maxVy = 2000
   self.shortJumpStrength = 100
+  self.wallJumpPower = 400
   self.noClip = true
 
   -- Timers
@@ -29,8 +30,12 @@ function Player:initialize(gameMap, world)
 
 
   self.powerups = {
-    doubleJump = false
+    doubleJump = false,
+    wallJump = false
   }
+
+  self.wallSliding = false
+  self.wallJumpDirection = 0
 
   -- Sprite and Animations
   self.knightspritesheet = love.graphics.newImage('assets/KNIGHT_WHITE.png')
@@ -189,6 +194,13 @@ function Player:update(dt)
   -- Handle collisions
   local cols, len = self:moveWithCollisions(dt)
 
+  -- if no collisions, set everything to default
+  if len < 1 then
+    self.wallSliding = false
+    self.grounded = false
+    self.gravity = 790
+  end
+
   for _, col in pairs(cols) do
     if col.other.causesDamage then
       self:takeDamage(col.other)
@@ -202,6 +214,30 @@ function Player:update(dt)
     --hit ceiling
     if col.normal.y == 1 then
       self.vy = 0
+    end
+
+    -- Walljump
+    if self.powerups.wallJump                -- Check if player has walljump, 
+    and not self.grounded                    -- and not if grounded
+    and col.other.class.name == "Platform"   -- the other is a platform, 
+    and not col.other.jumpThrough            -- but not a jumpthrough, 
+    and col.normal.y == 0                    -- and not hitting head, 
+    and self.vy < 0                          -- and not moving upwards
+    and math.abs(col.move.x) > 1.5           -- and moving into platform | TODO: calculate off vx maybe?
+    then
+      -- Set vy to zero on initial contact
+      if not self.wallSliding then
+        self.vy = 0
+      end
+
+      self.jumpCount = 0
+      self.wallSliding = true
+
+      -- Changing gravity to simulate friction against wall
+      self.gravity = 50
+    else 
+      self.wallSliding = false
+      self.gravity = 790
     end
 
     if col.other.class and col.other.class.name == "Powerup" then
@@ -220,7 +256,16 @@ function Player:draw()
 end
 
 function Player:keypressed(key)
-  if key == JUMP and (self.grounded or (self.powerups.doubleJump and self.jumpCount < 2)) then
+  if key == JUMP and ((self.grounded or self.wallSliding) or (self.powerups.doubleJump and self.jumpCount < 2)) then
+    if self.wallSliding then 
+      if love.keyboard.isDown(LEFT) then
+        self.wallJumpDirection = -1
+        self.vx = -self.wallJumpPower
+      else
+        self.wallJumpDirection = 1
+        self.vx = self.wallJumpPower
+      end
+    end
     self.vy = self.jumpStrength
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
@@ -244,12 +289,20 @@ function Player:keyreleased(key)
     if self.vy > self.shortJumpStrength then 
       self.vy = self.shortJumpStrength 
     end
+
+    if self.wallJumpDirection ~= 0 then
+      self.vx = 0
+    end
+
+    self.wallJumpDirection = 0
   end
 end
 
 function Player:getPowerup(type) 
   if type == "double-jump" then
     self.powerups.doubleJump = true
+  elseif type == "wall-jump" then
+    self.powerups.wallJump = true
   end
 end
 
