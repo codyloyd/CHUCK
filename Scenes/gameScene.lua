@@ -17,7 +17,7 @@ function GameScene:initialize(changeSceneCallback)
   table.insert( self.uiStack, require("Scenes/gameSceneUi").new(uiStack) );
 
   self.world = bump.newWorld()
-  self.gameMap = sti("map/caves.lua", {"box2d"})
+  self.gameMap = sti("map/caves2.lua", {"box2d"})
 
   -- Entities
   self.enemies = EnemySpawner:new(self.gameMap, self.world)
@@ -65,7 +65,7 @@ function GameScene:update(dt)
   if camY < halfH then camY = halfH end
   if camX > mapW + halfW/3 then camX = mapW + halfW/3 end
   if camY > mapH + halfH/3 then camY = mapH + halfH/3 end
-  cameraWindowSize = 7
+  cameraWindowSize = 3
   local xmin = love.graphics.getWidth()/2 - cameraWindowSize 
   local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
   local ymin = love.graphics.getHeight()/2 - cameraWindowSize
