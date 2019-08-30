@@ -4,25 +4,10 @@ local class = require("lib/middleclass")
 local EnemySpawner = require("enemies")
 local PowerupSpawner = require('powerups')
 local Player = require('player')
+local Platform = require("entities/Platform")
 local Scene = require("Scenes/Scene")
 
 local GameScene = class("GameScene", Scene)
-
-local function spawnPlatform(x,y,w,h, jumpThrough)
-  -- height 0 breaks it.. so if height happens to be 0, change it to 1
-  h = h > 0 and h or 1
-  w = w > 0 and w or 1
-
-  local p = {
-    jumpThrough=jumpThrough,
-    x=x,
-    y=y,
-    w=w,
-    h=h
-  }
-
-  return p
-end
 
 function GameScene:initialize(changeSceneCallback)
   Scene.initialize(self, changeSceneCallback)
@@ -45,8 +30,14 @@ function GameScene:initialize(changeSceneCallback)
   self.platforms = {}
   for i, obj in pairs(self.gameMap.layers["platforms"].objects) do
     local jumpThrough = obj.properties["jump-through"]
-    local p = spawnPlatform(obj.x,obj.y,obj.width,obj.height, jumpThrough)
-    self.world:add(p,p.x,p.y,p.w,p.h)
+    local p = Platform:new({
+      x=obj.x,
+      y=obj.y, 
+      h=obj.height, 
+      w=obj.width, 
+      jumpThrough=jumpThrough
+    }, self.world) 
+
     table.insert(self.platforms, p)
   end
 end
