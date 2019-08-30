@@ -14,14 +14,15 @@ function EnemySpawner:initialize(gameMap, world)
   -- loads enemies from tilemap into table
   for i, e in pairs(self.gameMap.layers["enemies"].objects) do
     -- table.insert(self.enemies, spawnEnemy(e.x, e.y))
-    table.insert(self.enemies, Slime:new({x=e.x, y=e.y}, self.world))
+    if e.name == "slime" then
+      table.insert(self.enemies, Slime:new({x=e.x, y=e.y}, self.world))
+    elseif e.name == "wizard" then
+      table.insert(self.enemies, Wizard:new({x=e.x, y=e.y}, self.world))
+    elseif e.name == "baddie" then
+      table.insert(self.enemies, Baddie:new({x=e.x, y=e.y}, self.world))
+    end
   end
 
-  local wiz = Wizard:new({x=650, y=100}, self.world)
-  table.insert(self.enemies, wiz)
-
-  local baddie = Baddie:new({x=550, y=100}, self.world)
-  table.insert(self.enemies, baddie)
 end
 
 function EnemySpawner:update(dt)

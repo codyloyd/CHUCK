@@ -3,7 +3,7 @@ inspect = require('./lib/inspect')
 function love.load()
   -- DEBUG_MODE = true
 
-  love.graphics.setBackgroundColor(0.5,.73,1)
+  love.graphics.setBackgroundColor(0,0,0)
   love.graphics.setDefaultFilter( "nearest" )
   anim8 = require('lib/anim8')
   HC = require('lib/HC')
