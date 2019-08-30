@@ -4,11 +4,11 @@ local Player = class("Player", Entity)
 
 function Player:initialize(gameMap, world)
   Entity.initialize(self, opts, world)
+  local player = gameMap.layers["spawn"].objects[1]
 
-  -- TODO: spawn via gameMap
   -- Constants
-  self.x = 100
-  self.y = 100
+  self.x = player.x
+  self.y = player.y
   self.w = 8
   self.h = 16
   self.maxVx = 150
