@@ -223,7 +223,7 @@ function Player:update(dt)
     and not col.other.jumpThrough            -- but not a jumpthrough, 
     and col.normal.y == 0                    -- and not hitting head, 
     and self.vy < 0                          -- and not moving upwards
-    and math.abs(col.move.x) > 1.5           -- and moving into platform | TODO: calculate off vx maybe?
+    and (love.keyboard.isDown(RIGHT) or love.keyboard.isDown(LEFT))
     then
       -- Set vy to zero on initial contact
       if not self.wallSliding then

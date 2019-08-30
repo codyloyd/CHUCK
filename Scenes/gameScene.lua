@@ -57,10 +57,14 @@ function GameScene:update(dt)
   -- moves the camera
   local camX = self.player.x + love.graphics.getWidth()/3;
   local camY = self.player.y + love.graphics.getHeight()/3;
-  if camX < 400 then camX = 400 end
-  if camY < 300 then camY = 300 end
-  if camY > 2048 - 200 then camY = 2048- 200 end 
-  if camX > 6400 - 300 then camX = 6400 - 300 end
+  local mapW = self.gameMap.layers["background"].width * 8
+  local mapH = self.gameMap.layers["background"].height * 8
+  local halfW = love.graphics.getWidth()/2
+  local halfH = love.graphics.getHeight()/2
+  if camX < halfW then camX = halfW end
+  if camY < halfH then camY = halfH end
+  if camX > mapW + halfW/3 then camX = mapW + halfW/3 end
+  if camY > mapH + halfH/3 then camY = mapH + halfH/3 end
   cameraWindowSize = 7
   local xmin = love.graphics.getWidth()/2 - cameraWindowSize 
   local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
@@ -73,10 +77,11 @@ function GameScene:draw()
   -- everything that should track with the camera goes in here
   love.graphics.scale(3)
   self.cam:attach()
-    self.gameMap:drawLayer(self.gameMap.layers["Tile Layer 1"])
+    self.gameMap:drawLayer(self.gameMap.layers["background"])
     self.powerups:draw()
     self.player:draw()
     self.enemies:draw()
+    self.gameMap:drawLayer(self.gameMap.layers["foreground"])
     
     -- draw collision boxes
     if DEBUG_MODE then
