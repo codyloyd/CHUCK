@@ -9,6 +9,8 @@ local scenes = {
   -- END_SCENE = require("Scenes/endScene")
 }
 
+local fadeTimer = 0
+
 local gameState = {
   player = {
     powerups = {
@@ -18,8 +20,13 @@ local gameState = {
     -- health = 100,
   }
 }
+easeIn = function(t, b, c, d) 
+    local t = t / d;
+    return c*t*t + b;
+  end 
 
 function changeScene(sceneName) 
+  fadeTimer = .5 
   currentScene = scenes[sceneName]:new(changeScene, gameState)
 end
 
@@ -27,9 +34,15 @@ changeScene("START_SCENE")
 
 function sceneDirector.draw() 
   currentScene:draw()
+  love.graphics.setColor(0,0,0,easeIn(fadeTimer, .1, 1, .5))
+  love.graphics.rectangle("fill",0,0,4000,4000)
+  love.graphics.setColor(1,1,1)
 end
 
 function sceneDirector.update(dt) 
+  if fadeTimer >= 0 then
+    fadeTimer = fadeTimer - dt 
+  end
   currentScene:update(dt)
 end
 

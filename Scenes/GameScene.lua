@@ -104,7 +104,8 @@ function GameScene:update(dt)
   local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
   local ymin = love.graphics.getHeight()/2 - cameraWindowSize
   local ymax = love.graphics.getHeight()/2 + cameraWindowSize
-  self.cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, self.camFunc.smooth.damped(15))
+  self.cam:lookAt(camX, camY)
+  -- self.cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, self.camFunc.smooth.damped(15))
 end
 
 function GameScene:draw()

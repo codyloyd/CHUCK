@@ -1,14 +1,13 @@
 return {
-  version = "1.2",
+  version = "1.1",
   luaversion = "5.1",
-  tiledversion = "1.2.4",
+  tiledversion = "1.1.6",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 48,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextlayerid = 9,
   nextobjectid = 135,
   properties = {},
   tilesets = {
@@ -20,7 +19,6 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -46,7 +44,6 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "cavesofgallet_tiles_transparent.png",
       imagewidth = 64,
       imageheight = 96,
@@ -72,7 +69,6 @@ return {
       tileheight = 400,
       spacing = 0,
       margin = 0,
-      columns = 1,
       image = "../assets/lightsource.png",
       imagewidth = 400,
       imageheight = 400,
@@ -94,7 +90,6 @@ return {
   layers = {
     {
       type = "tilelayer",
-      id = 1,
       name = "background",
       x = 0,
       y = 0,
@@ -110,7 +105,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 2,
       name = "lights",
       visible = true,
       opacity = 1,
@@ -137,7 +131,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 3,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -1120,7 +1113,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 4,
       name = "spawn",
       visible = true,
       opacity = 1,
@@ -1134,8 +1126,8 @@ return {
           name = "player",
           type = "",
           shape = "rectangle",
-          x = 35.25,
-          y = 225.875,
+          x = 16,
+          y = 232,
           width = 8,
           height = 8,
           rotation = 0,
@@ -1146,7 +1138,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 5,
       name = "powerups",
       visible = true,
       opacity = 1,
@@ -1172,7 +1163,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 6,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -1276,7 +1266,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 8,
       name = "triggers",
       visible = true,
       opacity = 1,
@@ -1292,7 +1281,7 @@ return {
           shape = "rectangle",
           x = -0.5,
           y = 216,
-          width = 15.75,
+          width = 8.5,
           height = 32.125,
           rotation = 0,
           visible = true,
@@ -1304,7 +1293,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 7,
       name = "foreground",
       x = 0,
       y = 0,
