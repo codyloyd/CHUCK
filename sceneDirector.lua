@@ -1,6 +1,7 @@
 local BasicGameScene = require("Scenes/BasicGameScene")
 
 local sceneDirector = {}
+local currentSceneName
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
@@ -10,6 +11,9 @@ local scenes = {
 }
 
 local gameState = {
+  scene = {
+    last = nill
+  },
   player = {
     powerups = {
       doubleJump = false,
@@ -20,6 +24,8 @@ local gameState = {
 }
 
 function changeScene(sceneName) 
+  gameState.scene.last = currentSceneName
+  currentSceneName = sceneName
   currentScene = scenes[sceneName]:new(changeScene, gameState)
 end
 

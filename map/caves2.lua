@@ -1131,11 +1131,11 @@ return {
       objects = {
         {
           id = 2,
-          name = "player",
+          name = "caves",
           type = "",
           shape = "rectangle",
           x = 35.25,
-          y = 225.875,
+          y = 226.25,
           width = 8,
           height = 8,
           rotation = 0,

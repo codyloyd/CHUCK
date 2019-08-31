@@ -104,7 +104,7 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="spawn">
-  <object id="2" name="player" x="35.25" y="225.875" width="8" height="8"/>
+  <object id="2" name="caves" x="35.25" y="226.25" width="8" height="8"/>
  </objectgroup>
  <objectgroup id="5" name="powerups">
   <object id="119" name="doubleJump" x="16" y="936" width="8" height="8"/>
