@@ -14,7 +14,8 @@ function Player:initialize(gameMap, world, gameState)
   self.maxVx = 150
   self.maxVy = 2000
   self.shortJumpStrength = 100
-  self.wallJumpPower = 400
+  self.wallJumpXStrength = 200
+  self.wallJumpYStrength = 300
   self.noClip = true
   self.gameState = gameState
 
@@ -261,13 +262,15 @@ function Player:keypressed(key)
     if self.wallSliding then 
       if love.keyboard.isDown(LEFT) then
         self.wallJumpDirection = -1
-        self.vx = -self.wallJumpPower
+        self.vx = -self.wallJumpXStrength
       else
         self.wallJumpDirection = 1
-        self.vx = self.wallJumpPower
+        self.vx = self.wallJumpXStrength
       end
+      self.vy = self.wallJumpYStrength
+    else
+      self.vy = self.jumpStrength
     end
-    self.vy = self.jumpStrength
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
   end
