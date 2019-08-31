@@ -2,13 +2,12 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(gameMap, world, gameState)
+function Player:initialize(gameMap, world, gameState, spawnPos)
   Entity.initialize(self, opts, world)
-  local player = gameMap.layers["spawn"].objects[1]
 
   -- Constants
-  self.x = player.x
-  self.y = player.y
+  self.x = spawnPos.x
+  self.y = spawnPos.y
   self.w = 8
   self.h = 16
   self.maxVx = 150

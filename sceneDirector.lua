@@ -1,6 +1,7 @@
 local BasicGameScene = require("Scenes/BasicGameScene")
 
 local sceneDirector = {}
+local currentSceneName
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
@@ -12,6 +13,9 @@ local scenes = {
 local fadeTimer = 0
 
 local gameState = {
+  scene = {
+    last = nill
+  },
   player = {
     powerups = {
       doubleJump = false,
@@ -27,6 +31,8 @@ easeIn = function(t, b, c, d)
 
 function changeScene(sceneName) 
   fadeTimer = .5 
+  gameState.scene.last = currentSceneName
+  currentSceneName = sceneName
   currentScene = scenes[sceneName]:new(changeScene, gameState)
 end
 

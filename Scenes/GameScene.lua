@@ -23,7 +23,18 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
   -- Entities
   self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
   self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
-  self.player = Player:new(self.gameMap, self.world, gameState)
+
+  local spawnPoint = {}
+  for _,obj in pairs(self.gameMap.layers["spawn"].objects) do
+    if gameState.scene.last == "START_SCENE" and obj.name == "start" then 
+      spawnPoint = obj
+    end
+
+    if gameState.scene.last == obj.name then
+      spawnPoint = obj
+    end
+  end
+  self.player = Player:new(self.gameMap, self.world, gameState, {x=spawnPoint.x, y=spawnPoint.y})
 
   self.camFunc = require('lib/camera')
   self.cam = self.camFunc()
