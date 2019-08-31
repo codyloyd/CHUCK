@@ -1,10 +1,11 @@
+local BasicGameScene = require("Scenes/BasicGameScene")
+
 local sceneDirector = {}
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
-  caves = require("Scenes/caves"),
-  caves2 = require("Scenes/caves2")
-  -- GAME_SCENE = require("Scenes/gameScene"),
+  caves = BasicGameScene("map/caves.lua"),
+  caves2 = BasicGameScene("map/caves2.lua")
   -- END_SCENE = require("Scenes/endScene")
 }
 
