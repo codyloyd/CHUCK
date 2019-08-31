@@ -55,8 +55,8 @@ function Player:initialize(gameMap, world, gameState, spawnPos)
 
   self.world = world
   -- Sword attack
-  self.attackBox = {x=0, y=0, w=11, h=self.h, noClip=true}
-  self.world:add(self.attackBox, 0, 0, 11, 16)
+  self.attackBox = {x=0, y=0, w=13, h=self.h, noClip=true}
+  self.world:add(self.attackBox, 0, 0, 13, 16)
 
   -- Add player to world
   self.world:add(self, self.x, self.y, self.w, self.h)
@@ -66,10 +66,10 @@ function Player:takeDamage(other)
   if self.invulnerableTimer <= 0 then
     self.hitTimer = 0.2
     self.invulnerableTimer = .6
-    self.vy = 80
+    self.vy = 70
 
     local direction = other.x > self.x and 1 or -1
-    self.vx = 500 * direction
+    self.vx = 300 * direction
   end
 end
 

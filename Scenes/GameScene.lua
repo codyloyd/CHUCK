@@ -12,6 +12,7 @@ local GameScene = class("GameScene", Scene)
 
 function GameScene:initialize(changeSceneCallback, gameState, map)
   Scene.initialize(self, changeSceneCallback)
+  self.setInitialCameraPosition = true
 
   self.uiStack = {}
   -- Instantiate a new ui Element (root)
@@ -115,8 +116,11 @@ function GameScene:update(dt)
   local xmax = love.graphics.getWidth()/2 + cameraWindowSize 
   local ymin = love.graphics.getHeight()/2 - cameraWindowSize
   local ymax = love.graphics.getHeight()/2 + cameraWindowSize
-  self.cam:lookAt(camX, camY)
-  -- self.cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, self.camFunc.smooth.damped(15))
+  if self.setInitialCameraPosition then
+    self.cam:lookAt(camX, camY)
+    self.setInitialCameraPosition = false
+  end
+  self.cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, self.camFunc.smooth.damped(15))
 end
 
 function GameScene:draw()
@@ -126,8 +130,8 @@ function GameScene:draw()
     self.gameMap:drawLayer(self.gameMap.layers["background"])
     self.gameMap:drawLayer(self.gameMap.layers["lights"])
     self.powerups:draw()
-    self.player:draw()
     self.enemies:draw()
+    self.player:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
     
     -- draw collision boxes

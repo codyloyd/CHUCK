@@ -9,7 +9,7 @@ function Slime:initialize(opts, world)
   self.vx = 24
   self.w = 8
   self.h = 8
-  self.hp = 6
+  self.hp = 2
   self.spritesheet = love.graphics.newImage('assets/SLIME.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',1),.2)

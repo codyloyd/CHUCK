@@ -16,7 +16,7 @@ function love.load()
   DOWN = "down"
   LEFT = "left"
   RIGHT = "right"
-  JUMP = "c"
+  JUMP = "up"
   ATTACK = "x"
 end
 
