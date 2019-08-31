@@ -8,10 +8,7 @@ function PowerupSpawner:initialize(gameMap, world, gameState)
   self.world = world
   self.gameMap = gameMap
 
-
-  print(inspect(gameState.player.powerups))
   for _, p in pairs(self.gameMap.layers["powerups"].objects) do
-    print(p.name)
     if not gameState.player.powerups[p.name] then
       table.insert(self.powerups, Powerup:new({x=p.x,y=p.y, name=p.name}, self.world))
     end
