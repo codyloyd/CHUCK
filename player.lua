@@ -2,7 +2,7 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(gameMap, world, gameState, spawnPos, screenShake)
+function Player:initialize(gameMap, world, playerState, spawnPos, screenShake)
   Entity.initialize(self, opts, world)
 
   -- Constants
@@ -16,7 +16,7 @@ function Player:initialize(gameMap, world, gameState, spawnPos, screenShake)
   self.wallJumpXStrength = 200
   self.wallJumpYStrength = 300
   self.noClip = true
-  self.gameState = gameState
+  self.playerState = playerState
 
   -- Timers
   self.hitTimer = 0
@@ -29,10 +29,11 @@ function Player:initialize(gameMap, world, gameState, spawnPos, screenShake)
   -- Counters
   self.jumpCount = 0
 
-
+  -- Variables
+  self.health = self.playerState.health or 5
   self.powerups = {
-    doubleJump = self.gameState.player.powerups.doubleJump or false,
-    wallJump = self.gameState.player.powerups.wallJump or false
+    doubleJump = self.playerState.powerups.doubleJump or false,
+    wallJump = self.playerState.powerups.wallJump or false
   }
 
   self.wallSliding = false
@@ -67,6 +68,8 @@ end
 
 function Player:takeDamage(other)
   if self.invulnerableTimer <= 0 then
+    self.health = self.health - 1
+    self.playerState.health = self.health
     self.hitTimer = 0.2
     self.invulnerableTimer = .6
     self.vy = 70
@@ -309,10 +312,10 @@ end
 function Player:getPowerup(type) 
   if type == "doubleJump" then
     self.powerups.doubleJump = true
-    self.gameState.player.powerups.doubleJump = true
+    self.playerState.powerups.doubleJump = true
   elseif type == "wallJump" then
     self.powerups.wallJump = true
-    self.gameState.player.powerups.wallJump = true
+    self.playerState.powerups.wallJump = true
   end
 end
 

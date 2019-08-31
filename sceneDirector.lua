@@ -21,7 +21,7 @@ local gameState = {
       doubleJump = false,
       wallJump = false
     },
-    -- health = 100,
+    health = 5,
   }
 }
 easeIn = function(t, b, c, d) 

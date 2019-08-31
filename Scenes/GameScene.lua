@@ -17,7 +17,7 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
 
   self.uiStack = {}
   -- Instantiate a new ui Element (root)
-  table.insert( self.uiStack, require("Scenes/gameSceneUi").new(uiStack) );
+  table.insert( self.uiStack, require("Scenes/gameSceneUi").new(self.uiStack, gameState) );
 
   self.world = bump.newWorld()
   self.gameMap = sti(map, {"box2d"})
@@ -41,7 +41,7 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
     self.screenShakeTimer = .3
   end
 
-  self.player = Player:new(self.gameMap, self.world, gameState, {x=spawnPoint.x, y=spawnPoint.y}, screenShake)
+  self.player = Player:new(self.gameMap, self.world, gameState.player, {x=spawnPoint.x, y=spawnPoint.y}, screenShake)
 
   self.camFunc = require('lib/camera')
   self.cam = self.camFunc()
