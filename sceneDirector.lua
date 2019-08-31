@@ -22,6 +22,7 @@ local gameState = {
       wallJump = false
     },
     health = 5,
+    maxHealth = 5
   }
 }
 easeIn = function(t, b, c, d) 

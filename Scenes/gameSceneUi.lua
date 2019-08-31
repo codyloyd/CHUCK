@@ -3,6 +3,8 @@ local pause = {}
 
 function hud.new(uiStack, gameState) 
   local self = {}
+  self.healthSprite = love.graphics.newImage("assets/HEALTH.png")
+  self.healthSprite_empty = love.graphics.newImage("assets/HEALTH_EMPTY.png")
   function self:hasKeyboardControl() 
     return false 
   end
@@ -16,10 +18,18 @@ function hud.new(uiStack, gameState)
 
   function self:draw()
     love.graphics.scale(.5,.5)
-    love.graphics.print( "Press 'i' to Pause", 16, 16 )
-    love.graphics.print( "Press 'p' to suicide", 16, 32 )
-    love.graphics.print( "Press 'esc' for DEBUG MODE", 16, 48 )
-    love.graphics.print( gameState.player.health, 16, 99)
+
+    for i=1,gameState.player.maxHealth do
+      if i <= gameState.player.health then
+        love.graphics.draw(self.healthSprite, 16 + ((16 * (i - 1)) * 2), 8, 0, 2)
+      else
+        love.graphics.draw(self.healthSprite_empty, 16 + ((16 * (i - 1)) * 2), 8, 0, 2)
+      end
+    end
+
+    love.graphics.print( "Press 'i' to Pause", 16, 32 )
+    love.graphics.print( "Press 'p' to suicide", 16, 32+16 )
+    love.graphics.print( "Press 'esc' for DEBUG MODE", 16, 48+16 )
   end
 
   function self:keypressed(key)
