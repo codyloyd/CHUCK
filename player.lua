@@ -175,6 +175,7 @@ function Player:update(dt)
   if self.attackTimer > 0 then
     local goalX = self.direction == -1 and self.x - self.attackBox.w + 2 or self.x + self.w - 2
     local goalY = self.y
+    self.world:update(self.attackBox, self.x, self.y)
     local actualX, actualY, cols, len = self.world:move(self.attackBox, goalX, goalY, function() return "cross" end)
     self.attackBox.x = actualX
     self.attackBox.y = actualY
