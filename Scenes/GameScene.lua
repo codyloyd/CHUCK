@@ -13,6 +13,7 @@ local GameScene = class("GameScene", Scene)
 function GameScene:initialize(changeSceneCallback, gameState, map)
   Scene.initialize(self, changeSceneCallback)
   self.setInitialCameraPosition = true
+  self.screenShakeTimer = 0
 
   self.uiStack = {}
   -- Instantiate a new ui Element (root)
@@ -35,7 +36,12 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
       spawnPoint = obj
     end
   end
-  self.player = Player:new(self.gameMap, self.world, gameState, {x=spawnPoint.x, y=spawnPoint.y})
+
+  local function screenShake()
+    self.screenShakeTimer = .3
+  end
+
+  self.player = Player:new(self.gameMap, self.world, gameState, {x=spawnPoint.x, y=spawnPoint.y}, screenShake)
 
   self.camFunc = require('lib/camera')
   self.cam = self.camFunc()
@@ -119,6 +125,12 @@ function GameScene:update(dt)
   if self.setInitialCameraPosition then
     self.cam:lookAt(camX, camY)
     self.setInitialCameraPosition = false
+  end
+  if self.screenShakeTimer > 0 then
+    self.screenShakeTimer = self.screenShakeTimer - dt
+    local randomX = math.random(-1,1)
+    local randomY = math.random(-1,1)
+    self.cam:lookAt(camX + randomX, camY + randomY)
   end
   self.cam:lockWindow(camX, camY, xmin, xmax, ymin, ymax, self.camFunc.smooth.damped(15))
 end

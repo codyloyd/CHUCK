@@ -2,7 +2,7 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(gameMap, world, gameState, spawnPos)
+function Player:initialize(gameMap, world, gameState, spawnPos, screenShake)
   Entity.initialize(self, opts, world)
 
   -- Constants
@@ -58,6 +58,9 @@ function Player:initialize(gameMap, world, gameState, spawnPos)
   self.attackBox = {x=0, y=0, w=13, h=self.h, noClip=true}
   self.world:add(self.attackBox, 0, 0, 13, 16)
 
+  -- screenShake callback
+  self.screenShake = screenShake
+
   -- Add player to world
   self.world:add(self, self.x, self.y, self.w, self.h)
 end
@@ -70,6 +73,7 @@ function Player:takeDamage(other)
 
     local direction = other.x > self.x and 1 or -1
     self.vx = 300 * direction
+    self.screenShake()
   end
 end
 
