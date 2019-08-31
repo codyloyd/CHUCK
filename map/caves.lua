@@ -1,14 +1,15 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.6",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 120,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 154,
+  nextlayerid = 10,
+  nextobjectid = 158,
   properties = {},
   tilesets = {
     {
@@ -19,6 +20,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -44,6 +46,7 @@ return {
       tileheight = 400,
       spacing = 0,
       margin = 0,
+      columns = 1,
       image = "../assets/lightsource.png",
       imagewidth = 400,
       imageheight = 400,
@@ -69,6 +72,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles_transparent.png",
       imagewidth = 64,
       imageheight = 96,
@@ -90,6 +94,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "background",
       x = 0,
       y = 0,
@@ -105,6 +110,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 2,
       name = "lights",
       visible = true,
       opacity = 1,
@@ -159,6 +165,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 3,
       name = "foreground",
       x = 0,
       y = 0,
@@ -174,6 +181,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 4,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -290,6 +298,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 5,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -948,6 +957,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 6,
       name = "NOTES",
       visible = true,
       opacity = 1,
@@ -1035,6 +1045,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 7,
       name = "powerups",
       visible = true,
       opacity = 1,
@@ -1045,11 +1056,11 @@ return {
       objects = {
         {
           id = 80,
-          name = "double-jump",
+          name = "doubleJump",
           type = "",
           shape = "rectangle",
-          x = 448.453,
-          y = 724.812,
+          x = 824.453,
+          y = 631.812,
           width = 0,
           height = 0,
           rotation = 0,
@@ -1058,7 +1069,7 @@ return {
         },
         {
           id = 81,
-          name = "wall-jump",
+          name = "wallJump",
           type = "",
           shape = "rectangle",
           x = 828.042,
@@ -1073,6 +1084,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 8,
       name = "spawn",
       visible = true,
       opacity = 1,
@@ -1086,13 +1098,54 @@ return {
           name = "player",
           type = "",
           shape = "rectangle",
-          x = 400,
-          y = 720,
+          x = 916.75,
+          y = 632.25,
           width = 0,
           height = 0,
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 157,
+          name = "player",
+          type = "",
+          shape = "rectangle",
+          x = 916.75,
+          y = 632.25,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 9,
+      name = "triggers",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 156,
+          name = "To Caves2",
+          type = "map-change",
+          shape = "rectangle",
+          x = 931.818,
+          y = 613.273,
+          width = 28.5455,
+          height = 37.6364,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["action"] = "caves2"
+          }
         }
       }
     }

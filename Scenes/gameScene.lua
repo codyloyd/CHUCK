@@ -5,11 +5,12 @@ local EnemySpawner = require("enemies")
 local PowerupSpawner = require('powerups')
 local Player = require('player')
 local Platform = require("entities/Platform")
+local Trigger = require("entities/Trigger")
 local Scene = require("Scenes/Scene")
 
 local GameScene = class("GameScene", Scene)
 
-function GameScene:initialize(changeSceneCallback)
+function GameScene:initialize(changeSceneCallback, gameState, map)
   Scene.initialize(self, changeSceneCallback)
 
   self.uiStack = {}
@@ -17,12 +18,12 @@ function GameScene:initialize(changeSceneCallback)
   table.insert( self.uiStack, require("Scenes/gameSceneUi").new(uiStack) );
 
   self.world = bump.newWorld()
-  self.gameMap = sti("map/caves2.lua", {"box2d"})
+  self.gameMap = sti(map, {"box2d"})
 
   -- Entities
-  self.enemies = EnemySpawner:new(self.gameMap, self.world)
-  self.powerups = PowerupSpawner:new(self.gameMap, self.world)
-  self.player = Player:new(self.gameMap, self.world)
+  self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
+  self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
+  self.player = Player:new(self.gameMap, self.world, gameState)
 
   self.camFunc = require('lib/camera')
   self.cam = self.camFunc()
@@ -40,6 +41,32 @@ function GameScene:initialize(changeSceneCallback)
 
     table.insert(self.platforms, p)
   end
+
+  self.triggers = {}
+  if(self.gameMap.layers["triggers"]) then
+    for _, trig in pairs(self.gameMap.layers["triggers"].objects) do
+      local t = Trigger:new({
+        x=trig.x,
+        y=trig.y, 
+        h=trig.height, 
+        w=trig.width, 
+        name=trig.name,
+        triggerType=trig.type,
+        action=trig.properties.action
+      }, self.world) 
+
+      table.insert(self.triggers, t)
+    end
+  end
+
+end
+
+local function triggerFilter(item)
+  if item.class and item.class.name ~= "Player" then 
+    return nil 
+  end
+
+  return "cross"
 end
 
 function GameScene:update(dt)
@@ -51,6 +78,13 @@ function GameScene:update(dt)
     self.player:update(dt)
     self.enemies:update(dt)
     self.powerups:update(dt)
+  
+    for _, trig in pairs(self.triggers) do
+      local items, len = self.world:queryRect(trig.x,trig.y,trig.w,trig.h, triggerFilter)
+      if len > 0 then
+        self.changeSceneCallback(trig.action)
+      end
+    end
   end
 
 

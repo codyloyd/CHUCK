@@ -13,7 +13,7 @@ end
 
 function StartScene:keypressed(key)
   if key == "return" then
-    changeScene("GAME_SCENE")
+    changeScene("caves")
   end
 end
 

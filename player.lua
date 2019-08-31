@@ -2,7 +2,7 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(gameMap, world)
+function Player:initialize(gameMap, world, gameState)
   Entity.initialize(self, opts, world)
   local player = gameMap.layers["spawn"].objects[1]
 
@@ -16,6 +16,7 @@ function Player:initialize(gameMap, world)
   self.shortJumpStrength = 100
   self.wallJumpPower = 400
   self.noClip = true
+  self.gameState = gameState
 
   -- Timers
   self.hitTimer = 0
@@ -30,8 +31,8 @@ function Player:initialize(gameMap, world)
 
 
   self.powerups = {
-    doubleJump = false,
-    wallJump = false
+    doubleJump = self.gameState.player.powerups.doubleJump or false,
+    wallJump = self.gameState.player.powerups.wallJump or false
   }
 
   self.wallSliding = false
@@ -299,10 +300,12 @@ function Player:keyreleased(key)
 end
 
 function Player:getPowerup(type) 
-  if type == "double-jump" then
+  if type == "doubleJump" then
     self.powerups.doubleJump = true
-  elseif type == "wall-jump" then
+    self.gameState.player.powerups.doubleJump = true
+  elseif type == "wallJump" then
     self.powerups.wallJump = true
+    self.gameState.player.powerups.wallJump = true
   end
 end
 
