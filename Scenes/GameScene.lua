@@ -8,6 +8,9 @@ local Platform = require("entities/Platform")
 local Trigger = require("entities/Trigger")
 local Scene = require("Scenes/Scene")
 
+-- UI
+local TextboxUi = require("Scenes/TextboxUi")
+
 local GameScene = class("GameScene", Scene)
 
 function GameScene:initialize(changeSceneCallback, gameState, map)
@@ -41,7 +44,21 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
     self.screenShakeTimer = .3
   end
 
-  self.player = Player:new(self.gameMap, self.world, gameState.player, {x=spawnPoint.x, y=spawnPoint.y}, screenShake)
+  local function eventHandler(event, data)
+    if event == "take-damage" then 
+      screenShake() 
+    elseif event == "got-powerup" then
+      if data == "doubleJump" then
+        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have collected the double-jump, press jump twice for extra height"))
+      elseif data == "wallJump" then
+        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have collected wall-jump, you now have the ability to jump off walls and slide down them slowly. Use this to your advantage on blind drops!"))
+      end
+    else
+      print(event, "--event not handled")
+    end
+  end
+
+  self.player = Player:new(self.gameMap, self.world, gameState.player, {x=spawnPoint.x, y=spawnPoint.y}, eventHandler)
 
   self.camFunc = require('lib/camera')
   self.cam = self.camFunc()

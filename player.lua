@@ -2,7 +2,7 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
-function Player:initialize(gameMap, world, playerState, spawnPos, screenShake)
+function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   Entity.initialize(self, opts, world)
 
   -- Constants
@@ -59,8 +59,8 @@ function Player:initialize(gameMap, world, playerState, spawnPos, screenShake)
   self.attackBox = {x=0, y=0, w=13, h=self.h, noClip=true}
   self.world:add(self.attackBox, 0, 0, 13, 16)
 
-  -- screenShake callback
-  self.screenShake = screenShake
+  -- eventHandler callback
+  self.sendEvent = eventHandler
 
   -- Add player to world
   self.world:add(self, self.x, self.y, self.w, self.h)
@@ -76,7 +76,7 @@ function Player:takeDamage(other)
 
     local direction = other.x > self.x and 1 or -1
     self.vx = 300 * direction
-    self.screenShake()
+    self.sendEvent('take-damage')
   end
 end
 
@@ -317,6 +317,8 @@ function Player:getPowerup(type)
     self.powerups.wallJump = true
     self.playerState.powerups.wallJump = true
   end
+
+  self.sendEvent("got-powerup", type)
 end
 
 return Player
