@@ -49,9 +49,9 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
       screenShake() 
     elseif event == "got-powerup" then
       if data == "doubleJump" then
-        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have collected the double-jump, press jump twice for extra height"))
+        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the doublejump skill. Press jump twice for a greater jump."))
       elseif data == "wallJump" then
-        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have collected wall-jump, you now have the ability to jump off walls and slide down them slowly. Use this to your advantage on blind drops!"))
+        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic gloves. When jumping into walls, hold the direction and press jump to jump away from the wall or hold the initial direction to descend slowly."))
       end
     else
       print(event, "--event not handled")
