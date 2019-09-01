@@ -9,7 +9,7 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   self.x = spawnPos.x
   self.y = spawnPos.y
   self.w = 8
-  self.h = 16
+  self.h = 13
   self.maxVx = 150
   self.maxVy = 2000
   self.shortJumpStrength = 100
@@ -260,7 +260,7 @@ function Player:draw()
   if self.hitTimer > 0.1 then
     love.graphics.setColor(1,0.3,0.3)
   end
-  self.animation:draw(self.spritesheet,math.floor(self.x+self.w/2),math.ceil(self.y+self.h/2),nil,self.direction,1,8,8)
+  self.animation:draw(self.spritesheet,math.floor(self.x+self.w/2),math.ceil(self.y+(self.h/2) - 1.5),nil,self.direction,1,8,8)
   love.graphics.setColor(1,1,1)
 end
 
