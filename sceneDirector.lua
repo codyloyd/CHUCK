@@ -12,7 +12,8 @@ local scenes = {
 
 local gameState = {
   scene = {
-    last = nill
+    current = nil,
+    last = nil
   },
   player = {
     spawn = {
@@ -37,10 +38,12 @@ local fadeTimer = 0
 
 function changeScene(sceneName, reason) 
   fadeTimer = .5 
-  gameState.scene.last = currentSceneName
-  currentSceneName = sceneName
+
+  gameState.scene.last = gameState.scene.current 
+  gameState.scene.current = sceneName
 
   if reason == "spawn" then
+    print(inspect(gameState.player))
     -- Spawn at last spawn point
     currentScene = scenes[gameState.player.spawn.scene or "caves"]:new(changeScene, gameState, gameState.player.spawn.spawnPoint or "start")
   else

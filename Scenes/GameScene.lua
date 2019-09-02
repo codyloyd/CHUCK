@@ -15,6 +15,7 @@ local GameScene = class("GameScene", Scene)
 
 function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   Scene.initialize(self, changeSceneCallback)
+  self.gameState = gameState
   self.setInitialCameraPosition = true
   self.screenShakeTimer = 0
 
@@ -93,7 +94,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
         h=trig.height, 
         w=trig.width, 
         name=trig.name,
-        triggerType=trig.type,
+        type=trig.properties.type,
         action=trig.properties.action
       }, self.world) 
 
@@ -124,7 +125,12 @@ function GameScene:update(dt)
     for _, trig in pairs(self.triggers) do
       local items, len = self.world:queryRect(trig.x,trig.y,trig.w,trig.h, triggerFilter)
       if len > 0 then
-        self.changeSceneCallback(trig.action)
+        if trig.type == "change-scene" then
+          self.changeSceneCallback(trig.action)
+        elseif trig.type == "checkpoint" then
+          self.gameState.player.spawn.scene = self.gameState.scene.current
+          self.gameState.player.spawn.spawnPoint = trig.action
+        end
       end
     end
   end
