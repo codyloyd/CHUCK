@@ -10,13 +10,15 @@ local scenes = {
   -- END_SCENE = require("Scenes/endScene")
 }
 
-local fadeTimer = 0
-
 local gameState = {
   scene = {
     last = nill
   },
   player = {
+    spawn = {
+      scene = nil,
+      spawnPoint = nil
+    },
     powerups = {
       doubleJump = false,
       wallJump = false
@@ -25,16 +27,25 @@ local gameState = {
     maxHealth = 5
   }
 }
+
 easeIn = function(t, b, c, d) 
     local t = t / d;
     return c*t*t + b;
   end 
 
-function changeScene(sceneName) 
+local fadeTimer = 0
+
+function changeScene(sceneName, reason) 
   fadeTimer = .5 
   gameState.scene.last = currentSceneName
   currentSceneName = sceneName
-  currentScene = scenes[sceneName]:new(changeScene, gameState)
+
+  if reason == "spawn" then
+    -- Spawn at last spawn point
+    currentScene = scenes[gameState.player.spawn.scene or "caves"]:new(changeScene, gameState, gameState.player.spawn.spawnPoint or "start")
+  else
+    currentScene = scenes[sceneName]:new(changeScene, gameState)
+  end
 end
 
 changeScene("START_SCENE")

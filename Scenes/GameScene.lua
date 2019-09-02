@@ -13,7 +13,7 @@ local TextboxUi = require("Scenes/TextboxUi")
 
 local GameScene = class("GameScene", Scene)
 
-function GameScene:initialize(changeSceneCallback, gameState, map)
+function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   Scene.initialize(self, changeSceneCallback)
   self.setInitialCameraPosition = true
   self.screenShakeTimer = 0
@@ -31,12 +31,19 @@ function GameScene:initialize(changeSceneCallback, gameState, map)
 
   local spawnPoint = {}
   for _,obj in pairs(self.gameMap.layers["spawn"].objects) do
+    if playerSpawn ~= nil and playerSpawn == obj.name then
+      spawnPoint = obj
+      break
+    end
+
     if gameState.scene.last == "START_SCENE" and obj.name == "start" then 
       spawnPoint = obj
+      break
     end
 
     if gameState.scene.last == obj.name then
       spawnPoint = obj
+      break
     end
   end
 
@@ -208,7 +215,7 @@ function GameScene:keypressed(key)
 
   if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
     if key == "p" then
-      changeScene("END_SCENE")
+      changeScene("caves", "spawn")
     end
 
     self.player:keypressed(key)
