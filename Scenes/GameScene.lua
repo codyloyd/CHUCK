@@ -48,13 +48,14 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
     end
   end
 
-  local function screenShake()
-    self.screenShakeTimer = .3
+  local function screenShake(time)
+    self.screenShakeTimer = time or .3
   end
 
   local function eventHandler(event, data)
-    if event == "take-damage" then 
-      screenShake() 
+    if event == "screen-shake" then 
+      local time = data and data.time or .3
+      screenShake(time) 
     elseif event == "got-powerup" then
       if data == "doubleJump" then
         table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic boots. Press jump twice for a greater jump."))
@@ -121,6 +122,7 @@ function GameScene:update(dt)
     self.player:update(dt)
     self.enemies:update(dt)
     self.powerups:update(dt)
+    particles:update(dt)
   
     for _, trig in pairs(self.triggers) do
       local items, len = self.world:queryRect(trig.x,trig.y,trig.w,trig.h, triggerFilter)
@@ -175,6 +177,7 @@ function GameScene:draw()
     self.enemies:draw()
     self.player:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
+    particles:draw()
     
     -- draw collision boxes
     if DEBUG_MODE then

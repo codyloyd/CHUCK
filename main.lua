@@ -9,6 +9,8 @@ function love.load()
   HC = require('lib/HC')
   bump = require("lib/bump")
   sceneDirector = require("sceneDirector")
+  tick = require("lib/tick")
+  particles = require("particlesController")
   -- keybinds
   -- can probably load these from a file 
   -- or make them editable if we want
@@ -22,6 +24,7 @@ end
 
 function love.update(dt)
   sceneDirector.update(dt)
+  tick.update(dt)
 end
 
 function love.draw()

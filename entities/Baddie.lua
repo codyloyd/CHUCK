@@ -90,6 +90,7 @@ function Baddie:update(dt)
     if self:playerIsInRange(50) then
       self.vx = 60 * multiplier
       self.animation = self.attacking
+      particles:createTrail(self.x, self.y+math.random(-self.h/2,self.h/2), {.27,.40,.28})
     else
       self.animation = self.walking
       self.vx = self.walkingSpeed * multiplier
