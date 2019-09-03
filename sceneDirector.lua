@@ -43,7 +43,6 @@ function changeScene(sceneName, reason)
   gameState.scene.current = sceneName
 
   if reason == "spawn" then
-    print(inspect(gameState.player))
     -- Spawn at last spawn point
     currentScene = scenes[gameState.player.spawn.scene or "caves"]:new(changeScene, gameState, gameState.player.spawn.spawnPoint or "start")
   else
