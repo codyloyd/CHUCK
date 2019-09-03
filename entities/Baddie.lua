@@ -3,6 +3,7 @@ local Entity = require('entities/Entity')
 local mixins = require('entities/mixins')
 local Baddie = class('Baddie', Entity)
 Baddie:include(mixins.Destructible)
+Baddie:include(mixins.CanSeePlayer)
 
 function Baddie:initialize(opts, world)
   Entity.initialize(self, opts)
@@ -10,6 +11,7 @@ function Baddie:initialize(opts, world)
   self.w = 8
   self.h = 8
   self.hp = 3
+  self.walkingSpeed = 14
   self.spritesheet = love.graphics.newImage('assets/BADDIE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.2)
@@ -33,6 +35,9 @@ function Baddie:update(dt)
   -- override Entity.update for custom behavior
   self:updateGravity(dt)
   self:updateAnimation(dt)
+
+  self:chasePlayer(100)
+  
 
   if math.abs(self.vx) > self.walkingSpeed then
     local multiplier = self.vx > 0 and 1 or -1
@@ -62,10 +67,12 @@ function Baddie:update(dt)
   end
 
   -- direction only matters for animation/drawing
-  if self.vx > 0 then
-    self.direction = -1
-  else
-    self.direction = 1
+  if self.hitTimer <= 0 then
+    if self.vx > 0 then
+      self.direction = -1
+    else
+      self.direction = 1
+    end
   end
 
   if self.vy < -1 then
@@ -74,11 +81,19 @@ function Baddie:update(dt)
     self.animation = self.walking
   end
 
+  local multiplier = self.vx > 0 and 1 or -1
+
   if self.hitTimer > 0 then
     self.hitTimer = self.hitTimer - dt
     self.animation = self.hurt
   else
-    self.animation = self.walking
+    if self:playerIsInRange(50) then
+      self.vx = 60 * multiplier
+      self.animation = self.attacking
+    else
+      self.animation = self.walking
+      self.vx = self.walkingSpeed * multiplier
+    end
   end
 end
 

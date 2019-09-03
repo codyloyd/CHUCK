@@ -3,6 +3,7 @@ local Entity = require('entities/Entity')
 local mixins = require('entities/mixins')
 local Slime = class('Slime', Entity)
 Slime:include(mixins.Destructible)
+Slime:include(mixins.CanSeePlayer)
 
 function Slime:initialize(opts, world)
   Entity.initialize(self, opts, world)
@@ -21,13 +22,11 @@ function Slime:initialize(opts, world)
 end
 
 function Slime:update(dt)
-  -- just call Entity.update for default behavior
-  -- Entity.update(self, dt)
-
   -- override Entity.update for custom behavior
   self:updateGravity(dt)
   self:updateAnimation(dt)
 
+  self:chasePlayer()
 
   if math.abs(self.vx) > self.walkingSpeed then
     local multiplier = self.vx > 0 and 1 or -1
@@ -43,12 +42,13 @@ function Slime:update(dt)
     end
   end
 
-
   -- direction only matters for animation/drawing
-  if self.vx > 0 then
-    self.direction = -1
-  else
-    self.direction = 1
+  if self.hitTimer <= 0 then
+    if self.vx > 0 then
+      self.direction = -1
+    else
+      self.direction = 1
+    end
   end
 
   if self.vy < -1 then

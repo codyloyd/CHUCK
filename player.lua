@@ -6,6 +6,7 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   Entity.initialize(self, opts, world)
 
   -- Constants
+  self.name = "PLAYER"
   self.x = spawnPos.x
   self.y = spawnPos.y
   self.w = 8
