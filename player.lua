@@ -83,7 +83,7 @@ function Player:takeDamage(other, noKnockback)
     end
 
     particles:createFlash({.1,.1,.2})
-    self.sendEvent('screen-shake')
+    self.sendEvent('take-damage')
   end
 end
 
@@ -198,7 +198,7 @@ function Player:update(dt)
         -- knockback self if hit enemy
         local direction = col.other.x > self.x and 1 or -1
         particles:createHit(col.other.x+col.other.w/2, col.other.y+col.other.h/2, direction)
-        self.sendEvent("screen-shake", {time=.05})
+        self.sendEvent("take-damage", {time=.05})
         self.vx = 100 * direction
         self.knockbackTimer = .08
       end

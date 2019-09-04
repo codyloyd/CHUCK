@@ -5,8 +5,9 @@ local currentSceneName
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
-  caves = BasicGameScene("map/TESTINGMAP.lua"),
-  -- caves2 = BasicGameScene("map/caves2.lua")
+  -- caves = BasicGameScene("map/TESTINGMAP.lua"),
+  caves = BasicGameScene("map/caves.lua"),
+  caves2 = BasicGameScene("map/caves2.lua")
   -- END_SCENE = require("Scenes/endScene")
 }
 
