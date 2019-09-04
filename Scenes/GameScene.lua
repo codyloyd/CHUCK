@@ -31,11 +31,29 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   self.world = bump.newWorld()
   self.gameMap = sti(map, {"box2d"})
 
+  local function screenShake()
+    self.screenShakeTimer = .3
+  end
+
+  local function eventHandler(event, data)
+    if event == "take-damage" then 
+      screenShake() 
+    elseif event == "got-powerup" then
+      if data == "doubleJump" then
+        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic boots. Press jump twice for a greater jump."))
+      elseif data == "wallJump" then
+        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic gloves. When jumping into walls, hold the direction and press jump to jump away from the wall or hold the initial direction to descend slowly."))
+      end
+    else
+      print(event, "--event not handled")
+    end
+  end
+
   -- Entities
   self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
   self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
   self.triggers = TriggerSpawner:new(self.gameMap, self.world, gameState)
-  self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.uiStack)
+  self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.worldUiStack)
 
   local spawnPoint = {}
   for _,obj in pairs(self.gameMap.layers["spawn"].objects) do
@@ -52,24 +70,6 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
     if gameState.scene.last == obj.name then
       spawnPoint = obj
       break
-    end
-  end
-
-  local function screenShake()
-    self.screenShakeTimer = .3
-  end
-
-  local function eventHandler(event, data)
-    if event == "take-damage" then 
-      screenShake() 
-    elseif event == "got-powerup" then
-      if data == "doubleJump" then
-        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic boots. Press jump twice for a greater jump."))
-      elseif data == "wallJump" then
-        table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic gloves. When jumping into walls, hold the direction and press jump to jump away from the wall or hold the initial direction to descend slowly."))
-      end
-    else
-      print(event, "--event not handled")
     end
   end
 
@@ -206,6 +206,9 @@ function GameScene:keypressed(key)
     end
 
     self.player:keypressed(key)
+    if self.worldUiStack[#self.worldUiStack] then
+      self.worldUiStack[#self.worldUiStack]:keypressed(key)
+    end
   end
 end
 

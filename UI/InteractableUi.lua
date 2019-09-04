@@ -1,11 +1,12 @@
 local interactableUi = {}
 
-function interactableUi.new(uiStack, message, action, location) 
+function interactableUi.new(uiStack, message, eventHandler, location) 
   local self = {}
   self.message = message
-  self.action = action
+  self.sendEvent = eventHandler
   self.x = location.x
   self.y = location.y
+  self.interacting = false
 
   function self:hasKeyboardControl() 
     return false
@@ -19,12 +20,12 @@ function interactableUi.new(uiStack, message, action, location)
   end
 
   function self:draw()
-    love.graphics.print(self.message, location.x, location.y)
+    love.graphics.printf(self.message, location.x, location.y, location.limit, "center", 0, 0.5, 0.5)
   end
 
   function self:keypressed(key)
     if key == "z" then
-      table.remove(uiStack)
+      self.sendEvent()
     end
   end
 

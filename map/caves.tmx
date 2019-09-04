@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="163">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="164">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -145,7 +145,7 @@
  <objectgroup color="#0000ff" id="8" name="spawn">
   <object id="157" name="caves3" x="928.568" y="419.068"/>
   <object id="158" name="caves2" x="928" y="632"/>
-  <object id="159" name="start" x="468.667" y="208.667"/>
+  <object id="159" name="start" x="613.417" y="166.417"/>
   <object id="160" name="top" x="252.667" y="313.667"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
@@ -157,7 +157,7 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="interactables">
-  <object id="161" name="top" type="checkpoint" x="212" y="289" width="77.5" height="47">
+  <object id="161" name="top" type="checkpoint" x="224.625" y="295.25" width="55.25" height="40.75">
    <properties>
     <property name="data" value="top"/>
     <property name="event" value="checkpoint"/>

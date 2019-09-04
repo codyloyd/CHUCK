@@ -1,14 +1,28 @@
 local class = require("lib/middleclass")
 local Interactable = require("entities/Interactable")
-local InteractableUi = require("UI/InteractableUi")
 
 local InteractableSpawner = class("InteractableSpawner")
 
-function InteractableSpawner:initialize(gameMap, world, gameState, uiStack)
+
+function InteractableSpawner:eventHandlerFactory()
+  local function eventHandler(event, data)
+    if event == 'checkpoint' then
+      self.gameState.player.spawn = {
+        scene=self.gameState.scene.current,
+        spawnPoint=data
+      }
+    end
+  end
+
+  return eventHandler
+end
+
+function InteractableSpawner:initialize(gameMap, world, gameState, uiStack, player)
   self.world = world
   self.gameMap = gameMap
   self.gameState = gameState
   self.uiStack = uiStack
+  self.player = player
 
   self.interactables = {}
   if(self.gameMap.layers["interactables"]) then
@@ -22,7 +36,9 @@ function InteractableSpawner:initialize(gameMap, world, gameState, uiStack)
         name=inter.name,
         text=inter.properties.text,
         event=inter.properties.event,
-        data=inter.properties.data
+        data=inter.properties.data,
+        uiStack=self.uiStack,
+        eventHandler=self:eventHandlerFactory()
       }, self.world) 
 
       table.insert(self.interactables, i)
@@ -42,12 +58,11 @@ function InteractableSpawner:update(dt)
   for _, inter in pairs(self.interactables) do
     local items, len = self.world:queryRect(inter.x,inter.y,inter.w,inter.h, InteractableFilter)
     if len > 0 and not inter.interacting then
-      inter.interacting = true
-      table.insert( self.uiStack, InteractableUi.new(self.uiStack, "test", nil, {x=inter.x, y=inter.y}))
+      inter:interact()
     end
 
     if len == 0 then
-      inter.interacting = false
+      inter:noInteract()
     end
   end
 end
