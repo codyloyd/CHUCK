@@ -2,10 +2,13 @@ local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local Player = class("Player", Entity)
 
+local lastSafeGround = {}
+
 function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   Entity.initialize(self, opts, world)
 
   -- Constants
+  self.name = "PLAYER"
   self.x = spawnPos.x
   self.y = spawnPos.y
   self.w = 8
@@ -66,17 +69,21 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   self.world:add(self, self.x, self.y, self.w, self.h)
 end
 
-function Player:takeDamage(other)
+function Player:takeDamage(other, noKnockback)
   if self.invulnerableTimer <= 0 then
     self.health = self.health - 1
     self.playerState.health = self.health
     self.hitTimer = 0.2
-    self.invulnerableTimer = .6
-    self.vy = 70
+    self.invulnerableTimer = .8
 
-    local direction = other.x > self.x and 1 or -1
-    self.vx = 300 * direction
-    self.sendEvent('take-damage')
+    if not noKnockback then
+      self.vy = 70
+      local direction = other.x > self.x and 1 or -1
+      self.vx = 300 * direction
+    end
+
+    particles:createFlash({.1,.1,.2})
+    self.sendEvent('screen-shake')
   end
 end
 
@@ -188,9 +195,10 @@ function Player:update(dt)
     for _, col in pairs(cols) do
       if (col.other.hp) then
         col.other:takeDamage(self.direction)
-
         -- knockback self if hit enemy
         local direction = col.other.x > self.x and 1 or -1
+        particles:createHit(col.other.x+col.other.w/2, col.other.y+col.other.h/2, direction)
+        self.sendEvent("screen-shake", {time=.05})
         self.vx = 100 * direction
         self.knockbackTimer = .08
       end
@@ -210,9 +218,13 @@ function Player:update(dt)
     self.gravity = 790
   end
 
+
   for _, col in pairs(cols) do
     if col.other.causesDamage then
       self:takeDamage(col.other)
+      if col.other.class.name == "Projectile" then
+        col.other.dead = true
+      end
     end
 
     if col.normal.y == -1 then
@@ -223,6 +235,18 @@ function Player:update(dt)
     --hit ceiling
     if col.normal.y == 1 then
       self.vy = 0
+    end
+
+    if self.grounded and not col.other.spikes then
+      if col.otherRect.x < self.x and col.otherRect.x + col.otherRect.w > self.x + self.w then
+        local items, len = self.world:queryRect(self.x-30, self.y - 4, self.w+60, self.h + 8, 
+          function(item)
+            return item.spikes
+          end)
+        if len < 1 then
+          lastSafeGround.x, lastSafeGround.y = self.x, self.y
+        end
+      end
     end
 
     -- Walljump
@@ -247,6 +271,15 @@ function Player:update(dt)
     else 
       self.wallSliding = false
       self.gravity = 790
+    end
+
+
+    if col.other.spikes then
+      self:takeDamage(col.other, true)
+      particles:createFirework(self.x+self.w/2, self.y+self.h/2, {.4,.4,.4})
+      particles:createFlash()
+      self.x, self.y = lastSafeGround.x, lastSafeGround.y
+      self.world:update(self, self.x, self.y)
     end
 
     if col.other.class and col.other.class.name == "Powerup" then

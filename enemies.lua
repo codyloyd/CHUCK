@@ -28,7 +28,16 @@ end
 function EnemySpawner:update(dt)
   for i, e in ipairs(self.enemies) do
     e:update(dt)
-    if e.dead == true then
+    if e.projectiles then
+      for i, p in ipairs(e.projectiles) do
+        p:update(dt)
+        if p:shouldCleanUp() == true then
+          table.remove(e.projectiles, i)
+          self.world:remove(p)
+        end
+      end
+    end
+    if e.shouldCleanUp and e:shouldCleanUp() == true then
       table.remove(self.enemies, i)
       self.world:remove(e)
     end
@@ -37,7 +46,22 @@ end
 
 function EnemySpawner:draw()
   for i, e in ipairs(self.enemies) do
+    if e.hitTimer and e.hitTimer > 0 then
+      for i=1,3 do 
+        love.graphics.setColor(1,0,0)
+        e.animation:draw(e.spritesheet,math.ceil(e.x + e.w/2 + math.random(-4,4)),math.ceil(e.y + math.random(-4,4)),nil,e.direction,1,8,8)
+      end
+      love.graphics.setColor(1,0,0,.7)
+    else 
+      love.graphics.setColor(1,1,1)
+    end
     e.animation:draw(e.spritesheet,math.ceil(e.x + e.w/2),math.ceil(e.y),nil,e.direction,1,8,8)
+    love.graphics.setColor(1,1,1)
+    if e.projectiles then
+      for _, p in pairs(e.projectiles) do
+        p:draw()
+      end
+    end
   end
 end
 

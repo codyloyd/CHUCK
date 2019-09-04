@@ -81,12 +81,14 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   self.platforms = {}
   for i, obj in pairs(self.gameMap.layers["platforms"].objects) do
     local jumpThrough = obj.properties["jump-through"]
+    local spikes = obj.name == "spikes"
     local p = Platform:new({
       x=obj.x,
       y=obj.y, 
       h=obj.height, 
       w=obj.width, 
-      jumpThrough=jumpThrough
+      jumpThrough=jumpThrough,
+      spikes=spikes
     }, self.world) 
 
     table.insert(self.platforms, p)
@@ -104,6 +106,8 @@ function GameScene:update(dt)
     self.powerups:update(dt)
     self.triggers:update(dt)
     self.interactables:update(dt)
+    particles:update(dt)
+
     if #self.worldUiStack > 0 then
       self.worldUiStack[#self.worldUiStack]:update()
     end
@@ -150,6 +154,7 @@ function GameScene:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
     self.triggers:draw()
     self.interactables:draw()
+    particles:draw()
     
     -- draw collision boxes
     if DEBUG_MODE then
@@ -157,7 +162,9 @@ function GameScene:draw()
       local items, len = self.world:getItems()
       for i, rect in pairs(items) do
         if rect.jumpThrough then 
-          love.graphics.setColor(1,.5,0)
+          love.graphics.setColor(.1,.5,0)
+        elseif rect.spikes then
+          love.graphics.setColor(.125,.25,1)
         elseif rect == self.player.attackBox then
           love.graphics.setColor(.5, 1, 0)
         elseif rect == self.player then
