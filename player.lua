@@ -6,6 +6,7 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   Entity.initialize(self, opts, world)
 
   -- Constants
+  self.name = "PLAYER"
   self.x = spawnPos.x
   self.y = spawnPos.y
   self.w = 8
@@ -76,7 +77,7 @@ function Player:takeDamage(other)
 
     local direction = other.x > self.x and 1 or -1
     self.vx = 300 * direction
-    self.sendEvent('take-damage')
+    self.sendEvent('screen-shake')
   end
 end
 
@@ -188,9 +189,10 @@ function Player:update(dt)
     for _, col in pairs(cols) do
       if (col.other.hp) then
         col.other:takeDamage(self.direction)
-
         -- knockback self if hit enemy
         local direction = col.other.x > self.x and 1 or -1
+        particles:createHit(col.other.x+col.other.w/2, col.other.y+col.other.h/2, direction)
+        self.sendEvent("screen-shake", {time=.05})
         self.vx = 100 * direction
         self.knockbackTimer = .08
       end
@@ -213,6 +215,9 @@ function Player:update(dt)
   for _, col in pairs(cols) do
     if col.other.causesDamage then
       self:takeDamage(col.other)
+      if col.other.class.name == "Projectile" then
+        col.other.dead = true
+      end
     end
 
     if col.normal.y == -1 then

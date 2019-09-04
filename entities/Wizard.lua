@@ -1,8 +1,11 @@
 local class = require('lib/middleclass')
 local Entity = require('entities/Entity')
 local mixins = require('entities/mixins')
+local Projectile = require('entities/Projectile')
+
 local Wizard = class('Wizard', Entity)
 Wizard:include(mixins.Destructible)
+Wizard:include(mixins.CanSeePlayer)
 
 function Wizard:initialize(opts, world)
   Entity.initialize(self, opts, world)
@@ -10,6 +13,7 @@ function Wizard:initialize(opts, world)
   self.w = 8
   self.h = 8
   self.hp = 5
+  self.isAttacking = false
   self.spritesheet = love.graphics.newImage('assets/WIZARD_WHITE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
   self.walking = anim8.newAnimation(self.animationGrid('1-4',2), 0.2)
@@ -20,23 +24,63 @@ function Wizard:initialize(opts, world)
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
   self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
+  self.projectiles = {}
+  self.projectileTimer = 0
 
   self.world = world
 
   self.world:add(self, self.x, self.y, self.w, self.h)
 end
 
-function Wizard:update(dt)
-  -- just call Entity.update for default behavior
-  -- Entity.update(self, dt)
+function Wizard:shouldCleanUp()
+  return self.dead == true and #self.projectiles == 0
+end
 
-  -- override Entity.update for custom behavior
+function Wizard:shootProjectile(dir)
+  local wx = self.x
+  local wy = self.y
+  table.insert(self.projectiles, Projectile:new({
+        x = wx,
+        y = wy,
+        direction = dir
+    }, self.world))
+end
+
+function Wizard:update(dt)
   self:updateGravity(dt)
   self:updateAnimation(dt)
+
+  if self.dead == true then
+    for _,p in pairs(self.projectiles) do
+      p.dead = true
+    end
+  end
+
+  if self.projectileTimer > 0 then
+    self.projectileTimer = self.projectileTimer - dt
+  end
+
+  local player = self:playerIsInRange()
+  if player then
+    self.isAttacking = true
+  else
+    self.isAttacking = false
+  end
+
+  if self.isAttacking and self.projectileTimer <= 0 then
+    local dir = self.x > player.x and -1 or 1
+    self:shootProjectile(dir)
+    self.projectileTimer = 1.5
+  end
   
   if math.abs(self.vx) > self.walkingSpeed then
     local multiplier = self.vx > 0 and 1 or -1
     self.vx = math.max(self.walkingSpeed, math.abs(self.vx) - (math.abs(self.vx) * 39 * dt)) * multiplier
+  end
+
+  if math.abs(self.vx) < self.walkingSpeed and not self.isAttacking then
+    local multiplier = self.vx > 0 and 1 or -1
+    self.vx = self.walkingSpeed * multiplier
   end
 
   -- check for platform/falling
@@ -78,7 +122,18 @@ function Wizard:update(dt)
     self.hitTimer = self.hitTimer - dt
     self.animation = self.hurt
   else
-    self.animation = self.walking
+    if self.isAttacking then
+      if player.x > self.x then 
+        self.direction = 1
+      else
+        self.direction = -1
+      end
+      local multiplier = self.vx > 0 and 1 or -1
+      self.vx = 0.1 * multiplier
+      self.animation = self.attacking
+    else
+      self.animation = self.walking
+    end
   end
 end
 
