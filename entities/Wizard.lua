@@ -32,6 +32,10 @@ function Wizard:initialize(opts, world)
   self.world:add(self, self.x, self.y, self.w, self.h)
 end
 
+function Wizard:shouldCleanUp()
+  return self.dead == true and #self.projectiles == 0
+end
+
 function Wizard:shootProjectile(dir)
   local wx = self.x
   local wy = self.y
@@ -45,6 +49,12 @@ end
 function Wizard:update(dt)
   self:updateGravity(dt)
   self:updateAnimation(dt)
+
+  if self.dead == true then
+    for _,p in pairs(self.projectiles) do
+      p.dead = true
+    end
+  end
 
   if self.projectileTimer > 0 then
     self.projectileTimer = self.projectileTimer - dt

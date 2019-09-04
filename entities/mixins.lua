@@ -18,8 +18,11 @@ mixins.Destructible = {
       -- :( 
       self.dead = true
     end
-  end
+  end,
 
+  shouldCleanUp = function(self)
+    return self.dead == true
+  end
 }
 
 mixins.CanSeePlayer = {

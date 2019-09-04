@@ -32,8 +32,22 @@ end
 function Projectile:update(dt)
   if not self.dead then
     self:updateAnimation(dt)
-    self.x = self.x + (self.speed * self.direction * dt)
-    self.world:update(self, self.x, self.y)
+    local goalX = self.x + (self.speed * self.direction * dt)
+    local goalY = self.y
+    local actualX, actualY, cols = self.world:move(self, goalX, goalY, function() return "cross" end)
+
+    for _, col in pairs(cols) do
+      -- kill projectiles if they hit wall
+      if col.other.class and col.other.class.name == "Platform" then
+        self.dead = true
+      end
+    end
+
+    -- kill projectiles if they go off map
+    if self.x < 0 or self.y < 0 then self.dead = true end
+    if self.x > 4000 or self.y > 4000 then self.dead = true end
+
+    self.x, self.y = actualX, actualY 
   end
 
   if not self.dead then

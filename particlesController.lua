@@ -24,16 +24,16 @@ function particlesController:createExplosion(x, y)
 end
 
 function particlesController:createHit(x,y,direction)
-  for i=1,15 do
+  for i=1,5 do
     table.insert(TrailParticles, {
         x = x + 20*direction,
         y = y,
         vy = math.random(67*direction),
         vx = math.random(167*direction),
         radius = math.random(1,3),
-        color = {.05,0,.1},
+        color = {1,1,1},
         alpha = .5,
-        life = math.random(),
+        life = math.random() * .5,
       })
   end
 end
