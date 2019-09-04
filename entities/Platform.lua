@@ -16,6 +16,7 @@ function Platform:initialize(opts, world)
   self.maxVx = 0
   self.maxVy = 0
   self.jumpThrough = opts.jumpThrough or false
+  self.spikes = opts.spikes or false
 
   world:add(self, self.x, self.y, self.w, self.h)
 end
