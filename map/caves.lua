@@ -8,7 +8,7 @@ return {
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextlayerid = 10,
+  nextlayerid = 11,
   nextobjectid = 163,
   properties = {},
   tilesets = {
@@ -1160,7 +1160,20 @@ return {
             ["action"] = "caves2",
             ["type"] = "change-scene"
           }
-        },
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 10,
+      name = "interactables",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
         {
           id = 161,
           name = "top",
@@ -1173,8 +1186,9 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["action"] = "top",
-            ["type"] = "checkpoint"
+            ["data"] = "top",
+            ["event"] = "checkpoint",
+            ["text"] = "Press 'z' to save "
           }
         }
       }

@@ -50,9 +50,6 @@ function TriggerSpawner:update(dt)
 end
 
 function TriggerSpawner:draw()
-  for _, p in pairs(self.triggers) do
-    p:draw()
-  end
 end
 
 return TriggerSpawner

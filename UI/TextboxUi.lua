@@ -1,8 +1,10 @@
 local textBox = {}
 
-function textBox.new(uiStack, message, rectangle) 
+function textBox.new(uiStack, message, keyboardControl, mouseControl) 
   local self = {}
   self.message = message
+  self.keyboardControl = keyboardControl
+  self.mouseControl = mouseControl
   local screenWidth = love.graphics.getWidth() / 3
   local screenHeight = love.graphics.getHeight() / 3
   self.w = screenWidth
@@ -10,11 +12,11 @@ function textBox.new(uiStack, message, rectangle)
   self.y = screenHeight - 90
 
   function self:hasKeyboardControl() 
-    return true 
+    return self.keyboardControl
   end
 
   function self:hasMouseControl() 
-    return true
+    return self.mouseControl
   end
 
   function self:update()

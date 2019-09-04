@@ -4,12 +4,13 @@ local class = require("lib/middleclass")
 local EnemySpawner = require("enemies")
 local PowerupSpawner = require('powerups')
 local TriggerSpawner = require("triggers")
+local InteractableSpawner = require("interactables")
 local Player = require('player')
 local Platform = require("entities/Platform")
 local Scene = require("Scenes/Scene")
 
 -- UI
-local TextboxUi = require("Scenes/TextboxUi")
+local TextboxUi = require("UI/TextboxUi")
 
 local GameScene = class("GameScene", Scene)
 
@@ -19,9 +20,13 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   self.setInitialCameraPosition = true
   self.screenShakeTimer = 0
 
+  -- for UI attached to the screen
   self.uiStack = {}
   -- Instantiate a new ui Element (root)
-  table.insert( self.uiStack, require("Scenes/gameSceneUi").new(self.uiStack, gameState) );
+  table.insert( self.uiStack, require("UI/gameSceneUi").new(self.uiStack, gameState) );
+
+  -- For UI attached to the world instead of the screen
+  self.worldUiStack = {}
 
   self.world = bump.newWorld()
   self.gameMap = sti(map, {"box2d"})
@@ -30,6 +35,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
   self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
   self.triggers = TriggerSpawner:new(self.gameMap, self.world, gameState)
+  self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.uiStack)
 
   local spawnPoint = {}
   for _,obj in pairs(self.gameMap.layers["spawn"].objects) do
@@ -97,6 +103,10 @@ function GameScene:update(dt)
     self.enemies:update(dt)
     self.powerups:update(dt)
     self.triggers:update(dt)
+    self.interactables:update(dt)
+    if #self.worldUiStack > 0 then
+      self.worldUiStack[#self.worldUiStack]:update()
+    end
   end
 
   -- moves the camera
@@ -138,6 +148,8 @@ function GameScene:draw()
     self.enemies:draw()
     self.player:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
+    self.triggers:draw()
+    self.interactables:draw()
     
     -- draw collision boxes
     if DEBUG_MODE then
@@ -162,7 +174,13 @@ function GameScene:draw()
       end
     end
 
+    -- Draw world UI
+    for k, v in ipairs(self.worldUiStack) do
+      v:draw()
+    end
+
     love.graphics.setColor(1,1,1)
+
   self.cam:detach()
 
   --draw debug info
