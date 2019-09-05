@@ -58,9 +58,10 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   self.animation = self.standing
 
   self.world = world
-  -- Sword attack
-  self.attackBox = {x=0, y=0, w=13, h=self.h, noClip=true}
-  self.world:add(self.attackBox, 0, 0, 13, 16)
+
+  -- Sword attack (offset from player location, multiplied by direction)
+  self.swordAttackHitbox = {w=13, h=self.h - 2}
+  -- self.world:add(self.attackBox, 0, 0, 13, 16)
 
   -- eventHandler callback
   self.sendEvent = eventHandler
@@ -184,28 +185,20 @@ function Player:update(dt)
     self.jumpCount = 0
   end
 
-  -- check attackBox
   if self.attackTimer > 0 then
-    local goalX = self.direction == -1 and self.x - self.attackBox.w + 2 or self.x + self.w - 2
-    local goalY = self.y
-    self.world:update(self.attackBox, self.x, self.y)
-    local actualX, actualY, cols, len = self.world:move(self.attackBox, goalX, goalY, function() return "cross" end)
-    self.attackBox.x = actualX
-    self.attackBox.y = actualY
-    for _, col in pairs(cols) do
-      if (col.other.hp) then
-        col.other:takeDamage(self.direction)
-        -- knockback self if hit enemy
-        local direction = col.other.x > self.x and 1 or -1
-        particles:createHit(col.other.x+col.other.w/2, col.other.y+col.other.h/2, direction)
+    local attack = self:getSwordAttackHitbox()
+    local items, len = self.world:queryRect(attack.x, attack.y, attack.w, attack.h)
+
+    for _, item in pairs(items) do
+      if (item.hp) then
+        local direction = item.x > self.x and 1 or -1
+        item:takeDamage(self.direction)
+        particles:createHit(item.x + item.w/2, item.y + item.h/2, direction)
         self.sendEvent("take-damage", {time=.05})
         self.vx = 100 * direction
         self.knockbackTimer = .08
       end
     end
-  else
-    self.attackBox.x, self.attackBox.y = 0, 0
-    self.world:update(self.attackBox, 0, 0)
   end
 
   -- Handle collisions
@@ -289,12 +282,39 @@ function Player:update(dt)
   end
 end
 
+function Player:getSwordAttackHitbox()
+  -- define attack hitbox
+  local attack = {}
+  attack.y = self.y 
+  attack.h = self.swordAttackHitbox.h
+
+  if self.direction == 1 then            -- Facing Right
+    attack.x = self.x + self.w 
+    attack.w = self.swordAttackHitbox.w
+  else                                   -- Facing Left
+    -- Have to keep the width positive, so we have to shift the `x` position to the left
+    attack.x = self.x - self.swordAttackHitbox.w 
+    attack.w = self.swordAttackHitbox.w
+  end
+
+  return attack
+end
+
 function Player:draw()
   if self.hitTimer > 0.1 then
     love.graphics.setColor(1,0.3,0.3)
   end
   self.animation:draw(self.spritesheet,math.floor(self.x+self.w/2),math.ceil(self.y+(self.h/2) - 1.5),nil,self.direction,1,8,8)
   love.graphics.setColor(1,1,1)
+
+  if DEBUG_MODE then
+    if self.attackTimer > 0 then
+
+      -- Draw attack hitbox
+      local attack = self:getSwordAttackHitbox()
+      love.graphics.rectangle('line', attack.x, attack.y, attack.w, attack.h)
+    end
+  end
 end
 
 function Player:keypressed(key)
@@ -323,9 +343,8 @@ function Player:keypressed(key)
     end
   end
 
-  if DEBUG_MODE then
-    -- add debug controls here
-  end
+    if DEBUG_MODE then
+    end
 end
 
 function Player:keyreleased(key)
