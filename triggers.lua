@@ -4,10 +4,11 @@ local Trigger = require("entities/Trigger")
 
 local TriggerSpawner = class("TriggerSpawner")
 
-function TriggerSpawner:initialize(gameMap, world, gameState)
+function TriggerSpawner:initialize(gameMap, world, gameState, changeSceneCallback)
   self.world = world
   self.gameMap = gameMap
   self.gameState = gameState
+  self.changeSceneCallback = changeSceneCallback
 
   self.triggers = {}
   if(self.gameMap.layers["triggers"]) then

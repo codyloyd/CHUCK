@@ -52,7 +52,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   -- Entities
   self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
   self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
-  self.triggers = TriggerSpawner:new(self.gameMap, self.world, gameState)
+  self.triggers = TriggerSpawner:new(self.gameMap, self.world, gameState, changeSceneCallback)
   self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.worldUiStack)
 
   local spawnPoint = {}
