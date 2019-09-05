@@ -13,7 +13,7 @@ end
 
 function StartScene:keypressed(key)
   if key == "return" then
-    changeScene("caves", "spawn")
+    changeScene(nil, "spawn")
   end
 end
 
