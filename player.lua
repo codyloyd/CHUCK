@@ -54,7 +54,7 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   self.falling = anim8.newAnimation(self.animationGrid('2-2', 3), 1)
   self.attacking = anim8.newAnimation(self.animation2Grid('1-4', 4), {0.08,0.05,0.05,1})
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
-  self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
+  self.deadAnimation = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
 
   self.world = world
@@ -85,6 +85,11 @@ function Player:takeDamage(other, noKnockback)
 
     particles:createFlash({.1,.1,.2})
     self.sendEvent('take-damage')
+
+    if self.health < 1 then
+      self.sendEvent('die')
+      self.dead = true
+    end
   end
 end
 
@@ -119,6 +124,12 @@ function Player:update(dt)
 
   if self.invulnerableTimer > 0 then
     self.invulnerableTimer = self.invulnerableTimer - dt
+  end
+
+  -- Return here to prevent being able to attack after death
+  if self.dead then
+    self.animation = self.deadAnimation
+    return
   end
 
   if self.attackTimer > 0 then

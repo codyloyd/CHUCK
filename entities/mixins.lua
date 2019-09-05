@@ -30,7 +30,7 @@ mixins.CanSeePlayer = {
     local xRange = xRange or 50
     local yRange = yRange or self.h
     local filter = function(item)
-      if item.name == "PLAYER" then
+      if item.name == "PLAYER" and not item.dead then
         return item
       else 
         return false

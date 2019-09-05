@@ -42,6 +42,10 @@ end
 function Entity.collisionFilter(item, other)
   -- Override this function to change the behavior of collisions on a per-entity basis
   -- https://github.com/kikito/bump.lua#moving-an-item-in-the-world-with-collision-resolution
+  if other.dead then
+    return nil
+  end
+
   if other.noClip then
     return 'cross'
   end
