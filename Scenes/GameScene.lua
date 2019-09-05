@@ -19,6 +19,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   self.gameState = gameState
   self.setInitialCameraPosition = true
   self.screenShakeTimer = 0
+  self.respawnTimer = 0
 
   -- for UI attached to the screen
   self.uiStack = {}
@@ -44,6 +45,8 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
       elseif data == "wallJump" then
         table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic gloves. When jumping into walls, hold the direction and press jump to jump away from the wall or hold the initial direction to descend slowly."))
       end
+    elseif event == "player-death" then
+      self.respawnTimer = 3
     else
       print(event, "--event not handled")
     end
@@ -107,6 +110,13 @@ function GameScene:update(dt)
     self.triggers:update(dt)
     self.interactables:update(dt)
     particles:update(dt)
+
+    if self.player.dead then
+      self.respawnTimer = self.respawnTimer - dt
+      if self.respawnTimer < 0 then
+        self.changeSceneCallback(nil, 'spawn')
+      end
+    end
 
     if #self.worldUiStack > 0 then
       self.worldUiStack[#self.worldUiStack]:update()
