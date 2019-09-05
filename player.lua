@@ -87,7 +87,7 @@ function Player:takeDamage(other, noKnockback)
     self.sendEvent('take-damage')
 
     if self.health < 1 then
-      self.sendEvent('die')
+      self.sendEvent('player-death')
       self.dead = true
     end
   end

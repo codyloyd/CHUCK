@@ -27,9 +27,8 @@ function hud.new(uiStack, gameState)
       end
     end
 
-    love.graphics.print( "Press 'i' to Pause", 16, 32 )
-    love.graphics.print( "Press 'p' to suicide", 16, 32+16 )
-    love.graphics.print( "Press 'esc' for DEBUG MODE", 16, 48+16 )
+    love.graphics.print( "Press 'i' to Pause", 16, 16 * 3 )
+    love.graphics.print( "Press 'esc' for DEBUG MODE", 16, 16 * 4 )
   end
 
   function self:keypressed(key)

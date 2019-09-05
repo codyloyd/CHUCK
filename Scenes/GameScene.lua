@@ -208,10 +208,6 @@ function GameScene:keypressed(key)
   ui:keypressed(key)
 
   if not ui:hasKeyboardControl() or not ui:hasMouseControl() then
-    if key == "p" then
-      changeScene("caves", "spawn")
-    end
-
     self.player:keypressed(key)
     if self.worldUiStack[#self.worldUiStack] then
       self.worldUiStack[#self.worldUiStack]:keypressed(key)
