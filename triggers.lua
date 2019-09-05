@@ -4,11 +4,11 @@ local Trigger = require("entities/Trigger")
 
 local TriggerSpawner = class("TriggerSpawner")
 
-function TriggerSpawner:initialize(gameMap, world, gameState, changeSceneCallback)
+function TriggerSpawner:initialize(gameMap, world, gameState, changeScene)
   self.world = world
   self.gameMap = gameMap
   self.gameState = gameState
-  self.changeSceneCallback = changeSceneCallback
+  self.changeScene = changeScene
 
   self.triggers = {}
   if(self.gameMap.layers["triggers"]) then
@@ -41,7 +41,7 @@ function TriggerSpawner:update(dt)
     local items, len = self.world:queryRect(trig.x,trig.y,trig.w,trig.h, triggerFilter)
     if len > 0 then
       if trig.type == "change-scene" then
-        self.changeSceneCallback(trig.action)
+        self.changeScene(trig.action)
       elseif trig.type == "checkpoint" then
         self.gameState.player.spawn.scene = self.gameState.scene.current
         self.gameState.player.spawn.spawnPoint = trig.action
