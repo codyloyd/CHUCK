@@ -12,11 +12,11 @@ function textBox.new(uiStack, message, keyboardControl, mouseControl)
   self.y = screenHeight - 90
 
   function self:hasKeyboardControl() 
-    return self.keyboardControl
+    return true
   end
 
   function self:hasMouseControl() 
-    return self.mouseControl
+    return true
   end
 
   function self:update()
