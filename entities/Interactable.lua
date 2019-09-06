@@ -16,6 +16,7 @@ function Interactable:initialize(opts, world)
   self.interacting = false
   self.uiStack = opts.uiStack
   self.uiStackLocation = #self.uiStack + 1
+  self.repeatDelay = opts.repeatDelay
 
   self.eventHandler = opts.eventHandler
 
@@ -24,6 +25,9 @@ function Interactable:initialize(opts, world)
     y = self.y,
     limit = self.w * 2 -- Not sure why we need to multiply by 2
   }
+end
+
+function Interactable:update(dt)
 end
 
 function Interactable:sendEvent()

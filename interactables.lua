@@ -7,7 +7,9 @@ local InteractableSpawner = class("InteractableSpawner")
 function InteractableSpawner:eventHandlerFactory()
   local function eventHandler(event, data)
     if event == 'checkpoint' then
-      self.gameState.player.spawn = {
+      local player = self.gameState.player
+      player.health = player.maxHealth
+      player.spawn = {
         scene=self.gameState.scene.current,
         spawnPoint=data
       }
@@ -37,6 +39,7 @@ function InteractableSpawner:initialize(gameMap, world, gameState, uiStack, play
         text=inter.properties.text,
         event=inter.properties.event,
         data=inter.properties.data,
+        repeatDelay=inter.properties.repeatDelay,
         uiStack=self.uiStack,
         eventHandler=self:eventHandlerFactory()
       }, self.world) 
@@ -56,6 +59,10 @@ end
 
 function InteractableSpawner:update(dt) 
   for _, inter in pairs(self.interactables) do
+    -- Update Interactable timers
+    inter:update(dt)
+
+    -- Check if in range
     local items, len = self.world:queryRect(inter.x,inter.y,inter.w,inter.h, InteractableFilter)
     if len > 0 and not inter.interacting then
       inter:interact()
