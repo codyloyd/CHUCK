@@ -17,8 +17,6 @@ function hud.new(uiStack, gameState)
   end
 
   function self:draw()
-    love.graphics.scale(.5,.5)
-
     for i=1,gameState.player.maxHealth do
       if i <= gameState.player.health then
         love.graphics.draw(self.healthSprite, 16 + ((16 * (i - 1)) * 2), 8, 0, 2)

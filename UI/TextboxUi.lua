@@ -5,11 +5,11 @@ function textBox.new(uiStack, message, keyboardControl, mouseControl)
   self.message = message
   self.keyboardControl = keyboardControl
   self.mouseControl = mouseControl
-  local screenWidth = love.graphics.getWidth() / 3
-  local screenHeight = love.graphics.getHeight() / 3
-  self.w = screenWidth
-  self.x = screenWidth - self.w / 2
-  self.y = screenHeight - 90
+  local screenWidth = love.graphics.getWidth() 
+  local screenHeight = love.graphics.getHeight()
+  self.w = screenWidth * .75 
+  self.x = screenWidth / 2 - self.w / 2
+  self.y = 120
 
   function self:hasKeyboardControl() 
     return true
@@ -23,8 +23,8 @@ function textBox.new(uiStack, message, keyboardControl, mouseControl)
   end
 
   function self:draw()
-    local padding = 8
-    local boxHeight = 100
+    local padding = 16 
+    local boxHeight = 180
 
     local r, b, g, a = love.graphics.getColor()
     love.graphics.setColor(.1, .1, .1, .5)
@@ -33,7 +33,7 @@ function textBox.new(uiStack, message, keyboardControl, mouseControl)
     love.graphics.setColor(r, g, b, a)
     love.graphics.rectangle("line", self.x - padding, self.y - padding, self.w + padding*2, boxHeight)
     love.graphics.printf(self.message, self.x, self.y, self.w)
-    love.graphics.print("press 'x' to continue", self.x + self.w + padding - 200, self.y + boxHeight - padding * 3 - 3)
+    love.graphics.print("press 'x' to continue", self.x, self.y + boxHeight - padding*4)
   end
 
   function self:keypressed(key)

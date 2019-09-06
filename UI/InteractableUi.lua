@@ -20,7 +20,9 @@ function interactableUi.new(uiStack, message, eventHandler, location)
   end
 
   function self:draw()
-    love.graphics.printf(self.message, location.x, location.y, location.limit, "center", 0, 0.5, 0.5)
+    love.graphics.setColor(1,1,1)
+    love.graphics.print("HEY", 100, 400)
+    love.graphics.printf(self.message, location.x, location.y, location.limit, "center")
   end
 
   function self:keypressed(key)

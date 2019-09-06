@@ -154,6 +154,7 @@ end
 
 function GameScene:draw()
   -- everything that should track with the camera goes in here
+  love.graphics.push()
   love.graphics.scale(3)
   self.cam:attach()
     self.gameMap:drawLayer(self.gameMap.layers["background"])
@@ -190,6 +191,7 @@ function GameScene:draw()
         end
       end
     end
+    love.graphics.pop()
 
     -- Draw world UI
     for k, v in ipairs(self.worldUiStack) do

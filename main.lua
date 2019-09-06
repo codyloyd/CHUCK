@@ -5,6 +5,8 @@ function love.load()
 
   love.graphics.setBackgroundColor(0,0,0)
   love.graphics.setDefaultFilter( "nearest" )
+  font = love.graphics.newFont("assets/MatchupPro.ttf", 28)
+  love.graphics.setFont(font)
   anim8 = require('lib/anim8')
   HC = require('lib/HC')
   bump = require("lib/bump")
