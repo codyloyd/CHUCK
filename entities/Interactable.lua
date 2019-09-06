@@ -1,6 +1,7 @@
 local class = require("lib/middleclass")
 local Entity = require("entities/Entity")
 local InteractableUi = require("UI/InteractableUi")
+local particlesController = require("particlesController")
 
 local Interactable = class("Interactable", Entity)
 
@@ -34,6 +35,7 @@ function Interactable:sendEvent()
   -- Wrapping function to keep proper `self` context
   return function()
     self.eventHandler(self.event, self.data)
+    particlesController:createFirework(self.x + self.w/2, self.y + self.h/2 - 3)
   end
 end
 
