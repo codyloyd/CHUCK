@@ -16,8 +16,10 @@ function Interactable:initialize(opts, world)
   self.data = opts.data
   self.interacting = false
   self.uiStack = opts.uiStack
-  self.uiStackLocation = #self.uiStack + 1
+  self.uiStackLocation = nil
   self.repeatDelay = opts.repeatDelay
+  self.repeatTimer = 0
+  self.ranAction = false
 
   self.eventHandler = opts.eventHandler
 
@@ -29,27 +31,55 @@ function Interactable:initialize(opts, world)
 end
 
 function Interactable:update(dt)
+  if self.repeatDelay and self.ranAction then
+    if self.repeatTimer <= 0 then
+      self.ranAction = false
+      self:showText()
+    else
+      self.repeatTimer = self.repeatTimer - dt
+    end
+  end
 end
 
 function Interactable:sendEvent()
   -- Wrapping function to keep proper `self` context
   return function()
-    self.eventHandler(self.event, self.data)
-    particlesController:createFirework(self.x + self.w/2, self.y + self.h/2 - 3)
+    if not self.ranAction then
+      self.eventHandler(self.event, self.data)
+      particlesController:createFirework(self.x + self.w/2, self.y + self.h/2 - 3)
+      self.repeatTimer = self.repeatDelay
+      self.ranAction = true
+      self:removeText()
+    end
   end
 end
 
-function Interactable:interact()
-  if not self.interacting then
-    self.interacting = true
+function Interactable:removeText()
+  if self.uiStackLocation then
+    table.remove(self.uiStack, self.uiStackLocation)
+    self.uiStackLocation = nil
+  end
+end
+
+function Interactable:showText()
+  if self.uiStackLocation == nil and self.interacting then
     table.insert( self.uiStack, InteractableUi.new(self.uiStack, self.text, self:sendEvent(), self.textLocation))
+    self.uiStackLocation = #self.uiStack
+  end
+end
+
+
+function Interactable:interact()
+  if not self.interacting and not self.ranAction then
+    self.interacting = true
+    self:showText()
   end
 end
 
 function Interactable:noInteract()
   if self.interacting then
     self.interacting = false
-    table.remove(self.uiStack, self.uiStackLocation)
+    self:removeText()
   end
 end
 
