@@ -7,7 +7,9 @@ local scenes = {
   START_SCENE = require("Scenes/startScene"),
   -- caves = BasicGameScene("map/TESTINGMAP.lua"),
   caves = BasicGameScene("map/caves.lua"),
-  caves2 = BasicGameScene("map/caves2.lua")
+  caves2 = BasicGameScene("map/caves2.lua"),
+  sample = BasicGameScene("map/samplerMap.lua"),
+  sample2 = BasicGameScene("map/samplerMap2.lua")
   -- END_SCENE = require("Scenes/endScene")
 }
 
@@ -44,7 +46,7 @@ function changeScene(sceneName, reason)
   gameState.scene.current = sceneName
 
   if reason == "spawn" then
-    local newCurrentScene = gameState.player.spawn.scene or "caves"
+    local newCurrentScene = sceneName or gameState.player.spawn.scene or "caves"
 
     -- Spawn at last spawn point
     gameState.player.health = 5
