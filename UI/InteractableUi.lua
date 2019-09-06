@@ -20,8 +20,8 @@ function interactableUi.new(uiStack, message, eventHandler, location)
   end
 
   function self:draw()
-    love.graphics.setColor(1,1,1)
-    love.graphics.print("HEY", 100, 400)
+    print(inspect(location))
+    love.graphics.scale(1/3)
     love.graphics.printf(self.message, location.x, location.y, location.limit, "center")
   end
 

@@ -163,8 +163,8 @@ function GameScene:draw()
     self.enemies:draw()
     self.player:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
-    self.triggers:draw()
     self.interactables:draw()
+    self.triggers:draw()
     particles:draw()
     
     -- draw collision boxes
@@ -197,6 +197,7 @@ function GameScene:draw()
     for k, v in ipairs(self.worldUiStack) do
       v:draw()
     end
+
 
     love.graphics.setColor(1,1,1)
 
