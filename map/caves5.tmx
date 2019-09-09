@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="226">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="228">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -46,7 +46,7 @@
   </object>
   <object id="199" x="344" y="512" width="96" height="224"/>
   <object id="201" x="576" y="656" width="64" height="16"/>
-  <object id="203" x="648" y="576" width="8" height="8">
+  <object id="203" x="648" y="592" width="8" height="8">
    <properties>
     <property name="jump-through" type="bool" value="true"/>
    </properties>
@@ -69,7 +69,7 @@
  <objectgroup color="#0000ff" name="spawn">
   <object id="158" name="caves3" x="944" y="568" width="8" height="8"/>
   <object id="160" name="dj" x="737.516" y="517.651"/>
-  <object id="224" name="caves4" x="688" y="320" width="8" height="8"/>
+  <object id="226" name="caves4" x="712" y="320" width="8" height="8"/>
  </objectgroup>
  <objectgroup color="#be00ffff" name="triggers">
   <object id="156" name="To caves3" type="map-change" x="952" y="552" width="10.3635" height="37.6364">
@@ -86,7 +86,7 @@
   </object>
  </objectgroup>
  <objectgroup name="interactables">
-  <object id="161" name="top" type="checkpoint" x="712" y="504" width="48" height="32">
+  <object id="161" name="dj" type="checkpoint" x="712" y="504" width="48" height="32">
    <properties>
     <property name="data" value="dj"/>
     <property name="event" value="checkpoint"/>

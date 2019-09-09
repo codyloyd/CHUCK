@@ -8,7 +8,7 @@ return {
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 226,
+  nextobjectid = 228,
   properties = {},
   tilesets = {
     {
@@ -335,7 +335,7 @@ return {
           type = "",
           shape = "rectangle",
           x = 648,
-          y = 576,
+          y = 592,
           width = 8,
           height = 8,
           rotation = 0,
@@ -549,11 +549,11 @@ return {
           properties = {}
         },
         {
-          id = 224,
+          id = 226,
           name = "caves4",
           type = "",
           shape = "rectangle",
-          x = 688,
+          x = 712,
           y = 320,
           width = 8,
           height = 8,
@@ -619,7 +619,7 @@ return {
       objects = {
         {
           id = 161,
-          name = "top",
+          name = "dj",
           type = "checkpoint",
           shape = "rectangle",
           x = 712,

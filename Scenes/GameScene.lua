@@ -70,7 +70,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
       break
     end
 
-    if gameState.scene.last == obj.name then
+    if gameState.scene.last == obj.name and playerSpawn == nil then
       spawnPoint = obj
       break
     end

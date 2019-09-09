@@ -8,7 +8,7 @@ return {
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 241,
+  nextobjectid = 244,
   properties = {},
   tilesets = {
     {
@@ -646,6 +646,51 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 241,
+          name = "",
+          type = "jump-through",
+          shape = "rectangle",
+          x = 279,
+          y = 744,
+          width = 32,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["jump-through"] = true
+          }
+        },
+        {
+          id = 242,
+          name = "",
+          type = "jump-through",
+          shape = "rectangle",
+          x = 279,
+          y = 680,
+          width = 32,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["jump-through"] = true
+          }
+        },
+        {
+          id = 243,
+          name = "",
+          type = "jump-through",
+          shape = "rectangle",
+          x = 279,
+          y = 616,
+          width = 32,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["jump-through"] = true
+          }
         }
       }
     },
@@ -735,8 +780,8 @@ return {
           name = "start",
           type = "",
           shape = "rectangle",
-          x = 400,
-          y = 912,
+          x = 344,
+          y = 784,
           width = 8,
           height = 8,
           rotation = 0,

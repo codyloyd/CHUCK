@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="241">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="244">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -56,6 +56,21 @@
   <object id="225" x="912" y="848" width="32" height="16"/>
   <object id="234" x="345" y="487" width="64" height="24"/>
   <object id="240" x="848" y="936" width="8" height="8"/>
+  <object id="241" type="jump-through" x="279" y="744" width="32" height="8">
+   <properties>
+    <property name="jump-through" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="242" type="jump-through" x="279" y="680" width="32" height="8">
+   <properties>
+    <property name="jump-through" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="243" type="jump-through" x="279" y="616" width="32" height="8">
+   <properties>
+    <property name="jump-through" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="NOTES">
   <object id="182" x="968" y="280" width="403.708" height="255">
@@ -89,7 +104,7 @@ Notice the &quot;light&quot; effect to denote that you can walk through, and the
  <objectgroup color="#03c700" name="powerups"/>
  <objectgroup color="#0000ff" name="spawn">
   <object id="158" name="caves2" x="912" y="416"/>
-  <object id="220" name="start" x="400" y="912" width="8" height="8"/>
+  <object id="220" name="start" x="344" y="784" width="8" height="8"/>
   <object id="226" name="caves5" x="288" y="928" width="8" height="8"/>
   <object id="233" name="caves4" x="8" y="408" width="8" height="8"/>
  </objectgroup>
