@@ -1,15 +1,14 @@
 return {
-  version = "1.2",
+  version = "1.1",
   luaversion = "5.1",
-  tiledversion = "1.2.4",
+  tiledversion = "1.1.6",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 120,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextlayerid = 11,
-  nextobjectid = 165,
+  nextobjectid = 168,
   properties = {},
   tilesets = {
     {
@@ -20,7 +19,6 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -46,7 +44,6 @@ return {
       tileheight = 400,
       spacing = 0,
       margin = 0,
-      columns = 1,
       image = "../assets/lightsource.png",
       imagewidth = 400,
       imageheight = 400,
@@ -72,7 +69,6 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "cavesofgallet_tiles_transparent.png",
       imagewidth = 64,
       imageheight = 96,
@@ -94,7 +90,6 @@ return {
   layers = {
     {
       type = "tilelayer",
-      id = 1,
       name = "background",
       x = 0,
       y = 0,
@@ -110,7 +105,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 2,
       name = "lights",
       visible = true,
       opacity = 1,
@@ -165,7 +159,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 3,
       name = "foreground",
       x = 0,
       y = 0,
@@ -181,7 +174,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 4,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -223,19 +215,6 @@ return {
           shape = "rectangle",
           x = 648,
           y = 576,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 105,
-          name = "wizard",
-          type = "",
-          shape = "rectangle",
-          x = 552,
-          y = 168,
           width = 0,
           height = 0,
           rotation = 0,
@@ -298,7 +277,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 5,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -944,7 +922,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 6,
       name = "NOTES",
       visible = true,
       opacity = 1,
@@ -1032,7 +1009,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 7,
       name = "powerups",
       visible = true,
       opacity = 1,
@@ -1040,38 +1016,10 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {
-        {
-          id = 80,
-          name = "doubleJump",
-          type = "",
-          shape = "rectangle",
-          x = 824.453,
-          y = 631.812,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 81,
-          name = "wallJump",
-          type = "",
-          shape = "rectangle",
-          x = 828.042,
-          y = 420.333,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
-      }
+      objects = {}
     },
     {
       type = "objectgroup",
-      id = 8,
       name = "spawn",
       visible = true,
       opacity = 1,
@@ -1137,8 +1085,8 @@ return {
           name = "start",
           type = "",
           shape = "rectangle",
-          x = 732.417,
-          y = 630.417,
+          x = 24,
+          y = 320,
           width = 0,
           height = 0,
           rotation = 0,
@@ -1149,7 +1097,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 9,
       name = "triggers",
       visible = true,
       opacity = 1,
@@ -1178,7 +1125,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 10,
       name = "interactables",
       visible = true,
       opacity = 1,
@@ -1192,10 +1138,10 @@ return {
           name = "top",
           type = "checkpoint",
           shape = "rectangle",
-          x = 224.625,
-          y = 295.25,
-          width = 55.25,
-          height = 40.75,
+          x = 224,
+          y = 296,
+          width = 56,
+          height = 40,
           rotation = 0,
           visible = true,
           properties = {
