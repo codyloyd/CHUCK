@@ -84,10 +84,13 @@ function Player:takeDamage(other, noKnockback)
     end
 
     particles:createFlash({.1,.1,.2})
+    sounds.hurt:play()
+    sounds.hurt2:play()
     self.sendEvent('take-damage')
 
     if self.health < 1 then
       self.sendEvent('player-death')
+      sounds.playerdeath:play()
       self.dead = true
     end
   end
@@ -203,6 +206,7 @@ function Player:update(dt)
     for _, item in pairs(items) do
       if (item.hp) then
         local direction = item.x > self.x and 1 or -1
+        sounds.hit:play()
         item:takeDamage(self.direction)
         particles:createHit(item.x + item.w/2, item.y + item.h/2, direction)
         self.sendEvent("take-damage", {time=.05})
@@ -291,6 +295,12 @@ function Player:update(dt)
       col.other:collected()
     end
   end
+
+  if math.abs(self.vx) > 10 and self.grounded then
+    sounds.walk:play()
+  else
+    sounds.walk:stop()
+  end
 end
 
 function Player:getSwordAttackHitbox()
@@ -344,6 +354,7 @@ function Player:keypressed(key)
     end
     self.grounded = false
     self.jumpCount = self.jumpCount + 1
+    sounds.jump:play()
   end
 
   if key == ATTACK then
@@ -351,6 +362,7 @@ function Player:keypressed(key)
       self.attackTimer = .25
       self.attackCooldown = .4
       self.attacking:gotoFrame(1)
+      sounds.attack:play()
     end
   end
 
