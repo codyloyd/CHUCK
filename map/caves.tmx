@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="168">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="170">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -19,7 +19,6 @@
   </data>
  </layer>
  <objectgroup color="#bc0000" name="enemies">
-  <object id="31" name="skeleton" x="472" y="320"/>
   <object id="73" name="slime" x="144" y="176"/>
   <object id="76" name="baddie" x="648" y="576"/>
   <object id="137" name="baddie" x="224" y="696"/>

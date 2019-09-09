@@ -8,7 +8,7 @@ return {
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 168,
+  nextobjectid = 170,
   properties = {},
   tilesets = {
     {
@@ -182,19 +182,6 @@ return {
       draworder = "topdown",
       properties = {},
       objects = {
-        {
-          id = 31,
-          name = "skeleton",
-          type = "",
-          shape = "rectangle",
-          x = 472,
-          y = 320,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
         {
           id = 73,
           name = "slime",

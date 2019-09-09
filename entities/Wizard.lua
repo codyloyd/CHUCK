@@ -37,13 +37,17 @@ function Wizard:shouldCleanUp()
 end
 
 function Wizard:shootProjectile(dir)
-  local wx = self.x
-  local wy = self.y
-  table.insert(self.projectiles, Projectile:new({
-        x = wx,
-        y = wy,
-        direction = dir
-    }, self.world))
+  tick.delay(function()
+    if self.isAttacking then
+      local wx = self.x
+      local wy = self.y
+      table.insert(self.projectiles, Projectile:new({
+            x = wx,
+            y = wy,
+            direction = dir
+        }, self.world))
+    end
+  end, .4)
 end
 
 function Wizard:update(dt)
@@ -60,7 +64,7 @@ function Wizard:update(dt)
     self.projectileTimer = self.projectileTimer - dt
   end
 
-  local player = self:playerIsInRange()
+  local player = self:playerIsInRange(160)
   if player then
     self.isAttacking = true
   else

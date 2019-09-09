@@ -89,6 +89,7 @@ function Player:takeDamage(other, noKnockback)
     if self.health < 1 then
       self.sendEvent('player-death')
       self.dead = true
+      self.attackTimer = 0
     end
   end
 end
@@ -347,7 +348,7 @@ function Player:keypressed(key)
   end
 
   if key == ATTACK then
-    if self.attackCooldown <= 0 then 
+    if self.attackCooldown <= 0 and not self.dead then 
       self.attackTimer = .25
       self.attackCooldown = .4
       self.attacking:gotoFrame(1)
