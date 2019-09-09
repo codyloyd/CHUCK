@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="235">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextobjectid="241">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -20,6 +20,9 @@
   <object id="211" name="wizard" x="624" y="704" width="8" height="8"/>
   <object id="216" name="slime" x="672" y="800" width="8" height="8"/>
   <object id="217" name="slime" x="712" y="800" width="8" height="8"/>
+  <object id="235" name="skeleton" x="712" y="920" width="8" height="8"/>
+  <object id="238" name="slime" x="760" y="920" width="8" height="8"/>
+  <object id="239" name="skeleton" x="320" y="920" width="8" height="8"/>
  </objectgroup>
  <objectgroup name="platforms">
   <object id="118" x="0" y="944" width="960" height="16"/>
@@ -52,6 +55,7 @@
   <object id="224" x="864" y="808" width="32" height="16"/>
   <object id="225" x="912" y="848" width="32" height="16"/>
   <object id="234" x="345" y="487" width="64" height="24"/>
+  <object id="240" x="848" y="936" width="8" height="8"/>
  </objectgroup>
  <objectgroup name="NOTES">
   <object id="182" x="968" y="280" width="403.708" height="255">

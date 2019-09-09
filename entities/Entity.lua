@@ -36,6 +36,7 @@ end
 function Entity:changeVelocityByCollision(nx, ny)
   if ny == -1 then
     self.vy = 0
+    self.grounded = true
   end
 end
 
@@ -58,6 +59,7 @@ function Entity:moveWithCollisions(dt)
     local goalY = self.y - self.vy * dt
     local actualX, actualY, cols, len = self.world:move(self, goalX, goalY, self.collisionFilter)
 
+    self.grounded = false
     for i=1, len do
       local col = cols[i]
       -- col.normal is the direction of the collision

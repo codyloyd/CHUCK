@@ -3,6 +3,7 @@ local class = require("lib/middleclass")
 local Slime = require("entities/Slime")
 local Wizard = require("entities/Wizard")
 local Baddie = require("entities/Baddie")
+local Skeleton = require("entities/Skeleton")
 
 local EnemySpawner = class("EnemieSpawner")
 
@@ -20,6 +21,8 @@ function EnemySpawner:initialize(gameMap, world)
       table.insert(self.enemies, Wizard:new({x=e.x, y=e.y}, self.world))
     elseif e.name == "baddie" then
       table.insert(self.enemies, Baddie:new({x=e.x, y=e.y}, self.world))
+    elseif e.name == "skeleton" then
+      table.insert(self.enemies, Skeleton:new({x=e.x, y=e.y}, self.world))
     end
   end
 

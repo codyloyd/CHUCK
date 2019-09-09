@@ -184,7 +184,7 @@ return {
       objects = {
         {
           id = 31,
-          name = "slime",
+          name = "skeleton",
           type = "",
           shape = "rectangle",
           x = 472,

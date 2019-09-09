@@ -19,7 +19,7 @@
   </data>
  </layer>
  <objectgroup color="#bc0000" name="enemies">
-  <object id="31" name="slime" x="472" y="320"/>
+  <object id="31" name="skeleton" x="472" y="320"/>
   <object id="73" name="slime" x="144" y="176"/>
   <object id="76" name="baddie" x="648" y="576"/>
   <object id="137" name="baddie" x="224" y="696"/>

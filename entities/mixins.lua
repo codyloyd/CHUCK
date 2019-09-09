@@ -49,7 +49,7 @@ mixins.CanSeePlayer = {
     if player then
       local direction = self.vx > 0 and 1 or -1
       local playerDirection = player.x > self.x and 1 or -1
-      if playerDirection == direction and self.hitTimer <= 0 then
+      if playerDirection == direction and self.hitTimer <= 0 and self.grounded then
         self.vx = self.vx * -1
       else
       end
