@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="210">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="220">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -17,55 +17,64 @@
   </data>
  </layer>
  <objectgroup color="#bc0000" id="4" name="enemies">
-  <object id="188" name="baddie" x="192" y="808"/>
+  <object id="188" name="baddie" x="400" y="808"/>
+  <object id="210" name="baddie" x="320" y="808"/>
+  <object id="211" name="slime" x="360" y="280"/>
+  <object id="212" name="slime" x="408" y="280"/>
  </objectgroup>
  <objectgroup id="5" name="platforms">
-  <object id="118" x="120" y="880" width="152" height="16"/>
-  <object id="185" x="80" y="824" width="144" height="16"/>
-  <object id="186" x="72" y="456" width="32" height="368"/>
-  <object id="189" x="184" y="768" width="24" height="16"/>
-  <object id="190" x="104" y="728" width="32" height="16"/>
-  <object id="191" x="208" y="400" width="16" height="384"/>
-  <object id="192" x="176" y="680" width="32" height="16"/>
-  <object id="193" x="80" y="288" width="160" height="112"/>
-  <object id="198" x="176" y="616" width="32" height="8">
+  <object id="118" x="360" y="888" width="152" height="16"/>
+  <object id="185" x="272" y="832" width="192" height="16"/>
+  <object id="186" x="256" y="480" width="16" height="368"/>
+  <object id="189" x="424" y="776" width="24" height="16"/>
+  <object id="190" x="272" y="752" width="32" height="16"/>
+  <object id="191" x="448" y="408" width="16" height="384"/>
+  <object id="192" x="416" y="688" width="32" height="16"/>
+  <object id="193" x="320" y="296" width="160" height="112"/>
+  <object id="198" x="416" y="624" width="32" height="8">
    <properties>
     <property name="jump-through" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="199" x="176" y="576" width="32" height="8">
+  <object id="199" x="416" y="584" width="32" height="8">
    <properties>
     <property name="jump-through" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="200" x="176" y="544" width="32" height="8">
+  <object id="200" x="416" y="552" width="32" height="8">
    <properties>
     <property name="jump-through" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="201" x="176" y="504" width="32" height="8">
+  <object id="202" x="168" y="264" width="16" height="664"/>
+  <object id="203" x="512" y="232" width="8" height="672"/>
+  <object id="204" x="240" y="232" width="272" height="16"/>
+  <object id="209" name="spikes" x="240" y="472" width="32" height="8"/>
+  <object id="213" name="spikes" x="184" y="584" width="16" height="264"/>
+  <object id="214" name="spikes" x="240" y="576" width="16" height="272"/>
+  <object id="215" x="240" y="480" width="16" height="88"/>
+  <object id="216" x="184" y="264" width="16" height="320"/>
+  <object id="217" x="200" y="544" width="24" height="8"/>
+  <object id="218" x="224" y="568" width="16" height="8"/>
+  <object id="219" x="320" y="512" width="128" height="8">
    <properties>
     <property name="jump-through" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="202" x="0" y="240" width="32" height="664"/>
-  <object id="203" x="272" y="224" width="8" height="672"/>
-  <object id="204" x="0" y="224" width="272" height="16"/>
-  <object id="209" name="spikes" x="72" y="448" width="32" height="8"/>
  </objectgroup>
  <objectgroup id="6" name="NOTES"/>
  <objectgroup color="#03c700" id="7" name="powerups"/>
  <objectgroup color="#0000ff" id="8" name="spawn">
-  <object id="158" name="caves101" x="152" y="864"/>
+  <object id="158" name="caves101" x="368" y="496"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
-  <object id="156" name="to caves101" type="map-change" x="120" y="840" width="16.3635" height="40">
+  <object id="156" name="to caves101" type="map-change" x="360" y="848" width="16.3635" height="40">
    <properties>
     <property name="action" value="caves101"/>
     <property name="type" value="change-scene"/>
    </properties>
   </object>
-  <object id="208" name="to caves 101_h1" type="map-change" x="32" y="600" width="40" height="64">
+  <object id="208" name="to caves 101_h1" type="map-change" x="200" y="520" width="40" height="24">
    <properties>
     <property name="action" value="caves101_h1"/>
     <property name="type" value="change-scene"/>

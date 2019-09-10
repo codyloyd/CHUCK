@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="211">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="218">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -19,15 +19,21 @@
  <objectgroup color="#bc0000" id="4" name="enemies"/>
  <objectgroup id="5" name="platforms">
   <object id="209" name="spikes" x="0" y="248" width="16" height="216"/>
-  <object id="210" name="spikes" x="72" y="248" width="16" height="216"/>
+  <object id="210" name="spikes" x="56" y="248" width="16" height="216"/>
+  <object id="211" x="0" y="144" width="16" height="104"/>
+  <object id="212" x="56" y="144" width="16" height="104"/>
+  <object id="213" x="16" y="208" width="24" height="8"/>
+  <object id="214" x="40" y="240" width="16" height="8"/>
+  <object id="216" x="16" y="416" width="24" height="8"/>
+  <object id="217" x="40" y="440" width="16" height="8"/>
  </objectgroup>
  <objectgroup id="6" name="NOTES" locked="1"/>
  <objectgroup color="#03c700" id="7" name="powerups" locked="1"/>
  <objectgroup color="#0000ff" id="8" name="spawn">
-  <object id="158" name="caves102" x="32" y="264"/>
+  <object id="158" name="caves102" x="48" y="128"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
-  <object id="208" name="to caves 101" type="map-change" x="16" y="376" width="56" height="32">
+  <object id="208" name="to caves 101" type="map-change" x="16" y="376" width="40" height="32">
    <properties>
     <property name="action" value="caves101"/>
     <property name="type" value="change-scene"/>
