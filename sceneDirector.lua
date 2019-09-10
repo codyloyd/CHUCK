@@ -7,6 +7,13 @@ local scenes = {
   START_SCENE = require("Scenes/startScene"),
   -- caves = BasicGameScene("map/TESTINGMAP.lua"),
   caves = BasicGameScene("map/caves.lua"),
+
+  caves101 = BasicGameScene("map/caves101.lua"),
+  caves101_h1 = BasicGameScene("map/caves101_h1.lua"),
+  caves102 = BasicGameScene("map/caves102.lua"),
+  caves103 = BasicGameScene("map/caves103.lua"),
+  caves103_h1 = BasicGameScene("map/caves103_h1.lua"),
+
   caves2 = BasicGameScene("map/caves2.lua"),
   caves3 = BasicGameScene("map/caves3.lua"),
   caves4 = BasicGameScene("map/caves4.lua"),
