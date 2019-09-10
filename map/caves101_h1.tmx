@@ -20,17 +20,13 @@
  <objectgroup id="5" name="platforms">
   <object id="209" name="spikes" x="0" y="248" width="16" height="216"/>
   <object id="210" name="spikes" x="56" y="248" width="16" height="216"/>
-  <object id="211" x="0" y="144" width="16" height="104"/>
-  <object id="212" x="56" y="144" width="16" height="104"/>
-  <object id="213" x="16" y="208" width="24" height="8"/>
-  <object id="214" x="40" y="240" width="16" height="8"/>
   <object id="216" x="16" y="416" width="24" height="8"/>
   <object id="217" x="40" y="440" width="16" height="8"/>
  </objectgroup>
  <objectgroup id="6" name="NOTES" locked="1"/>
  <objectgroup color="#03c700" id="7" name="powerups" locked="1"/>
  <objectgroup color="#0000ff" id="8" name="spawn">
-  <object id="158" name="caves102" x="48" y="128"/>
+  <object id="158" name="caves102" x="40" y="384"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
   <object id="208" name="to caves 101" type="map-change" x="16" y="376" width="40" height="32">
