@@ -45,8 +45,9 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
       elseif data == "wallJump" then
         table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic gloves. When jumping into walls, hold the direction and press jump to jump away from the wall or hold the initial direction to descend slowly."))
       end
+      sounds.powerup:play()
     elseif event == "player-death" then
-      self.respawnTimer = 3
+      self.respawnTimer = 2
     else
       print(event, "--event not handled")
     end

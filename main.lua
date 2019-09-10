@@ -11,6 +11,7 @@ function love.load()
   sceneDirector = require("sceneDirector")
   tick = require("lib/tick")
   particles = require("particlesController")
+  sounds = require("sounds")
   -- keybinds
   -- can probably load these from a file 
   -- or make them editable if we want

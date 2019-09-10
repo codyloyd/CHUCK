@@ -41,6 +41,7 @@ function Wizard:shootProjectile(dir)
     if self.isAttacking then
       local wx = self.x
       local wy = self.y
+      sounds.fireball:play()
       table.insert(self.projectiles, Projectile:new({
             x = wx,
             y = wy,

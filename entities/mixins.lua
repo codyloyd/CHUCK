@@ -17,6 +17,7 @@ mixins.Destructible = {
     if self.hp <=0 then
       -- :( 
       self.dead = true
+      sounds.death:play()
     end
   end,
 
