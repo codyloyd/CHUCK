@@ -9,7 +9,7 @@ return {
   tilewidth = 8,
   tileheight = 8,
   nextlayerid = 11,
-  nextobjectid = 165,
+  nextobjectid = 167,
   properties = {},
   tilesets = {
     {
@@ -1040,34 +1040,7 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {
-        {
-          id = 80,
-          name = "doubleJump",
-          type = "",
-          shape = "rectangle",
-          x = 824.453,
-          y = 631.812,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 81,
-          name = "wallJump",
-          type = "",
-          shape = "rectangle",
-          x = 828.042,
-          y = 420.333,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
-      }
+      objects = {}
     },
     {
       type = "objectgroup",
@@ -1144,6 +1117,19 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 165,
+          name = "caves101",
+          type = "",
+          shape = "rectangle",
+          x = 32,
+          y = 664,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -1171,6 +1157,22 @@ return {
           visible = true,
           properties = {
             ["action"] = "caves2",
+            ["type"] = "change-scene"
+          }
+        },
+        {
+          id = 166,
+          name = "to caves101",
+          type = "map-change",
+          shape = "rectangle",
+          x = 0,
+          y = 624,
+          width = 16.3635,
+          height = 56,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["action"] = "caves101",
             ["type"] = "change-scene"
           }
         }

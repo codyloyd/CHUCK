@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="384">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="386">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -26,8 +26,7 @@
   <object id="323" name="slime" x="768" y="648"/>
   <object id="327" name="baddie" x="512" y="632"/>
   <object id="328" name="wizard" x="432" y="712"/>
-  <object id="357" name="slime" x="864" y="360"/>
-  <object id="358" name="slime" x="864" y="360"/>
+  <object id="357" name="baddie" x="864" y="360"/>
   <object id="361" name="slime" x="464" y="232"/>
   <object id="362" name="slime" x="528" y="232"/>
   <object id="367" name="baddie" x="64" y="264"/>
@@ -152,13 +151,12 @@
   <object id="80" name="doubleJump" x="200" y="840"/>
  </objectgroup>
  <objectgroup color="#0000ff" id="8" name="spawn">
-  <object id="159" name="start" x="176" y="840"/>
   <object id="160" name="bottom" x="864" y="848"/>
   <object id="257" name="caves102" x="936" y="848"/>
   <object id="261" name="caves101_h1" x="776" y="72"/>
-  <object id="347" name="caves103" x="128" y="832"/>
-  <object id="380" name="caves103_h1" x="64" y="440"/>
-  <object id="382" name="caves103" x="128" y="832"/>
+  <object id="380" name="caves103_h1" x="64" y="456"/>
+  <object id="382" name="caves103" x="128" y="848"/>
+  <object id="384" name="caves" x="928" y="264"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
   <object id="256" name="to caves102" type="map-change" x="944" y="808" width="48" height="56">
@@ -176,6 +174,12 @@
   <object id="381" name="to caves103_h1" type="map-change" x="0" y="416" width="48" height="56">
    <properties>
     <property name="action" value="caves103_h1"/>
+    <property name="type" value="change-scene"/>
+   </properties>
+  </object>
+  <object id="385" name="to caves" type="map-change" x="944" y="232" width="16" height="48">
+   <properties>
+    <property name="action" value="caves"/>
     <property name="type" value="change-scene"/>
    </properties>
   </object>

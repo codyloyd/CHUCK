@@ -9,7 +9,7 @@ return {
   tilewidth = 8,
   tileheight = 8,
   nextlayerid = 11,
-  nextobjectid = 384,
+  nextobjectid = 386,
   properties = {},
   tilesets = {
     {
@@ -281,20 +281,7 @@ return {
         },
         {
           id = 357,
-          name = "slime",
-          type = "",
-          shape = "rectangle",
-          x = 864,
-          y = 360,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 358,
-          name = "slime",
+          name = "baddie",
           type = "",
           shape = "rectangle",
           x = 864,
@@ -1328,19 +1315,6 @@ return {
       properties = {},
       objects = {
         {
-          id = 159,
-          name = "start",
-          type = "",
-          shape = "rectangle",
-          x = 176,
-          y = 840,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 160,
           name = "bottom",
           type = "",
@@ -1380,38 +1354,12 @@ return {
           properties = {}
         },
         {
-          id = 338,
-          name = "top",
-          type = "",
-          shape = "rectangle",
-          x = 160,
-          y = 120,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 347,
-          name = "caves103",
-          type = "",
-          shape = "rectangle",
-          x = 128,
-          y = 832,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 380,
           name = "caves103_h1",
           type = "",
           shape = "rectangle",
           x = 64,
-          y = 440,
+          y = 456,
           width = 0,
           height = 0,
           rotation = 0,
@@ -1424,7 +1372,20 @@ return {
           type = "",
           shape = "rectangle",
           x = 128,
-          y = 832,
+          y = 848,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 384,
+          name = "caves",
+          type = "",
+          shape = "rectangle",
+          x = 928,
+          y = 264,
           width = 0,
           height = 0,
           rotation = 0,
@@ -1491,6 +1452,22 @@ return {
             ["action"] = "caves103_h1",
             ["type"] = "change-scene"
           }
+        },
+        {
+          id = 385,
+          name = "to caves",
+          type = "map-change",
+          shape = "rectangle",
+          x = 944,
+          y = 232,
+          width = 16,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["action"] = "caves",
+            ["type"] = "change-scene"
+          }
         }
       }
     },
@@ -1518,23 +1495,6 @@ return {
           visible = true,
           properties = {
             ["data"] = "bottom",
-            ["event"] = "checkpoint",
-            ["text"] = "Press 'z' to save "
-          }
-        },
-        {
-          id = 337,
-          name = "top",
-          type = "checkpoint",
-          shape = "rectangle",
-          x = 136,
-          y = 104,
-          width = 48,
-          height = 40,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["data"] = "top",
             ["event"] = "checkpoint",
             ["text"] = "Press 'z' to save "
           }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="165">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="167">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -138,21 +138,25 @@
    <text wrap="1">need DJ</text>
   </object>
  </objectgroup>
- <objectgroup color="#03c700" id="7" name="powerups">
-  <object id="80" name="doubleJump" x="824.453" y="631.812"/>
-  <object id="81" name="wallJump" x="828.042" y="420.333"/>
- </objectgroup>
+ <objectgroup color="#03c700" id="7" name="powerups"/>
  <objectgroup color="#0000ff" id="8" name="spawn">
   <object id="157" name="caves3" x="928.568" y="419.068"/>
   <object id="158" name="caves2" x="928" y="632"/>
   <object id="159" name="start" x="732.417" y="630.417"/>
   <object id="160" name="top" x="252.667" y="313.667"/>
   <object id="164" name="start" x="732.417" y="630.417"/>
+  <object id="165" name="caves101" x="32" y="664"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
   <object id="156" name="To Caves2" type="map-change" x="944" y="613.273" width="16.3635" height="37.6364">
    <properties>
     <property name="action" value="caves2"/>
+    <property name="type" value="change-scene"/>
+   </properties>
+  </object>
+  <object id="166" name="to caves101" type="map-change" x="0" y="624" width="16.3635" height="56">
+   <properties>
+    <property name="action" value="caves101"/>
     <property name="type" value="change-scene"/>
    </properties>
   </object>
