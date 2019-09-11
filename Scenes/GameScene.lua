@@ -4,6 +4,7 @@ local class = require("lib/middleclass")
 local EnemySpawner = require("enemies")
 local PowerupSpawner = require('powerups')
 local TriggerSpawner = require("triggers")
+local Door = require("doors")
 local InteractableSpawner = require("interactables")
 local Player = require('player')
 local Platform = require("entities/Platform")
@@ -46,6 +47,9 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
         table.insert( self.uiStack, TextboxUi.new(self.uiStack, "You have acquired the magic gloves. When jumping into walls, hold the direction and press jump to jump away from the wall or hold the initial direction to descend slowly."))
       end
       sounds.powerup:play()
+    elseif event == "open-door" then
+      -- Open a door
+      self.door:deactivate()
     elseif event == "player-death" then
       self.respawnTimer = 2
     else
@@ -57,7 +61,8 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
   self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
   self.triggers = TriggerSpawner:new(self.gameMap, self.world, gameState, changeSceneCallback)
-  self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.worldUiStack)
+  self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.worldUiStack, eventHandler, self.player)
+  self.door = Door:new(self.gameMap, self.world, gameState)
 
   local spawnPoint = {}
   for _,obj in pairs(self.gameMap.layers["spawn"].objects) do
@@ -165,6 +170,7 @@ function GameScene:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
     self.triggers:draw()
     self.interactables:draw()
+    self.door:draw()
     particles:draw()
     
     -- draw collision boxes

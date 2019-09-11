@@ -39,6 +39,15 @@ local gameState = {
     },
     health = 5,
     maxHealth = 5
+  },
+  doors = {
+    -- Will wind up having this structure:
+    -- <mapname> = true/false
+    -- true = closed, false = open
+  },
+  interactables = {
+    -- This is for onetime interactables, like door switches
+    -- <mapname> = { <name> = true/false }
   }
 }
 

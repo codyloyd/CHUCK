@@ -20,6 +20,8 @@ function Interactable:initialize(opts, world)
   self.repeatDelay = opts.repeatDelay
   self.repeatTimer = 0
   self.ranAction = false
+  self.gameState = opts.gameState
+  self.oneTime = opts.oneTime
 
   self.eventHandler = opts.eventHandler
 
@@ -28,10 +30,15 @@ function Interactable:initialize(opts, world)
     y = self.y,
     limit = self.w * 2 -- Not sure why we need to multiply by 2
   }
+
+  if not self.gameState.interactables[self.gameState.scene.current] then 
+    self.gameState.interactables[self.gameState.scene.current] = {}
+  end
+
 end
 
 function Interactable:update(dt)
-  if self.repeatDelay and self.ranAction then
+  if self.repeatDelay and self.ranAction and not self.oneTime then
     if self.repeatTimer <= 0 then
       self.ranAction = false
       self:showText()
@@ -45,6 +52,10 @@ function Interactable:sendEvent()
   -- Wrapping function to keep proper `self` context
   return function()
     if not self.ranAction then
+      if self.oneTime then
+        self.gameState.interactables[self.gameState.scene.current][self.name] = true
+      end
+
       self.eventHandler(self.event, self.data)
       particlesController:createFirework(self.x + self.w/2, self.y + self.h/2 - 3)
       self.repeatTimer = self.repeatDelay
