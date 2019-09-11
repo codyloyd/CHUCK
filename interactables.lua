@@ -13,38 +13,48 @@ function InteractableSpawner:eventHandlerFactory()
         scene=self.gameState.scene.current,
         spawnPoint=data
       }
+    elseif event == 'open-door' then
+      self.event('open-door')
     end
   end
 
   return eventHandler
 end
 
-function InteractableSpawner:initialize(gameMap, world, gameState, uiStack, player)
+function InteractableSpawner:initialize(gameMap, world, gameState, uiStack, eventHandler, player)
   self.world = world
   self.gameMap = gameMap
   self.gameState = gameState
   self.uiStack = uiStack
+  self.event = eventHandler
   self.player = player
+
+  local mapInteractables = self.gameState.interactables[self.gameState.scene.current] or {}
 
   self.interactables = {}
   if(self.gameMap.layers["interactables"]) then
     for _, inter in pairs(self.gameMap.layers["interactables"].objects) do
-      local i = Interactable:new({
-        x=inter.x,
-        y=inter.y, 
-        h=inter.height, 
-        w=inter.width, 
+      if not mapInteractables[inter.name] then
+        local i = Interactable:new({
+          x=inter.x,
+          y=inter.y, 
+          h=inter.height, 
+          w=inter.width, 
 
-        name=inter.name,
-        text=inter.properties.text,
-        event=inter.properties.event,
-        data=inter.properties.data,
-        repeatDelay=inter.properties.repeatDelay,
-        uiStack=self.uiStack,
-        eventHandler=self:eventHandlerFactory()
-      }, self.world) 
+          name=inter.name,
+          text=inter.properties.text,
+          event=inter.properties.event,
+          data=inter.properties.data,
+          repeatDelay=inter.properties.repeatDelay,
+          oneTime=inter.properties.oneTime,
 
-      table.insert(self.interactables, i)
+          uiStack=self.uiStack,
+          eventHandler=self:eventHandlerFactory(),
+          gameState=self.gameState
+        }, self.world) 
+
+        table.insert(self.interactables, i)
+      end
     end
   end
 end

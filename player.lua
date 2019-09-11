@@ -102,14 +102,14 @@ function Player.collisionFilter(item, other)
   -- If the platform is jumpthrough-able, and if the players feet are above the top of the platform
   if other.jumpThrough and item.y + item.h > other.y then
     return nil
-  elseif other == item.attackBox then
-    return nil
   elseif other.causesDamage then
     return 'cross'
   elseif other.class and other.class.name == "Powerup" then
     return 'cross'
   elseif other.dropType and other.dropType == "health" then
     return 'cross'
+  elseif other.class and other.class.name == "Door" and other.inactive then
+    return nil
   else
     return 'slide'
   end
