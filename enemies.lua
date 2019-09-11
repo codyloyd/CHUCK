@@ -7,7 +7,7 @@ local Skeleton = require("entities/Skeleton")
 
 local EnemySpawner = class("EnemieSpawner")
 
-function EnemySpawner:initialize(gameMap, world) 
+function EnemySpawner:initialize(gameMap, world, gameState, eventHandler) 
   self.enemies = {}
   self.gameMap = gameMap
   self.world = world
@@ -16,13 +16,13 @@ function EnemySpawner:initialize(gameMap, world)
   for i, e in pairs(self.gameMap.layers["enemies"].objects) do
     -- table.insert(self.enemies, spawnEnemy(e.x, e.y))
     if e.name == "slime" then
-      table.insert(self.enemies, Slime:new({x=e.x, y=e.y}, self.world))
+      table.insert(self.enemies, Slime:new({x=e.x, y=e.y, eventHandler=eventHandler}, self.world))
     elseif e.name == "wizard" then
-      table.insert(self.enemies, Wizard:new({x=e.x, y=e.y}, self.world))
+      table.insert(self.enemies, Wizard:new({x=e.x, y=e.y, eventHandler=eventHandler}, self.world))
     elseif e.name == "baddie" then
-      table.insert(self.enemies, Baddie:new({x=e.x, y=e.y}, self.world))
+      table.insert(self.enemies, Baddie:new({x=e.x, y=e.y,eventHandler=eventHandler}, self.world))
     elseif e.name == "skeleton" then
-      table.insert(self.enemies, Skeleton:new({x=e.x, y=e.y}, self.world))
+      table.insert(self.enemies, Skeleton:new({x=e.x, y=e.y,eventHandler=eventHandler}, self.world))
     end
   end
 

@@ -4,6 +4,7 @@ local mixins = require('entities/mixins')
 local Baddie = class('Baddie', Entity)
 Baddie:include(mixins.Destructible)
 Baddie:include(mixins.CanSeePlayer)
+Baddie:include(mixins.DropsHealth)
 
 function Baddie:initialize(opts, world)
   Entity.initialize(self, opts)

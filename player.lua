@@ -34,6 +34,7 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
 
   -- Variables
   self.health = self.playerState.health or 5
+  self.maxHealth = self.playerState.maxHealth or 5
   self.powerups = {
     doubleJump = self.playerState.powerups.doubleJump or false,
     wallJump = self.playerState.powerups.wallJump or false
@@ -107,12 +108,15 @@ function Player.collisionFilter(item, other)
     return 'cross'
   elseif other.class and other.class.name == "Powerup" then
     return 'cross'
+  elseif other.dropType and other.dropType == "health" then
+    return 'cross'
   else
     return 'slide'
   end
 end
 
 function Player:update(dt)
+  self.health = self.playerState.health
   self:updateAnimation(dt)
   self:updateGravity(dt)
   self.spritesheet = self.knightspritesheet
@@ -295,6 +299,14 @@ function Player:update(dt)
       self:getPowerup(col.other.name)
       col.other:collected()
     end
+
+    if col.other.dropType and col.other.dropType == "health" then
+      if col.other.life > 0 then
+        self.health = math.min(self.health+1, self.maxHealth)
+        self.playerState.health = self.health
+        col.other.life = 0
+      end
+    end
   end
 
   if math.abs(self.vx) > 10 and self.grounded then
@@ -392,6 +404,12 @@ function Player:getPowerup(type)
   elseif type == "wallJump" then
     self.powerups.wallJump = true
     self.playerState.powerups.wallJump = true
+  elseif string.find(type, "healthIncrease") then
+    self.maxHealth = self.maxHealth + 1
+    self.health = self.maxHealth
+    self.playerState.health = self.health
+    self.playerState.maxHealth = self.maxHealth
+    self.playerState.powerups[type] = true
   end
 
   self.sendEvent("got-powerup", type)

@@ -4,6 +4,7 @@ local mixins = require('entities/mixins')
 local Slime = class('Slime', Entity)
 Slime:include(mixins.Destructible)
 Slime:include(mixins.CanSeePlayer)
+Slime:include(mixins.DropsHealth)
 
 function Slime:initialize(opts, world)
   Entity.initialize(self, opts, world)

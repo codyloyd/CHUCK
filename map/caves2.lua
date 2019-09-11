@@ -8,7 +8,7 @@ return {
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 181,
+  nextobjectid = 185,
   properties = {},
   tilesets = {
     {
@@ -1330,6 +1330,19 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 181,
+          name = "spikes",
+          type = "",
+          shape = "rectangle",
+          x = 88,
+          y = 296,
+          width = 24,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -1393,7 +1406,21 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 184,
+          name = "healthIncrease1",
+          type = "",
+          shape = "rectangle",
+          x = 328,
+          y = 168,
+          width = 8,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
     },
     {
       type = "objectgroup",
@@ -1551,26 +1578,7 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {
-        {
-          id = 155,
-          name = "",
-          type = "",
-          shape = "text",
-          x = 288,
-          y = 112,
-          width = 88,
-          height = 72,
-          rotation = 0,
-          visible = true,
-          text = "if we get around to implementing it, this would be a good place for an \"extra shield\" powerup.. it's tricky but can be accessed by double jump.",
-          fontfamily = "Lucida Grande",
-          pixelsize = 8,
-          wrap = true,
-          color = { 225, 225, 225 },
-          properties = {}
-        }
-      }
+      objects = {}
     },
     {
       type = "tilelayer",

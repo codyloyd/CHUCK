@@ -6,6 +6,7 @@ local Projectile = require('entities/Projectile')
 local Wizard = class('Wizard', Entity)
 Wizard:include(mixins.Destructible)
 Wizard:include(mixins.CanSeePlayer)
+Wizard:include(mixins.DropsHealth)
 
 function Wizard:initialize(opts, world)
   Entity.initialize(self, opts, world)

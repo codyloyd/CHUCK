@@ -18,6 +18,9 @@ mixins.Destructible = {
       -- :( 
       self.dead = true
       sounds.death:play()
+      if self.dropsHealth then
+        self:dropHealth()
+      end
     end
   end,
 
@@ -54,6 +57,15 @@ mixins.CanSeePlayer = {
         self.vx = self.vx * -1
       else
       end
+    end
+  end
+}
+
+mixins.DropsHealth = {
+  dropsHealth = true,
+  dropHealth = function(self)
+    if math.random() < .6 then
+      self.eventHandler("dropHealth", {x=self.x, y=self.y})
     end
   end
 }

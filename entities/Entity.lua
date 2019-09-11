@@ -20,6 +20,7 @@ function Entity:initialize(opts, world)
   self.gravity = opts and opts.gravity or 790 
   self.grounded = opts and opts.grounded or false
   self.causesDamage = opts and opts.causesDamage or true
+  self.eventHandler = opts and opts.eventHandler or nil
   self.dead = false
 
   self.world = world

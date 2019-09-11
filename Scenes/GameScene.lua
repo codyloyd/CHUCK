@@ -14,12 +14,16 @@ local TextboxUi = require("UI/TextboxUi")
 
 local GameScene = class("GameScene", Scene)
 
+local healthSprite = love.graphics.newImage("assets/HEALTH.png")
+
 function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
   Scene.initialize(self, changeSceneCallback)
   self.gameState = gameState
   self.setInitialCameraPosition = true
   self.screenShakeTimer = 0
   self.respawnTimer = 0
+
+  self.enemyDrops = {}
 
   -- for UI attached to the screen
   self.uiStack = {}
@@ -48,13 +52,24 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
       sounds.powerup:play()
     elseif event == "player-death" then
       self.respawnTimer = 2
+    elseif event == "dropHealth" then
+      if self.player.health < self.player.maxHealth then
+        local drop = {
+            dropType = "health",
+            x = data.x,
+            y = data.y-8,
+            life = 5
+        }
+        self.world:add(drop, drop.x, drop.y, 8, 8)
+        table.insert(self.enemyDrops, drop)
+      end
     else
       print(event, "--event not handled")
     end
   end
 
   -- Entities
-  self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState)
+  self.enemies = EnemySpawner:new(self.gameMap, self.world, gameState, eventHandler)
   self.powerups = PowerupSpawner:new(self.gameMap, self.world, gameState)
   self.triggers = TriggerSpawner:new(self.gameMap, self.world, gameState, changeSceneCallback)
   self.interactables = InteractableSpawner:new(self.gameMap, self.world, gameState, self.worldUiStack)
@@ -112,6 +127,16 @@ function GameScene:update(dt)
     self.interactables:update(dt)
     particles:update(dt)
 
+    -- update enemy drops
+    for i, d in ipairs(self.enemyDrops) do 
+      if d.life > 0 then 
+        d.life = d.life - dt
+      end
+      if d.life <= 0 then
+        table.remove(self.enemyDrops, i)
+      end
+    end
+
     if self.player.dead then
       self.respawnTimer = self.respawnTimer - dt
       if self.respawnTimer < 0 then
@@ -165,6 +190,14 @@ function GameScene:draw()
     self.gameMap:drawLayer(self.gameMap.layers["foreground"])
     self.triggers:draw()
     self.interactables:draw()
+
+    -- draw enemy drops
+    for i, d in pairs(self.enemyDrops) do 
+      if d.dropType == "health" then 
+        love.graphics.draw(healthSprite, d.x, d.y)
+      end
+    end
+
     particles:draw()
     
     -- draw collision boxes

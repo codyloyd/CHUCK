@@ -4,6 +4,7 @@ local mixins = require('entities/mixins')
 local Skeleton = class('Skeleton', Entity)
 Skeleton:include(mixins.Destructible)
 Skeleton:include(mixins.CanSeePlayer)
+Skeleton:include(mixins.DropsHealth)
 
 function Skeleton:initialize(opts, world)
   Entity.initialize(self, opts)

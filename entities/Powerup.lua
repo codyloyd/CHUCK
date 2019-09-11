@@ -15,6 +15,7 @@ function Powerup:initialize(opts, world)
   self.originX = opts.x
   self.originY = opts.y
   self.spritesheet=love.graphics.newImage('assets/POWERUP.png')
+  self.healthspritesheet=love.graphics.newImage('assets/BIGHEALTH.png')
   self.movingUp=true
 
   world:add(self, self.x, self.y, self.w, self.h)
@@ -23,7 +24,7 @@ end
 function Powerup:update(dt)
   if self.movingUp then
     self.y = self.y - 0.6 * dt
-    if self.y < self.originY - 0.8 then self.movingUp = false end
+    if self.y < self.originY - 1.2 then self.movingUp = false end
   else
     self.y = self.y + 0.6 * dt
     if self.y > self.originY then self.movingUp = true end
@@ -31,7 +32,11 @@ function Powerup:update(dt)
 end
 
 function Powerup:draw()
-  love.graphics.draw(self.spritesheet, self.x, self.y, 0)
+  if (string.find(self.name, "healthIncrease")) then
+    love.graphics.draw(self.healthspritesheet, self.x, self.y, 0)
+  else
+    love.graphics.draw(self.spritesheet, self.x, self.y, 0)
+  end
 end
 
 function Powerup:collected()
