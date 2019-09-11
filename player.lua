@@ -263,12 +263,13 @@ function Player:update(dt)
     end
 
     -- Walljump
-    if self.powerups.wallJump                -- Check if player has walljump, 
-    and not self.grounded                    -- and not if grounded
-    and col.other.class.name == "Platform"   -- the other is a platform, 
-    and not col.other.jumpThrough            -- but not a jumpthrough, 
-    and col.normal.y == 0                    -- and not hitting head, 
-    and self.vy < 0                          -- and not moving upwards
+    if self.powerups.wallJump                      -- Check if player has walljump, 
+    and not self.grounded                          -- and not if grounded
+    and col.other.class.name == "Platform"         -- the other is a platform, 
+    and not col.other.jumpThrough                  -- but not a jumpthrough, 
+    and col.normal.y == 0                          -- and not hitting head, 
+    and self.vy < 0                                -- and not moving upwards
+    and col.other.y + col.other.h > self.y + 11    -- Check feet vs bottom of platform to prevent head from sticking
     and (love.keyboard.isDown(RIGHT) or love.keyboard.isDown(LEFT))
     then
       -- Set vy to zero on initial contact
