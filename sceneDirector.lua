@@ -67,7 +67,7 @@ function changeScene(sceneName, reason)
   end
 end
 
-changeScene("START_SCENE")
+changeScene("caves5", "spawn")
 
 function sceneDirector.draw() 
   currentScene:draw()
