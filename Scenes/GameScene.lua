@@ -133,6 +133,7 @@ function GameScene:update(dt)
         d.life = d.life - dt
       end
       if d.life <= 0 then
+        self.world:remove(d)
         table.remove(self.enemyDrops, i)
       end
     end
