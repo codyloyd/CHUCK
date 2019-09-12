@@ -36,14 +36,14 @@ sounds.fireball = love.audio.newSource("sounds/fireball.ogg", "static", false)
 sounds.fireball:setVolume(.1)
 sounds.fireball:setPitch(1.5)
 
-sounds.powerup = love.audio.newSource("sounds/powerup.wav", "static", false)
+sounds.powerup = love.audio.newSource("sounds/powerup.mp3", "static", false)
 sounds.powerup:setVolume(.6)
 sounds.powerup:setPitch(1)
 
-sounds.chuckSong = love.audio.newSource("sounds/CHUCK.wav", "stream", true)
+sounds.chuckSong = love.audio.newSource("sounds/CHUCK.mp3", "stream", true)
 sounds.chuckSong:setVolume(1)
 
-sounds.mazeSong = love.audio.newSource("sounds/mazey.wav", "stream", true)
+sounds.mazeSong = love.audio.newSource("sounds/mazey.mp3", "stream", true)
 sounds.mazeSong:setVolume(1)
 
 return sounds
