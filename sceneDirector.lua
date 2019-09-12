@@ -5,7 +5,6 @@ local currentSceneName
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
-  -- caves = BasicGameScene("map/TESTINGMAP.lua"),
   caves = BasicGameScene("map/caves.lua"),
 
   caves101 = BasicGameScene("map/caves101.lua"),
@@ -19,8 +18,8 @@ local scenes = {
   caves4 = BasicGameScene("map/caves4.lua"),
   caves5 = BasicGameScene("map/caves5.lua"),
   sample = BasicGameScene("map/samplerMap.lua"),
-  sample2 = BasicGameScene("map/samplerMap2.lua")
-  -- END_SCENE = require("Scenes/endScene")
+  sample2 = BasicGameScene("map/samplerMap2.lua"),
+  end_scene = require("Scenes/endScene")
 }
 
 local gameState = {
@@ -34,8 +33,8 @@ local gameState = {
       spawnPoint = nil
     },
     powerups = {
-      doubleJump = false,
-      wallJump = false
+      doubleJump = true,
+      wallJump = true
     },
     health = 5,
     maxHealth = 5

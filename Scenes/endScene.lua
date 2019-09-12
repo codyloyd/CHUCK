@@ -1,27 +1,20 @@
-local scene = {}
-function scene.new(changeScene)
-  local self = {}
-  function self:init()
-  end
+local class = require("lib/middleclass")
+local Scene = require("Scenes/Scene")
 
-  function self:draw()
-    love.graphics.print( "END: Press 'enter' to start over", 22, 88 )
-  end
+local EndScene = class("EndScene", Scene)
 
-  function self:update(dt)
-  end
-
-  function self:keypressed(key)
-    if key == "return" then
-      changeScene("START_SCENE")
-    end
-
-  end
-
-  function self:keyreleased(key)
-  end
-
-  return self
+function EndScene:initialize(changeSceneCallback)
+  Scene.initialize(self, changeSceneCallback)
 end
 
-return scene
+function EndScene:draw()
+  love.graphics.print( "End of game, press 'ENTER'", 22, 88 )
+end
+
+function EndScene:keypressed(key)
+  if key == "return" then
+    changeScene("START_SCENE")
+  end
+end
+
+return EndScene

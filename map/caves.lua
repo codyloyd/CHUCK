@@ -9,7 +9,7 @@ return {
   tilewidth = 8,
   tileheight = 8,
   nextlayerid = 21,
-  nextobjectid = 173,
+  nextobjectid = 174,
   properties = {},
   tilesets = {
     {
@@ -1145,6 +1145,22 @@ return {
           visible = true,
           properties = {
             ["action"] = "caves101",
+            ["type"] = "change-scene"
+          }
+        },
+        {
+          id = 173,
+          name = "to endgame",
+          type = "map-change",
+          shape = "rectangle",
+          x = 0,
+          y = 288,
+          width = 16.3635,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["action"] = "end_scene",
             ["type"] = "change-scene"
           }
         }

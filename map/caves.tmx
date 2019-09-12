@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="21" nextobjectid="173">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="21" nextobjectid="174">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -156,6 +156,12 @@
   <object id="166" name="to caves101" type="map-change" x="0" y="624" width="16.3635" height="56">
    <properties>
     <property name="action" value="caves101"/>
+    <property name="type" value="change-scene"/>
+   </properties>
+  </object>
+  <object id="173" name="to endgame" type="map-change" x="0" y="288" width="16.3635" height="48">
+   <properties>
+    <property name="action" value="end_scene"/>
     <property name="type" value="change-scene"/>
    </properties>
   </object>
