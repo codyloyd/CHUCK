@@ -40,4 +40,10 @@ sounds.powerup = love.audio.newSource("sounds/powerup.wav", "static", false)
 sounds.powerup:setVolume(.6)
 sounds.powerup:setPitch(1)
 
+sounds.chuckSong = love.audio.newSource("sounds/CHUCK.wav", "stream", true)
+sounds.chuckSong:setVolume(1)
+
+sounds.mazeSong = love.audio.newSource("sounds/mazey.wav", "stream", true)
+sounds.mazeSong:setVolume(1)
+
 return sounds

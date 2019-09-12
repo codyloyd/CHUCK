@@ -21,6 +21,7 @@ local scenes = {
   sample2 = BasicGameScene("map/samplerMap2.lua"),
   end_scene = require("Scenes/endScene")
 }
+local fadingTrack = nil
 
 local gameState = {
   scene = {
@@ -55,6 +56,25 @@ easeIn = function(t, b, c, d)
     return c*t*t + b;
   end 
 
+local currentSong = nil
+local function toggleMusic(scene)
+  print(scene)
+  local newSong 
+  if scene == "START_SCENE" or scene == "caves"  or scene == "caves2" then
+    newSong = "chuckSong"
+  elseif scene == "caves101" or scene == "caves3" then
+    newSong = "mazeSong"
+  end
+  if newSong then
+    if currentSong and currentSong ~= newSong then
+      fadingTrack = currentSong
+    end
+    currentSong = newSong
+    sounds[newSong]:play()
+    sounds[newSong]:setVolume(1)
+  end
+end
+
 local fadeTimer = 0
 
 function changeScene(sceneName, reason) 
@@ -70,9 +90,11 @@ function changeScene(sceneName, reason)
     gameState.player.health = 5
     gameState.scene.current = newCurrentScene
     currentScene = scenes[newCurrentScene]:new(changeScene, gameState, gameState.player.spawn.spawnPoint or "start")
+    toggleMusic(newCurrentScene)
   else
     currentScene = scenes[sceneName]:new(changeScene, gameState)
-  end
+    toggleMusic(sceneName)
+  end 
 end
 
 changeScene("START_SCENE")
@@ -88,6 +110,14 @@ function sceneDirector.update(dt)
   if fadeTimer >= 0 then
     fadeTimer = fadeTimer - dt 
   end
+  --crossfading music
+  if fadingTrack and sounds[fadingTrack]:getVolume() > 0 then
+    sounds[fadingTrack]:setVolume(sounds[fadingTrack]:getVolume() - dt*.4)
+  end
+  if fadingTrack and sounds[fadingTrack]:getVolume() <= 0.1 then
+    sounds[fadingTrack]:stop()
+  end
+
   currentScene:update(dt)
 end
 
