@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="414">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="415">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -40,9 +40,9 @@
   <object id="397" name="spikes" x="728" y="272" width="8" height="32"/>
   <object id="398" x="952" y="304" width="8" height="184"/>
   <object id="399" name="spikes" x="0" y="776" width="472" height="184"/>
-  <object id="402" x="584" y="376" width="168" height="24"/>
+  <object id="402" x="584" y="352" width="168" height="24"/>
   <object id="403" x="0" y="0" width="960" height="232"/>
-  <object id="404" x="584" y="232" width="40" height="144"/>
+  <object id="404" x="584" y="232" width="40" height="120"/>
   <object id="409" name="spikes" x="0" y="224" width="32" height="552"/>
   <object id="411" x="632" y="680" width="32" height="280"/>
   <object id="412" x="600" y="712" width="32" height="248"/>
@@ -54,12 +54,13 @@
  </objectgroup>
  <objectgroup id="6" name="NOTES"/>
  <objectgroup color="#03c700" id="7" name="powerups">
-  <object id="81" name="wallJump" x="512" y="736"/>
+  <object id="81" name="wallJump" x="536" y="744"/>
  </objectgroup>
  <objectgroup color="#0000ff" id="8" name="spawn">
-  <object id="160" name="walljump" x="664" y="360"/>
+  <object id="160" name="walljump" x="664" y="336"/>
   <object id="393" name="caves101" x="896" y="632"/>
   <object id="407" name="caves103_h1" x="920" y="256"/>
+  <object id="414" name="powerup-spawn" x="536" y="744"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
   <object id="392" name="to caves101" type="map-change" x="912" y="608" width="48" height="40">
@@ -76,7 +77,7 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="interactables">
-  <object id="161" name="walljump" type="checkpoint" x="640" y="336" width="48" height="40">
+  <object id="161" name="walljump" type="checkpoint" x="640" y="312" width="48" height="40">
    <properties>
     <property name="data" value="bottom"/>
     <property name="event" value="checkpoint"/>

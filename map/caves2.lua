@@ -1,14 +1,15 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.6",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 48,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 185,
+  nextlayerid = 10,
+  nextobjectid = 186,
   properties = {},
   tilesets = {
     {
@@ -19,6 +20,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -44,6 +46,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles_transparent.png",
       imagewidth = 64,
       imageheight = 96,
@@ -69,6 +72,7 @@ return {
       tileheight = 400,
       spacing = 0,
       margin = 0,
+      columns = 1,
       image = "../assets/lightsource.png",
       imagewidth = 400,
       imageheight = 400,
@@ -90,6 +94,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "background",
       x = 0,
       y = 0,
@@ -105,6 +110,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 2,
       name = "lights",
       visible = true,
       opacity = 1,
@@ -145,6 +151,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 3,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -1348,6 +1355,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 4,
       name = "spawn",
       visible = true,
       opacity = 1,
@@ -1394,11 +1402,25 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 185,
+          name = "powerup-spawn",
+          type = "",
+          shape = "rectangle",
+          x = 328,
+          y = 168,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
     {
       type = "objectgroup",
+      id = 5,
       name = "powerups",
       visible = true,
       opacity = 1,
@@ -1424,6 +1446,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 6,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -1527,6 +1550,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 7,
       name = "triggers",
       visible = true,
       opacity = 1,
@@ -1571,6 +1595,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 8,
       name = "NOTES",
       visible = true,
       opacity = 1,
@@ -1582,6 +1607,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 9,
       name = "foreground",
       x = 0,
       y = 0,

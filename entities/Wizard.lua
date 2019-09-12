@@ -14,6 +14,8 @@ function Wizard:initialize(opts, world)
   self.w = 8
   self.h = 8
   self.hp = 5
+  self.dead = false
+
   self.isAttacking = false
   self.spritesheet = love.graphics.newImage('assets/WIZARD_WHITE.png')
   self.animationGrid = anim8.newGrid(16,16,64,64)
@@ -23,10 +25,10 @@ function Wizard:initialize(opts, world)
   self.falling = anim8.newAnimation(self.animationGrid('2-2', 3), 1)
   self.attacking = anim8.newAnimation(self.animationGrid('1-4', 4), 0.1)
   self.hurt = anim8.newAnimation(self.animationGrid('3-3', 3), 1)
-  self.dead = anim8.newAnimation(self.animationGrid('4-4', 3), 1)
   self.animation = self.standing
   self.projectiles = {}
   self.projectileTimer = 0
+
 
   self.world = world
 
@@ -39,7 +41,7 @@ end
 
 function Wizard:shootProjectile(dir)
   tick.delay(function()
-    if self.isAttacking then
+    if self.isAttacking and not self.dead then
       local wx = self.x
       local wy = self.y
       sounds.fireball:play()
