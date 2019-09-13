@@ -33,7 +33,6 @@
   <object id="138" name="slime" x="296" y="842"/>
   <object id="139" name="baddie" x="394" y="636"/>
   <object id="143" name="slime" x="606" y="730"/>
-  <object id="184" name="wizard" x="264" y="320"/>
  </objectgroup>
  <objectgroup id="6" name="platforms">
   <object id="1" x="0" y="336" width="688" height="200"/>

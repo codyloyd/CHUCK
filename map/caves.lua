@@ -336,19 +336,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
-        },
-        {
-          id = 184,
-          name = "wizard",
-          type = "",
-          shape = "rectangle",
-          x = 264,
-          y = 320,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          properties = {}
         }
       }
     },
