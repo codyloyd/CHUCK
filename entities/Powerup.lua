@@ -17,6 +17,7 @@ function Powerup:initialize(opts, world)
   self.spritesheet=love.graphics.newImage('assets/POWERUP.png')
   self.healthspritesheet=love.graphics.newImage('assets/BIGHEALTH.png')
   self.movingUp=true
+  self.noClip = true
 
   world:add(self, self.x, self.y, self.w, self.h)
 end
