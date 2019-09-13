@@ -1,7 +1,7 @@
 inspect = require('./lib/inspect')
 
 function love.load()
-  DEBUG_MODE = true
+  DEBUG_MODE = false
 
   love.graphics.setBackgroundColor(0,0,0)
   love.graphics.setDefaultFilter( "nearest" )
