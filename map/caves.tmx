@@ -52,7 +52,7 @@
     <property name="jump-through" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="11" name="wi" x="0" y="0" width="8" height="288"/>
+  <object id="11" x="0" y="0" width="8" height="288"/>
   <object id="14" x="512" y="184" width="176" height="152.063"/>
   <object id="18" x="80" y="216" width="88" height="16"/>
   <object id="19" x="80" y="232" width="48" height="16"/>
@@ -145,7 +145,7 @@
  <objectgroup color="#03c700" id="9" name="powerups"/>
  <objectgroup color="#0000ff" id="10" name="spawn">
   <object id="158" name="caves2" x="928" y="632"/>
-  <object id="159" name="start" x="40" y="48" rotation="-1.32642"/>
+  <object id="159" name="start" x="32" y="128" rotation="-1.32642"/>
   <object id="160" name="top" x="832" y="632"/>
   <object id="165" name="caves101" x="32" y="664"/>
  </objectgroup>
