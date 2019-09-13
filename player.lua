@@ -61,7 +61,7 @@ function Player:initialize(gameMap, world, playerState, spawnPos, eventHandler)
   self.world = world
 
   -- Sword attack (offset from player location, multiplied by direction)
-  self.swordAttackHitbox = {w=13, h=self.h - 2}
+  self.swordAttackHitbox = {w=12, h=self.h - 2}
   -- self.world:add(self.attackBox, 0, 0, 13, 16)
 
   -- eventHandler callback
