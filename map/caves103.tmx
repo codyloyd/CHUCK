@@ -13,10 +13,6 @@
   <object id="415" gid="97" x="144" y="112" width="256" height="160" rotation="-270.003"/>
   <object id="417" gid="97" x="872" y="336" width="256" height="160"/>
   <object id="418" gid="97" x="-80.0063" y="672.022" width="256" height="624" rotation="-270.003"/>
-  <object id="419" gid="97" x="88" y="688" width="256" height="624" rotation="-270.003"/>
-  <object id="420" gid="97" x="88" y="952" width="256" height="624" rotation="-359.845"/>
-  <object id="422" gid="97" x="88" y="736" width="256" height="624" rotation="-359.845"/>
-  <object id="423" gid="97" x="96" y="1080" width="256" height="624" rotation="-359.845"/>
  </objectgroup>
  <layer id="3" name="foreground" width="120" height="120">
   <data encoding="base64">

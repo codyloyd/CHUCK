@@ -174,62 +174,6 @@ return {
           gid = 97,
           visible = true,
           properties = {}
-        },
-        {
-          id = 419,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 88,
-          y = 688,
-          width = 256,
-          height = 624,
-          rotation = -270.003,
-          gid = 97,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 420,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 88,
-          y = 952,
-          width = 256,
-          height = 624,
-          rotation = -359.845,
-          gid = 97,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 422,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 88,
-          y = 736,
-          width = 256,
-          height = 624,
-          rotation = -359.845,
-          gid = 97,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 423,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 96,
-          y = 1080,
-          width = 256,
-          height = 624,
-          rotation = -359.845,
-          gid = 97,
-          visible = true,
-          properties = {}
         }
       }
     },
