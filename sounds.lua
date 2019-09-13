@@ -40,6 +40,14 @@ sounds.powerup = love.audio.newSource("sounds/powerup.mp3", "static", false)
 sounds.powerup:setVolume(.6)
 sounds.powerup:setPitch(1)
 
+sounds.open = love.audio.newSource("sounds/open.ogg", "static", false)
+sounds.open:setVolume(.4)
+sounds.open:setPitch(1)
+
+sounds.pickup = love.audio.newSource("sounds/pickup.ogg", "static", false)
+sounds.pickup:setVolume(.2)
+sounds.pickup:setPitch(1)
+
 sounds.chuckSong = love.audio.newSource("sounds/CHUCK.mp3", "stream", true)
 sounds.chuckSong:setVolume(1)
 

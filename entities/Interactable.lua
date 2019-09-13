@@ -55,6 +55,7 @@ function Interactable:sendEvent()
       if self.oneTime then
         self.gameState.interactables[self.gameState.scene.current][self.name] = true
       end
+      print(self.event)
 
       self.eventHandler(self.event, self.data)
       particlesController:createFirework(self.x + self.w/2, self.y + self.h/2 - 3)

@@ -57,6 +57,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
     elseif event == "open-door" then
       -- Open a door
       self.door:deactivate()
+      sounds.open:play()
     elseif event == "player-death" then
       self.respawnTimer = 2
     elseif event == "dropHealth" then
