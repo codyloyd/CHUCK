@@ -24,7 +24,7 @@ function textBox.new(uiStack, message, keyboardControl, mouseControl)
 
   function self:draw()
     local padding = 8
-    local boxHeight = 100
+    local boxHeight = 120
 
     local r, b, g, a = love.graphics.getColor()
     love.graphics.setColor(.1, .1, .1, .5)
