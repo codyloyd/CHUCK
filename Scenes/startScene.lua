@@ -17,7 +17,8 @@ function StartScene:draw()
   love.graphics.printf("The Adventures of Sir Charles the Small", love.graphics.getWidth()/2-200, 200, 400, "center")
   love.graphics.setFont(font)
   love.graphics.printf( "Press 'enter' to go", 0, 500, 800, "center")
-  love.graphics.printf( "Press 'p' to pause", 0, 530, 800, "center")
+  love.graphics.printf( "Press 'x' to fight!", 0, 530, 800, "center")
+  love.graphics.printf( "Press 'p' to pause", 0, 560, 800, "center")
 end
 
 function StartScene:keypressed(key)
