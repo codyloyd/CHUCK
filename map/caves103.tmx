@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="427">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="428">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -82,9 +82,9 @@
   </object>
  </objectgroup>
  <objectgroup id="10" name="interactables">
-  <object id="161" name="walljump" type="checkpoint" x="640" y="312" width="48" height="40">
+  <object id="427" name="walljump" type="checkpoint" x="640" y="312" width="48" height="40">
    <properties>
-    <property name="data" value="bottom"/>
+    <property name="data" value="walljump"/>
     <property name="event" value="checkpoint"/>
     <property name="text" value="Press 'z' to save "/>
    </properties>

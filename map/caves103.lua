@@ -9,7 +9,7 @@ return {
   tilewidth = 8,
   tileheight = 8,
   nextlayerid = 11,
-  nextobjectid = 427,
+  nextobjectid = 428,
   properties = {},
   tilesets = {
     {
@@ -496,7 +496,7 @@ return {
         },
         {
           id = 426,
-          name = "spikes",
+          name = "",
           type = "",
           shape = "rectangle",
           x = 840,
@@ -671,7 +671,7 @@ return {
       properties = {},
       objects = {
         {
-          id = 161,
+          id = 427,
           name = "walljump",
           type = "checkpoint",
           shape = "rectangle",
@@ -682,7 +682,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["data"] = "bottom",
+            ["data"] = "walljump",
             ["event"] = "checkpoint",
             ["text"] = "Press 'z' to save "
           }
