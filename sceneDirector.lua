@@ -34,8 +34,8 @@ local gameState = {
       spawnPoint = nil
     },
     powerups = {
-      doubleJump = true,
-      wallJump = true
+      doubleJump = false,
+      wallJump = false
     },
     health = 5,
     maxHealth = 5
@@ -81,11 +81,10 @@ easeIn = function(t, b, c, d)
 
 local currentSong = nil
 local function toggleMusic(scene)
-  print(scene)
   local newSong 
-  if scene == "START_SCENE" or scene == "caves"  or scene == "caves2" then
+  if scene == "START_SCENE" or scene == "caves"  or scene == "caves3" then
     newSong = "chuckSong"
-  elseif scene == "caves101" or scene == "caves3" then
+  elseif scene == "caves101" or scene == "caves5" then
     newSong = "mazeSong"
   end
   if newSong then

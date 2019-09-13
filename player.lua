@@ -302,6 +302,7 @@ function Player:update(dt)
     end
 
     if col.other.dropType and col.other.dropType == "health" then
+      sounds.pickup:play()
       if col.other.life > 0 then
         self.health = math.min(self.health+1, self.maxHealth)
         self.playerState.health = self.health

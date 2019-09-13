@@ -6,6 +6,7 @@ function interactableUi.new(uiStack, message, eventHandler, location)
   self.sendEvent = eventHandler
   self.x = location.x
   self.y = location.y
+  self.limit = location.limit
   self.interacting = false
 
   function self:hasKeyboardControl() 
@@ -20,7 +21,9 @@ function interactableUi.new(uiStack, message, eventHandler, location)
   end
 
   function self:draw()
-    love.graphics.printf(self.message, location.x, location.y, location.limit, "center", 0, 0.5, 0.5)
+    love.graphics.setColor(239/256,231/256,206/256)
+    love.graphics.printf(self.message, self.x, self.y, self.limit*3, "center", 0, 1/3, 1/3)
+    love.graphics.setColor(1,1,1)
   end
 
   function self:keypressed(key)

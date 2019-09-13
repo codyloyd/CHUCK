@@ -28,7 +28,7 @@ function Interactable:initialize(opts, world)
   self.textLocation = {
     x = self.x,
     y = self.y,
-    limit = self.w * 2 -- Not sure why we need to multiply by 2
+    limit = self.w -- Not sure why we need to multiply by 2
   }
 
   if not self.gameState.interactables[self.gameState.scene.current] then 

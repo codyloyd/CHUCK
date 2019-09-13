@@ -8,7 +8,11 @@ function EndScene:initialize(changeSceneCallback)
 end
 
 function EndScene:draw()
-  love.graphics.print( "End of game, press 'ENTER'", 22, 88 )
+  love.graphics.setFont(bigfont)
+  love.graphics.printf( "Congratulations! You've made it out of the dungeon! YOU WIN!", 0, 120, love.graphics.getWidth(), "center" )
+
+  love.graphics.setFont(font)
+  love.graphics.printf( "Briggs & Cody 2019", 0, 320, love.graphics.getWidth(), "center" )
 end
 
 function EndScene:keypressed(key)
