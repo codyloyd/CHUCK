@@ -265,7 +265,7 @@ function Player:update(dt)
     -- Walljump
     if self.powerups.wallJump                      -- Check if player has walljump, 
     and not self.grounded                          -- and not if grounded
-    and col.other.class.name == "Platform"         -- the other is a platform, 
+    and (col.other.class and col.other.class.name == "Platform") -- the other is a platform, 
     and not col.other.jumpThrough                  -- but not a jumpthrough, 
     and col.normal.y == 0                          -- and not hitting head, 
     and self.vy < 0                                -- and not moving upwards
