@@ -4,8 +4,9 @@ local Scene = require("Scenes/Scene")
 local StartScene = class("StartScene", Scene)
 local titleSprite = love.graphics.newImage("assets/title.png")
 
-function StartScene:initialize(changeSceneCallback)
+function StartScene:initialize(changeSceneCallback, gameState)
   Scene.initialize(self, changeSceneCallback)
+  self.gameState = gameState
 end
 
 function StartScene:draw()
@@ -24,6 +25,7 @@ end
 function StartScene:keypressed(key)
   if key == "return" then
     changeScene(nil, "spawn")
+    self.gameState.score.startTime = os.time()
   end
 end
 

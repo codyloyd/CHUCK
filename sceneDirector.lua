@@ -24,6 +24,12 @@ local scenes = {
 local fadingTrack = nil
 
 local gameState = {
+  score = {
+    startTime = nil,
+    endTime = nil,
+    kills = 0,
+    deaths = 0
+  },
   scene = {
     current = nil,
     last = nil
@@ -53,6 +59,12 @@ local gameState = {
 
 function resetGamestate()
   gameState = {
+    score = {
+      startTime = nil,
+      endTime = nil,
+      kills = 0,
+      deaths = 0
+    },
     scene = {
       current = nil,
       last = nil

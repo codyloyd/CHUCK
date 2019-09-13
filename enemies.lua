@@ -11,6 +11,7 @@ function EnemySpawner:initialize(gameMap, world, gameState, eventHandler)
   self.enemies = {}
   self.gameMap = gameMap
   self.world = world
+  self.sendEvent = eventHandler
 
   -- loads enemies from tilemap into table
   for i, e in pairs(self.gameMap.layers["enemies"].objects) do
@@ -43,6 +44,7 @@ function EnemySpawner:update(dt)
     if e.shouldCleanUp and e:shouldCleanUp() == true then
       table.remove(self.enemies, i)
       self.world:remove(e)
+      self.sendEvent('killed-enemy')
     end
   end
 end

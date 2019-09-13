@@ -59,6 +59,7 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
       self.door:deactivate()
       sounds.open:play()
     elseif event == "player-death" then
+      self.gameState.score.deaths = self.gameState.score.deaths + 1
       self.respawnTimer = 2
     elseif event == "dropHealth" then
       if self.player.health < self.player.maxHealth then
@@ -71,6 +72,8 @@ function GameScene:initialize(changeSceneCallback, gameState, playerSpawn, map)
         self.world:add(drop, drop.x, drop.y, 8, 8)
         table.insert(self.enemyDrops, drop)
       end
+    elseif event == "killed-enemy" then
+      self.gameState.score.kills = self.gameState.score.kills + 1
     else
       print(event, "--event not handled")
     end

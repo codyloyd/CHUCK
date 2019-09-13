@@ -22,6 +22,7 @@ function Entity:initialize(opts, world)
   self.causesDamage = opts and opts.causesDamage or true
   self.eventHandler = opts and opts.eventHandler or nil
   self.dead = false
+  self.addedToScore = false
 
   self.world = world
 end
