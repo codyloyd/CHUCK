@@ -69,14 +69,19 @@ function Wizard:update(dt)
   end
 
   local player = self:playerIsInRange(160)
-  if player then
+  if player or (self.projectileTimer <= 1.3 and self.projectileTimer > 0) then
     self.isAttacking = true
   else
     self.isAttacking = false
   end
 
   if self.isAttacking and self.projectileTimer <= 0 then
-    local dir = self.x > player.x and -1 or 1
+    local dir
+    if player then 
+      dir = self.x > player.x and -1 or 1
+    else
+      dir = self.direction
+    end
     self:shootProjectile(dir)
     self.projectileTimer = 1.5
   end
@@ -113,7 +118,6 @@ function Wizard:update(dt)
     end
   end
 
-  -- direction only matters for animation/drawing
   if self.vx > 0 then
     self.direction = -1
   else
@@ -131,7 +135,9 @@ function Wizard:update(dt)
     self.animation = self.hurt
   else
     if self.isAttacking then
-      if player.x > self.x then 
+      if not player then 
+        self.direction = self.direction -- Hold same direction if player is not in range
+      elseif player.x > self.x then 
         self.direction = 1
       else
         self.direction = -1
