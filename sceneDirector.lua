@@ -51,6 +51,29 @@ local gameState = {
   }
 }
 
+function resetGamestate()
+  gameState = {
+    scene = {
+      current = nil,
+      last = nil
+    },
+    player = {
+      spawn = {
+        scene = nil,
+        spawnPoint = nil
+      },
+      powerups = {
+        doubleJump = false,
+        wallJump = false
+      },
+      health = 5,
+      maxHealth = 5
+    },
+    doors = {},
+    interactables = {}
+  }
+end
+
 easeIn = function(t, b, c, d) 
     local t = t / d;
     return c*t*t + b;
@@ -78,6 +101,10 @@ end
 local fadeTimer = 0
 
 function changeScene(sceneName, reason) 
+  if sceneName == "START_SCENE" then 
+    resetGamestate()
+  end
+
   fadeTimer = .5 
 
   gameState.scene.last = gameState.scene.current 
