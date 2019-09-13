@@ -50,7 +50,7 @@
    </properties>
   </object>
   <object id="416" x="0" y="0" width="584" height="264"/>
-  <object id="425" x="32" y="408" width="592" height="8"/>
+  <object id="425" x="32" y="408" width="656" height="8"/>
   <object id="426" x="840" y="360" width="8" height="56">
    <properties>
     <property name="jump-through" type="bool" value="false"/>
