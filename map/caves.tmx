@@ -13,7 +13,6 @@
   <object id="94" gid="97" x="872" y="736" width="256" height="160"/>
   <object id="151" gid="97" x="-152" y="760" width="256" height="160"/>
   <object id="176" gid="194" x="80" y="336" width="78" height="36"/>
-  <object id="182" x="8" y="0" width="784" height="8"/>
   <object id="185" gid="97" x="-104" y="368" width="184" height="104"/>
  </objectgroup>
  <layer id="3" name="foreground" width="120" height="120">
@@ -127,6 +126,7 @@
   <object id="149" x="0" y="680" width="128" height="8"/>
   <object id="152" x="-8" y="624" width="8" height="64"/>
   <object id="171" x="8" y="272" width="72" height="16"/>
+  <object id="182" x="8" y="0" width="784" height="8"/>
  </objectgroup>
  <objectgroup id="7" name="door">
   <object id="172" x="72" y="288" width="8" height="48"/>

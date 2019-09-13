@@ -188,19 +188,6 @@ return {
           properties = {}
         },
         {
-          id = 182,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 8,
-          y = 0,
-          width = 784,
-          height = 8,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 185,
           name = "",
           type = "",
@@ -992,6 +979,19 @@ return {
           y = 272,
           width = 72,
           height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 182,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 8,
+          y = 0,
+          width = 784,
+          height = 8,
           rotation = 0,
           visible = true,
           properties = {}
