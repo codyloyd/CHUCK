@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="247">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="8" tileheight="8" infinite="0" nextlayerid="11" nextobjectid="248">
  <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
  <tileset firstgid="97" source="lightsource.tsx"/>
  <tileset firstgid="98" source="cavesofgallet_tiles_transparent.tsx"/>
@@ -71,26 +71,26 @@
   <object id="220" x="112" y="592"/>
   <object id="223" x="728" y="216" width="32" height="120"/>
   <object id="237" x="656" y="336" width="248" height="72"/>
+  <object id="247" x="720" y="216" width="8" height="48"/>
  </objectgroup>
  <objectgroup id="6" name="NOTES"/>
  <objectgroup color="#03c700" id="7" name="powerups">
   <object id="80" name="doubleJump" x="464" y="712"/>
  </objectgroup>
  <objectgroup color="#0000ff" id="8" name="spawn">
-  <object id="158" name="caves3" x="944" y="568" width="8" height="8"/>
+  <object id="158" name="caves3" x="944" y="560" width="8" height="8"/>
   <object id="160" name="dj" x="737.516" y="517.651"/>
   <object id="226" name="caves4" x="712" y="320" width="8" height="8"/>
-  <object id="245" name="start" x="664" y="312" width="8" height="8"/>
   <object id="246" name="powerup-spawn" x="464" y="712" width="8" height="8"/>
  </objectgroup>
  <objectgroup color="#be00ffff" id="9" name="triggers">
-  <object id="156" name="To caves3" type="map-change" x="952" y="552" width="10.3635" height="37.6364">
+  <object id="156" name="To caves3" type="map-change" x="952" y="544" width="10.3635" height="40">
    <properties>
     <property name="action" value="caves3"/>
     <property name="type" value="change-scene"/>
    </properties>
   </object>
-  <object id="225" name="To caves4" type="map-change" x="720" y="216" width="10.3635" height="120">
+  <object id="225" name="To caves4" type="map-change" x="720" y="264" width="10.3635" height="72">
    <properties>
     <property name="action" value="caves4"/>
     <property name="type" value="change-scene"/>
