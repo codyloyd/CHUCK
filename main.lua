@@ -33,9 +33,9 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  if key == "escape" then
-    DEBUG_MODE = not DEBUG_MODE
-  end
+  -- if key == "escape" then
+  --   DEBUG_MODE = not DEBUG_MODE
+  -- end
   sceneDirector.keypressed(key)
 end
 

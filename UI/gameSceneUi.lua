@@ -26,13 +26,10 @@ function hud.new(uiStack, gameState)
         love.graphics.draw(self.healthSprite_empty, 16 + ((16 * (i - 1)) * 2), 8, 0, 2)
       end
     end
-
-    love.graphics.print( "Press 'i' to Pause", 16, 16 * 3 )
-    love.graphics.print( "Press 'esc' for DEBUG MODE", 16, 16 * 4 )
   end
 
   function self:keypressed(key)
-    if key == "i" then
+    if key == "p" then
       table.insert( uiStack, pause.new(uiStack, gameState))
     end
   end
@@ -61,7 +58,7 @@ function pause.new(uiStack, gameState)
   end
 
   function self:keypressed(key)
-    if key == "i" then
+    if key == "p" then
       table.remove(uiStack)
     end
   end

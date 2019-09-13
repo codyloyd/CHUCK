@@ -9,6 +9,7 @@ end
 
 function StartScene:draw()
   love.graphics.print( "Press 'enter' to go", 22, 88 )
+  love.graphics.print( "Press 'p' to pause", 22, 88*2 )
 end
 
 function StartScene:keypressed(key)
