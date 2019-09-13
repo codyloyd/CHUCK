@@ -256,7 +256,7 @@ return {
         },
         {
           id = 263,
-          name = "skeleton",
+          name = "slime",
           type = "",
           shape = "rectangle",
           x = 208,
