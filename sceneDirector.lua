@@ -34,8 +34,8 @@ local gameState = {
       spawnPoint = nil
     },
     powerups = {
-      doubleJump = true,
-      wallJump = true
+      doubleJump = false,
+      wallJump = false
     },
     health = 5,
     maxHealth = 5

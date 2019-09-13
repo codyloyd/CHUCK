@@ -1,15 +1,14 @@
 return {
-  version = "1.2",
+  version = "1.1",
   luaversion = "5.1",
-  tiledversion = "1.2.4",
+  tiledversion = "1.1.6",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 120,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextlayerid = 21,
-  nextobjectid = 174,
+  nextobjectid = 176,
   properties = {},
   tilesets = {
     {
@@ -20,7 +19,6 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -46,7 +44,6 @@ return {
       tileheight = 400,
       spacing = 0,
       margin = 0,
-      columns = 1,
       image = "../assets/lightsource.png",
       imagewidth = 400,
       imageheight = 400,
@@ -72,7 +69,6 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
-      columns = 8,
       image = "cavesofgallet_tiles_transparent.png",
       imagewidth = 64,
       imageheight = 96,
@@ -94,7 +90,6 @@ return {
   layers = {
     {
       type = "tilelayer",
-      id = 11,
       name = "background",
       x = 0,
       y = 0,
@@ -110,7 +105,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 12,
       name = "lights",
       visible = true,
       opacity = 1,
@@ -151,7 +145,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 13,
       name = "foreground",
       x = 0,
       y = 0,
@@ -167,7 +160,6 @@ return {
     },
     {
       type = "tilelayer",
-      id = 19,
       name = "door-tiles",
       x = 0,
       y = 0,
@@ -183,7 +175,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 14,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -274,7 +265,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 15,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -933,7 +923,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 20,
       name = "door",
       visible = true,
       opacity = 1,
@@ -959,7 +948,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 16,
       name = "NOTES",
       visible = true,
       opacity = 1,
@@ -1017,7 +1005,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 7,
       name = "powerups",
       visible = true,
       opacity = 1,
@@ -1025,11 +1012,24 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 175,
+          name = "doubleJump",
+          type = "",
+          shape = "rectangle",
+          x = 824,
+          y = 632,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
     },
     {
       type = "objectgroup",
-      id = 8,
       name = "spawn",
       visible = true,
       opacity = 1,
@@ -1107,7 +1107,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 17,
       name = "triggers",
       visible = true,
       opacity = 1,
@@ -1168,7 +1167,6 @@ return {
     },
     {
       type = "objectgroup",
-      id = 18,
       name = "interactables",
       visible = true,
       opacity = 1,
@@ -1199,10 +1197,10 @@ return {
           name = "top",
           type = "checkpoint",
           shape = "rectangle",
-          x = 824,
-          y = 384,
-          width = 24,
-          height = 24,
+          x = 800,
+          y = 376,
+          width = 72,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {

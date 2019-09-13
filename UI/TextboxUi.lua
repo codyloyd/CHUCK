@@ -32,8 +32,8 @@ function textBox.new(uiStack, message, keyboardControl, mouseControl)
 
     love.graphics.setColor(r, g, b, a)
     love.graphics.rectangle("line", self.x - padding, self.y - padding, self.w + padding*2, boxHeight)
-    love.graphics.printf(self.message, self.x, self.y, self.w)
-    love.graphics.print("press 'x' to continue", self.x + self.w + padding - 200, self.y + boxHeight - padding * 3 - 3)
+    love.graphics.printf(self.message, self.x, self.y, self.w*1.5, "center", 0, .66, .66)
+    love.graphics.printf("press 'x' to continue", self.x, self.y + boxHeight - padding * 3 - 3,self.w*1.5, "center", 0, .66, .66)
   end
 
   function self:keypressed(key)
