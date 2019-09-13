@@ -1,14 +1,15 @@
 return {
-  version = "1.1",
+  version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.1.6",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 120,
   height = 120,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 204,
+  nextlayerid = 11,
+  nextobjectid = 206,
   properties = {},
   tilesets = {
     {
@@ -19,6 +20,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles.png",
       imagewidth = 64,
       imageheight = 96,
@@ -44,6 +46,7 @@ return {
       tileheight = 400,
       spacing = 0,
       margin = 0,
+      columns = 1,
       image = "../assets/lightsource.png",
       imagewidth = 400,
       imageheight = 400,
@@ -69,6 +72,7 @@ return {
       tileheight = 8,
       spacing = 0,
       margin = 0,
+      columns = 8,
       image = "cavesofgallet_tiles_transparent.png",
       imagewidth = 64,
       imageheight = 96,
@@ -94,6 +98,7 @@ return {
       tileheight = 100,
       spacing = 0,
       margin = 0,
+      columns = 1,
       image = "../assets/black.png",
       imagewidth = 100,
       imageheight = 100,
@@ -115,6 +120,7 @@ return {
   layers = {
     {
       type = "tilelayer",
+      id = 1,
       name = "background",
       x = 0,
       y = 0,
@@ -130,6 +136,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 2,
       name = "lights",
       visible = true,
       opacity = 1,
@@ -170,6 +177,7 @@ return {
     },
     {
       type = "tilelayer",
+      id = 3,
       name = "foreground",
       x = 0,
       y = 0,
@@ -185,6 +193,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 4,
       name = "enemies",
       visible = true,
       opacity = 1,
@@ -223,6 +232,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 5,
       name = "platforms",
       visible = true,
       opacity = 1,
@@ -308,11 +318,25 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 204,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = -32,
+          y = 448,
+          width = 32,
+          height = 176,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
     {
       type = "objectgroup",
+      id = 6,
       name = "NOTES",
       visible = true,
       opacity = 1,
@@ -324,6 +348,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 7,
       name = "powerups",
       visible = true,
       opacity = 1,
@@ -335,6 +360,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 8,
       name = "spawn",
       visible = true,
       opacity = 1,
@@ -373,8 +399,9 @@ return {
     },
     {
       type = "objectgroup",
+      id = 9,
       name = "triggers",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -417,6 +444,7 @@ return {
     },
     {
       type = "objectgroup",
+      id = 10,
       name = "interactables",
       visible = true,
       opacity = 1,

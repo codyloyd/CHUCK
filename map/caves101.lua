@@ -9,7 +9,7 @@ return {
   tilewidth = 8,
   tileheight = 8,
   nextlayerid = 13,
-  nextobjectid = 396,
+  nextobjectid = 397,
   properties = {},
   tilesets = {
     {
@@ -100,7 +100,7 @@ return {
       y = 0,
       width = 120,
       height = 120,
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -420,7 +420,7 @@ return {
       type = "objectgroup",
       id = 5,
       name = "platforms",
-      visible = false,
+      visible = true,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -1358,6 +1358,19 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 396,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 416,
+          width = 8,
+          height = 56,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
@@ -1580,9 +1593,9 @@ return {
           name = "to caves103_h1",
           type = "map-change",
           shape = "rectangle",
-          x = 0,
+          x = 8,
           y = 416,
-          width = 16,
+          width = 8,
           height = 56,
           rotation = 0,
           visible = true,
