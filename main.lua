@@ -2,6 +2,7 @@ inspect = require('./lib/inspect')
 
 function love.load()
   DEBUG_MODE = false
+  SPEEDRUN_MODE = false
 
   love.graphics.setBackgroundColor(0,0,0)
   love.graphics.setDefaultFilter( "nearest" )
@@ -36,9 +37,12 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  -- if key == "escape" then
-  --   DEBUG_MODE = not DEBUG_MODE
-  -- end
+  if key == "escape" then
+    DEBUG_MODE = not DEBUG_MODE
+  end
+  if key == "space" and SPEEDRUN_MODE then
+     sceneDirector.reset()
+  end
   sceneDirector.keypressed(key)
 end
 

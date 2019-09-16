@@ -135,6 +135,10 @@ function changeScene(sceneName, reason)
   end 
 end
 
+function sceneDirector.reset()
+   changeScene("START_SCENE")
+end
+
 changeScene("START_SCENE")
 
 function sceneDirector.draw() 

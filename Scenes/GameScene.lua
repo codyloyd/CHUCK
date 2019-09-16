@@ -256,6 +256,12 @@ function GameScene:draw()
   for k, v in ipairs(self.uiStack) do
     v:draw()
   end
+
+  if SPEEDRUN_MODE then
+     love.graphics.origin()
+     local timeString = string.format("%.2f\n", self.gameState.score.tempTime or love.timer.getTime() - self.gameState.score.startTime)
+     love.graphics.printf( timeString, 0, 20, love.graphics.getWidth(), "center" )
+  end
 end
 
 function GameScene:keypressed(key)

@@ -6,7 +6,7 @@ local EndScene = class("EndScene", Scene)
 function EndScene:initialize(changeSceneCallback, gameScene)
   Scene.initialize(self, changeSceneCallback)
   self.gameScene = gameScene
-  self.gameScene.score.endTime = os.time()
+  self.gameScene.score.endTime = love.timer.getTime()
 end
 
 function EndScene:draw()
