@@ -31,6 +31,7 @@ function hud.new(uiStack, gameState)
   function self:keypressed(key)
     if key == "p" then
       table.insert( uiStack, pause.new(uiStack, gameState))
+      gameState.score.tempTime = love.timer.getTime() - gameState.score.startTime
     end
   end
 
@@ -60,6 +61,8 @@ function pause.new(uiStack, gameState)
   function self:keypressed(key)
     if key == "p" then
       table.remove(uiStack)
+      gameState.score.startTime = love.timer.getTime() - gameState.score.tempTime
+      gameState.score.tempTime = nil
     end
   end
 
