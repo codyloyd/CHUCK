@@ -30,6 +30,7 @@ end
 function love.update(dt)
   sceneDirector.update(dt)
   tick.update(dt)
+  sounds.update(dt)
 end
 
 function love.draw()

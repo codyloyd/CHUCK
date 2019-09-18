@@ -48,10 +48,85 @@ sounds.pickup = love.audio.newSource("sounds/pickup.ogg", "static", false)
 sounds.pickup:setVolume(.2)
 sounds.pickup:setPitch(1)
 
-sounds.chuckSong = love.audio.newSource("sounds/CHUCK.mp3", "stream", true)
-sounds.chuckSong:setVolume(1)
+sounds.music = {}
 
-sounds.mazeSong = love.audio.newSource("sounds/mazey.mp3", "stream", true)
-sounds.mazeSong:setVolume(1)
+sounds.music.chuck = love.audio.newSource("sounds/CHUCK.mp3", "stream", true)
+sounds.music.chuck:setVolume(1)
+
+sounds.music.mazey = love.audio.newSource("sounds/mazey.mp3", "stream", true)
+sounds.music.mazey:setVolume(1)
+
+local function createTimedSong(song, totalTime, fadeIn)
+  return {
+      song = song, -- a string that refers to the song inside songs.music
+      timer = totalTime, -- the timer that gets manipulated
+      time = totalTime, -- the total time of the timer... for calculating the actual volume, potentially usable for easing curves
+      fadingIn = fadeIn,
+      fadingOut = false
+  }
+end
+
+local playingTracks = {}
+
+function sounds.music:play(song)
+  local isSongPlaying = false
+  for i,track in ipairs(playingTracks) do
+    isSongPlaying = true
+  end
+  if not isSongPlaying then
+    sounds.music[song]:setVolume(1)
+    sounds.music[song]:play()
+    table.insert(playingTracks, createTimedSong(song))
+  end
+end
+
+function sounds.music:fadeTo(song)
+  local isSongPlaying = false
+
+  -- set every song except THIS one to fadingOut
+  for i,track in ipairs(playingTracks) do
+    if track.song ~= song then
+      track.fadingIn =  false
+      track.fadingOut = true
+      track.time = 2
+      track.timer = 2 
+    end
+
+
+    if track.song == song then 
+      if track.fadingOut == true then
+        track.fadingOut = false
+        track.fadingIn = true
+      end
+      isSongPlaying = true
+    end
+  end
+
+  -- only do this if the song isn't currently playing
+  if not isSongPlaying then
+    sounds.music[song]:setVolume(0)
+    sounds.music[song]:play()
+    table.insert(playingTracks, createTimedSong(song, 2, true))
+  end
+end
+
+
+function sounds.update(dt)
+  for i,track in ipairs(playingTracks) do
+    if track.timer > 0 then
+      track.timer = track.timer - dt
+    end
+    if track.fadingIn then
+      sounds.music[track.song]:setVolume((track.time - track.timer)/track.time)
+    end
+    if track.fadingOut then
+      sounds.music[track.song]:setVolume(track.timer/track.time)
+      if track.timer <=0 then
+        sounds.music[track.song]:stop()
+        table.remove(playingTracks, i)
+      end
+    end
+  end
+end
 
 return sounds
