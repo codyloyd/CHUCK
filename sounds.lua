@@ -1,8 +1,8 @@
 local sounds = {}
 
-local options = {
+sounds.options = {
   musicVolume = 1,
-  sfxVolume = .1
+  sfxVolume = 1
 }
 
 sounds.walk = love.audio.newSource("sounds/walk.ogg", "static", true)
@@ -53,11 +53,16 @@ sounds.pickup = love.audio.newSource("sounds/pickup.ogg", "static", false)
 sounds.pickup:setVolume(.2)
 sounds.pickup:setPitch(1)
 
-for _, sfx in pairs(sounds) do
-  if sfx.setVolume then
-    sfx:setVolume(sfx:getVolume() * options.sfxVolume)
+function sounds.setSfxVolume(value)
+  sounds.options.sfxVolume = value
+
+  for key, sfx in pairs(sounds) do
+    if type(sfx) == "userdata" and sfx.setVolume then
+      sfx:setVolume(sfx:getVolume() * sounds.options.sfxVolume)
+    end
   end
 end
+
 
 sounds.music = {}
 
@@ -66,6 +71,16 @@ sounds.music.chuck:setVolume(1)
 
 sounds.music.mazey = love.audio.newSource("sounds/mazey.mp3", "stream", true)
 sounds.music.mazey:setVolume(1)
+
+function sounds.setMusicVolume(value)
+  sounds.options.musicVolume = value
+
+  for _, song in pairs(sounds.music) do
+    if type(song) == "userdata" and song.setVolume then
+      song:setVolume(sounds.options.musicVolume)
+    end
+  end
+end
 
 
 local function createTimedSong(song, totalTime, fadeIn)
@@ -129,10 +144,10 @@ function sounds.update(dt)
       track.timer = track.timer - dt
     end
     if track.fadingIn then
-      sounds.music[track.song]:setVolume((track.time - track.timer)/track.time * options.musicVolume)
+      sounds.music[track.song]:setVolume((track.time - track.timer)/track.time * sounds.options.musicVolume)
     end
     if track.fadingOut then
-      sounds.music[track.song]:setVolume(track.timer/track.time * options.musicVolume)
+      sounds.music[track.song]:setVolume(track.timer/track.time * sounds.options.musicVolume)
       if track.timer <=0 then
         sounds.music[track.song]:stop()
         table.remove(playingTracks, i)

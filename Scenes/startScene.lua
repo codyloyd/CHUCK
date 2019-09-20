@@ -28,6 +28,10 @@ function StartScene:keypressed(key)
     self.gameState.score.startTime = love.timer.getTime()
   end
 
+  if key == "space" then
+    changeScene("OPTIONS_SCENE")
+  end
+
   if  key == "backspace" then
      SPEEDRUN_MODE = not SPEEDRUN_MODE
   end

@@ -5,6 +5,7 @@ local currentSceneName
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
+  OPTIONS_SCENE = require("Scenes/optionsScene"),
   caves = BasicGameScene("map/caves.lua"),
 
   caves101 = BasicGameScene("map/caves101.lua"),
@@ -75,7 +76,7 @@ function resetGamestate()
         spawnPoint = nil
       },
       powerups = {
-        doubleJump = true,
+        doubleJump = false,
         wallJump = false
       },
       health = 5,
