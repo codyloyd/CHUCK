@@ -10,15 +10,60 @@ function OptionsScene:initialize(changeSceneCallback, gameState)
     {
       title = "Music Volume",
       value = sounds.options.musicVolume,
-      callBack = function(self)
+      display = function(self)
+        return math.ceil(self.value * 100)
+      end,
+      onChange = function(self, dir)
+        if dir == "inc" then
+          self.value = self.value + .05
+        else
+          self.value = self.value - .05
+        end
         sounds.setMusicVolume(self.value)
       end
     },
     {
       title = "SFX Volume",
       value = sounds.options.sfxVolume,
-      callBack = function(self)
+      display = function(self)
+        return math.ceil(self.value * 100)
+      end,
+      onChange = function(self, dir)
+        if dir == "inc" then
+          self.value = self.value + .05
+        else
+          self.value = self.value - .05
+        end
         sounds.setSfxVolume(self.value)
+      end,
+    },
+    {
+      title = "Mute all",
+      value = false,
+      display = function(self)
+        return self.value and "On" or "Off"
+      end,
+      onChange = function(self)
+        self.value = not self.value
+        if self.value == true then
+          self.cachedSfx = sounds.options.sfxVolume
+          self.cachedMusic = sounds.options.musicVolume
+          sounds.setSfxVolume(0)
+          sounds.setMusicVolume(0)
+        else
+          sounds.setSfxVolume(self.cachedSfx or 1)
+          sounds.setMusicVolume(self.cachedMusic or 1)
+        end
+      end
+    },
+    {
+      title = "Random Setting",
+      value = true,
+      display = function(self)
+        return self.value and "On" or "Off"
+      end,
+      onChange = function(self)
+        self.value = not self.value
       end
     }
   }
@@ -33,10 +78,9 @@ function OptionsScene:draw()
     if i == self.selectedOption then
       selected = "=="
     end
-    love.graphics.printf(selected..opt.title..": "..math.ceil(opt.value * 100)..selected, 0, 180 + i*24, 800, "center")
+    love.graphics.printf(selected..opt.title..": "..opt:display()..selected, 0, 180 + i*26, 800, "center")
   end
 
-  love.graphics.printf("Press X to mute all.", 0, 300, 800, "center")
   love.graphics.printf("Press Enter to go back.", 0, 550, 800, "center")
 end
 
@@ -59,20 +103,11 @@ function OptionsScene:keypressed(key)
   end
 
   if key == "left" then
-    self.options[self.selectedOption].value = self.options[self.selectedOption].value - .05
-    self.options[self.selectedOption]:callBack()
+    self.options[self.selectedOption].onChange(self.options[self.selectedOption],"dec")
   end
 
   if key == "right" then
-    self.options[self.selectedOption].value = self.options[self.selectedOption].value + .05
-    self.options[self.selectedOption]:callBack()
-  end
-
-  if key == "x" then
-    self.options[1].value = 0
-    self.options[2].value = 0
-    self.options[1]:callBack()
-    self.options[2]:callBack()
+    self.options[self.selectedOption].onChange(self.options[self.selectedOption],"inc")
   end
 end
 
