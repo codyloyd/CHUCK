@@ -39,7 +39,7 @@ function StartScene:draw()
     if i == self.selectedOption then
       selected = "=="
     end
-    love.graphics.printf(selected..opt.title..selected, 0, 330 + i*26, 800, "center")
+    love.graphics.printf(selected..opt.title..selected, 0, 480 + i*26, 800, "center")
   end
 
 end
