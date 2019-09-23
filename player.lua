@@ -76,7 +76,7 @@ function Player:takeDamage(other, noKnockback)
     self.health = self.health - 1
     self.playerState.health = self.health
     self.hitTimer = 0.2
-    self.invulnerableTimer = .8
+    self.invulnerableTimer = 1
 
     if not noKnockback then
       self.vy = 70
@@ -238,17 +238,18 @@ function Player:update(dt)
       if col.other.class.name == "Projectile" then
         col.other.dead = true
       end
+    else
+      if col.normal.y == -1 then
+        self.grounded = true
+        self.vy = 0
+      end
+
+      --hit ceiling
+      if col.normal.y == 1 then
+        self.vy = 0
+      end
     end
 
-    if col.normal.y == -1 then
-      self.grounded = true
-      self.vy = 0
-    end
-
-    --hit ceiling
-    if col.normal.y == 1 then
-      self.vy = 0
-    end
 
     if self.grounded and not col.other.spikes then
       if col.otherRect.x < self.x and col.otherRect.x + col.otherRect.w > self.x + self.w then
