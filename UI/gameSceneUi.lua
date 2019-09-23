@@ -1,5 +1,5 @@
 local hud = {}
-local pause = {}
+local pause = require("UI/optionsScreen")
 
 function hud.new(uiStack, gameState) 
   local self = {}
@@ -29,9 +29,11 @@ function hud.new(uiStack, gameState)
   end
 
   function self:keypressed(key)
-    if key == "p" then
+    if key == "escape" then
       table.insert( uiStack, pause.new(uiStack, gameState))
-      gameState.score.tempTime = love.timer.getTime() - gameState.score.startTime
+      if gameState.score and gameState.score.startTime then
+        gameState.score.tempTime = love.timer.getTime() - gameState.score.startTime
+      end
     end
   end
 
@@ -41,36 +43,6 @@ function hud.new(uiStack, gameState)
   return self
 end
 
-function pause.new(uiStack, gameState) 
-  local self = {}
-  function self:hasKeyboardControl() 
-    return true 
-  end
-
-  function self:hasMouseControl() 
-    return true
-  end
-
-  function self:update()
-  end
-
-  function self:draw()
-    love.graphics.print( "Paused", love.graphics.getWidth()/4, love.graphics.getHeight()/4, 0, 4 )
-  end
-
-  function self:keypressed(key)
-    if key == "p" then
-      table.remove(uiStack)
-      gameState.score.startTime = love.timer.getTime() - gameState.score.tempTime
-      gameState.score.tempTime = nil
-    end
-  end
-
-  function self:keyreleased(key)
-  end
-
-  return self
-end
 
 local root = hud
 return root

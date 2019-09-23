@@ -7,6 +7,22 @@ local titleSprite = love.graphics.newImage("assets/title.png")
 function StartScene:initialize(changeSceneCallback, gameState)
   Scene.initialize(self, changeSceneCallback)
   self.gameState = gameState
+  self.options = {
+    {
+      title = "Start new game",
+      onSelect = function()
+        changeScene(nil, "spawn")
+        self.gameState.score.startTime = love.timer.getTime()
+      end
+    },
+    {
+      title = "Options",
+      onSelect = function()
+        changeScene("OPTIONS_SCENE")
+      end
+    }
+  }
+  self.selectedOption = 1
 end
 
 function StartScene:draw()
@@ -16,16 +32,35 @@ function StartScene:draw()
   love.graphics.draw(titleSprite, 120, 16, 0, 4, 4)
   love.graphics.setFont(bigfont)
   love.graphics.printf("The Adventures of Sir Charles the " .. (SPEEDRUN_MODE and "Swift" or "Small"), love.graphics.getWidth()/2-200, 200, 400, "center")
+
   love.graphics.setFont(font)
-  love.graphics.printf( "Press 'enter' to go", 0, 500, 800, "center")
-  love.graphics.printf( "Press 'x' to fight!", 0, 530, 800, "center")
-  love.graphics.printf( "Press 'p' to pause", 0, 560, 800, "center")
+  for i,opt in ipairs(self.options) do
+    local selected = ""
+    if i == self.selectedOption then
+      selected = "=="
+    end
+    love.graphics.printf(selected..opt.title..selected, 0, 480 + i*26, 800, "center")
+  end
+
 end
 
 function StartScene:keypressed(key)
+  if key == "up" then
+    self.selectedOption = self.selectedOption - 1
+  end
+
+  if key == "down" then
+    self.selectedOption = self.selectedOption + 1
+  end
+
+  if self.selectedOption > #self.options then
+    self.selectedOption = 1
+  elseif self.selectedOption < 1 then
+    self.selectedOption = #self.options
+  end
+
   if key == "return" then
-    changeScene(nil, "spawn")
-    self.gameState.score.startTime = love.timer.getTime()
+    self.options[self.selectedOption].onSelect()
   end
 
   if  key == "backspace" then

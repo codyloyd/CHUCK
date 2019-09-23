@@ -5,6 +5,7 @@ local currentSceneName
 local currentScene
 local scenes = {
   START_SCENE = require("Scenes/startScene"),
+  OPTIONS_SCENE = require("Scenes/optionsScene"),
   caves = BasicGameScene("map/caves.lua"),
 
   caves101 = BasicGameScene("map/caves101.lua"),
@@ -91,25 +92,13 @@ easeIn = function(t, b, c, d)
     return c*t*t + b;
   end 
 
-local currentSong = nil
 local function toggleMusic(scene)
-  local newSong 
   if scene == "START_SCENE" or scene == "caves"  or scene == "caves3" then
-    newSong = "chuckSong"
+    sounds.music:fadeTo("chuck")
   elseif scene == "caves101" or scene == "caves5" then
-    newSong = "mazeSong"
-  end
-  if newSong then
-    if currentSong and currentSong ~= newSong then
-      fadingTrack = currentSong
-    end
-    currentSong = newSong
-    sounds[newSong]:play()
-    sounds[newSong]:setVolume(1)
+    sounds.music:fadeTo("mazey")
   end
 end
-
-local fadeTimer = 0
 
 function changeScene(sceneName, reason) 
   if sceneName == "START_SCENE" then 
@@ -151,13 +140,6 @@ end
 function sceneDirector.update(dt) 
   if fadeTimer >= 0 then
     fadeTimer = fadeTimer - dt 
-  end
-  --crossfading music
-  if fadingTrack and sounds[fadingTrack]:getVolume() > 0 then
-    sounds[fadingTrack]:setVolume(sounds[fadingTrack]:getVolume() - dt*.4)
-  end
-  if fadingTrack and sounds[fadingTrack]:getVolume() <= 0.1 then
-    sounds[fadingTrack]:stop()
   end
 
   currentScene:update(dt)
